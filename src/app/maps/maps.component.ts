@@ -3,11 +3,21 @@ import {
   GoogleMap, MapInfoWindow, MapMarker, MapPolyline,
 } from '@angular/google-maps';
 
+// type LatLng = google.maps.LatLng;
+
 var HOLES = [
   {
     path: [
       {lat: 34.787078, lng: 137.325119},
       {lat: 34.787449, lng: 137.324232},
+    ],
+    obAreas: [
+      [
+        {lat: 34.787045, lng: 137.325180},
+        {lat: 34.787420, lng: 137.325180},
+        {lat: 34.787417, lng: 137.324092},
+        {lat: 34.787033, lng: 137.324083},
+      ]
     ]
   }
 ];
@@ -27,7 +37,8 @@ export class MapsComponent implements OnInit {
   markerPositions: google.maps.LatLngLiteral[] = [];
   zoom = 18;
   display?: google.maps.LatLngLiteral;
-  holes: Array<google.maps.LatLng[]> = [];
+  holeLines: Array<google.maps.LatLng[]> = [];
+  obAreas: Array<google.maps.LatLng[]> = [];
 
   constructor(
     private ngZone: NgZone,
@@ -41,26 +52,34 @@ export class MapsComponent implements OnInit {
 
     HOLES.forEach(hole => {
       const path: google.maps.LatLng[] = [];
+      const obArea: google.maps.LatLng[] = [];
       hole.path.forEach(point => {
         path.push(new google.maps.LatLng(point.lat, point.lng));
       });
-      this.holes.push(path);
+      hole.obAreas?.forEach(area => {
+        area.forEach(point => obArea.push(new google.maps.LatLng(point.lat, point.lng)));
+        this.obAreas.push(obArea);
+      });
+      this.holeLines.push(path);
     })
   }
-
-  // get path() {
-  //   const path: google.maps.LatLng[] = [];
-  //   path.push(new google.maps.LatLng(holeCoordinates[0][0], holeCoordinates[0][1]));
-  //   path.push(new google.maps.LatLng(holeCoordinates[1][0], holeCoordinates[1][1]));
-  //   return path;
-  // }
 
   get holeLineOptions() {
     return {
       // geodesic: true,
-      strokeColor: '#FF0000',
+      strokeColor: '#0000FF',
       strokeOpacity: 1.0,
       strokeWeight: 2
+    };
+  }
+
+  get obAreaOptions() {
+    return {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.3,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.3
     };
   }
 

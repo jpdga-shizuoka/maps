@@ -12,9 +12,13 @@
                 [position]="markerPosition"
                 [options]="markerOptions"
                 (mapClick)="openInfoWindow(marker)"></map-marker>
+    <map-polygon #obarea
+              *ngFor="let area of obAreas"
+              [paths]="area"
+              [options]="obAreaOptions"></map-polygon>
     <map-polyline #polyline
-              *ngFor="let hole of holes"
-              [path]="hole"
+              *ngFor="let line of holeLines"
+              [path]="line"
               [options]="holeLineOptions"></map-polyline>
     <map-info-window>Info Window content</map-info-window>
   </google-map>
