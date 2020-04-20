@@ -20,6 +20,14 @@
               *ngFor="let line of holeLines"
               [path]="line"
               [options]="holeLineOptions"></map-polyline>
+    <map-marker #tee
+              *ngFor="let tee of tees"
+              [position]="tee"
+              [options]="teeOptions"></map-marker>
+    <map-marker #goal
+              *ngFor="let goal of goals"
+              [position]="goal"
+              [options]="goalOptions"></map-marker>
     <map-info-window>Info Window content</map-info-window>
   </google-map>
 

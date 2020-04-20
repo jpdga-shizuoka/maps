@@ -3,7 +3,7 @@ import {
   GoogleMap, MapInfoWindow, MapMarker, MapPolyline,
 } from '@angular/google-maps';
 
-// type LatLng = google.maps.LatLng;
+type LatLng = google.maps.LatLng;
 
 var HOLES = [
   {
@@ -33,12 +33,38 @@ export class MapsComponent implements OnInit {
   width: number;
   height: number;
   center = {lat: 34.787550, lng: 137.323436};
-  markerOptions = {draggable: false};
+  markerOptions = {
+    draggable: false
+  };
+  holeLineOptions = {
+    // geodesic: true,
+    strokeColor: '#0000FF',
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  };
+  obAreaOptions = {
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.3,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.3
+  };
+  teeOptions = {
+    draggable: false,
+    icon: 'assets/maps/tee.svg',
+  };
+  goalOptions = {
+    draggable: false,
+    icon: 'assets/maps/goal.svg',
+  };
+
   markerPositions: google.maps.LatLngLiteral[] = [];
   zoom = 18;
   display?: google.maps.LatLngLiteral;
-  holeLines: Array<google.maps.LatLng[]> = [];
-  obAreas: Array<google.maps.LatLng[]> = [];
+  holeLines: Array<LatLng[]> = [];
+  obAreas: Array<LatLng[]> = [];
+  tees: Array<LatLng> = [];
+  goals: Array<LatLng> = [];
 
   constructor(
     private ngZone: NgZone,
@@ -51,36 +77,21 @@ export class MapsComponent implements OnInit {
     this.height = rect.height;
 
     HOLES.forEach(hole => {
-      const path: google.maps.LatLng[] = [];
-      const obArea: google.maps.LatLng[] = [];
-      hole.path.forEach(point => {
-        path.push(new google.maps.LatLng(point.lat, point.lng));
-      });
+      const path: LatLng[] = [];
+      const obArea: LatLng[] = [];
+      hole.path.forEach(point => path.push(new google.maps.LatLng(point.lat, point.lng)));
       hole.obAreas?.forEach(area => {
         area.forEach(point => obArea.push(new google.maps.LatLng(point.lat, point.lng)));
         this.obAreas.push(obArea);
       });
       this.holeLines.push(path);
+
+      const tee = hole.path[0];
+      this.tees.push(new google.maps.LatLng(tee.lat, tee.lng));
+
+      const goal = hole.path[hole.path.length - 1];
+      this.goals.push(new google.maps.LatLng(goal.lat, goal.lng));
     })
-  }
-
-  get holeLineOptions() {
-    return {
-      // geodesic: true,
-      strokeColor: '#0000FF',
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    };
-  }
-
-  get obAreaOptions() {
-    return {
-      strokeColor: '#FF0000',
-      strokeOpacity: 0.3,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.3
-    };
   }
 
   addMarker(event: google.maps.MouseEvent) {
