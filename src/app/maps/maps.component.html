@@ -4,6 +4,7 @@
               width="{{width}}px"
               [center]="center"
               [zoom]="zoom"
+              [options]="mapOptions"
               (mapClick)="addMarker($event)"
               (mapMousemove)="move($event)"
               (mapRightclick)="removeLastMarker()">

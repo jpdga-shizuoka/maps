@@ -106,6 +106,10 @@ export class MapsComponent implements OnInit {
   height: number;
   center = {lat: 34.787550, lng: 137.323436};
   zoom = 18;
+  mapOptions = {
+    maxZoom: 20,
+    minZoom: 16,
+  }
   markerOptions = {
     draggable: false
   };
