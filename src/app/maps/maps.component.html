@@ -4,38 +4,22 @@
               width="{{width}}px"
               [center]="center"
               [zoom]="zoom"
-              [options]="mapOptions"
-              (mapClick)="addMarker($event)"
-              (mapMousemove)="move($event)"
-              (mapRightclick)="removeLastMarker()">
-    <map-marker #marker
-                *ngFor="let markerPosition of markerPositions"
-                [position]="markerPosition"
-                [options]="markerOptions"
-                (mapClick)="openInfoWindow(marker)"></map-marker>
-    <map-polygon #obarea
-              *ngFor="let area of obAreas"
+              [options]="mapOptions">
+    <map-polygon *ngFor="let area of obAreas"
               [paths]="area"
               [options]="obAreaOptions"></map-polygon>
-    <map-polyline #polyline
-              *ngFor="let line of holeLines"
+    <map-polyline *ngFor="let line of holeLines"
               [path]="line"
               [options]="holeLineOptions"></map-polyline>
-    <map-marker #mando
-              *ngFor="let mando of mandos"
+    <map-marker *ngFor="let mando of mandos"
               [position]="mando"
               [options]="mandoOptions"></map-marker>
-    <map-marker #tee
-              *ngFor="let tee of tees"
+    <map-marker *ngFor="let tee of tees"
               [position]="tee"
               [options]="teeOptions"></map-marker>
-    <map-marker #goal
-              *ngFor="let goal of goals"
+    <map-marker *ngFor="let goal of goals"
               [position]="goal"
               [options]="goalOptions"></map-marker>
     <map-info-window>Info Window content</map-info-window>
   </google-map>
-
-  <div>Latitude: {{display?.lat}}</div>
-  <div>Longitude: {{display?.lng}}</div>
 </div>

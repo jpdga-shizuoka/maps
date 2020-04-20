@@ -108,7 +108,7 @@ export class MapsComponent implements OnInit {
   zoom = 18;
   mapOptions = {
     maxZoom: 20,
-    minZoom: 16,
+    minZoom: 17,
   }
   markerOptions = {
     draggable: false
@@ -116,7 +116,7 @@ export class MapsComponent implements OnInit {
   holeLineOptions = {
     strokeColor: 'gray',
     strokeOpacity: 1.0,
-    strokeWeight: 2,
+    strokeWeight: 4,
     icons: [
       {icon: teeSymbol, offset: '0%'},
       {icon: goalSymbol, offset: '100%'}
@@ -142,8 +142,6 @@ export class MapsComponent implements OnInit {
     icon: mandoSybol,
   };
 
-  markerPositions: google.maps.LatLngLiteral[] = [];
-  display?: google.maps.LatLngLiteral;
   holeLines: Array<LatLng[]> = [];
   obAreas: Array<LatLng[]> = [];
   tees: Array<LatLng> = [];
@@ -183,20 +181,7 @@ export class MapsComponent implements OnInit {
     })
   }
 
-  addMarker(event: google.maps.MouseEvent) {
-    this.markerPositions.push(event.latLng.toJSON());
+  openHoleDescription(line: MapPolyline) {
+    // this.infoWindow.open(line);
   }
-
-  move(event: google.maps.MouseEvent) {
-    this.display = event.latLng.toJSON();
-  }
-
-  openInfoWindow(marker: MapMarker) {
-    this.infoWindow.open(marker);
-  }
-
-  removeLastMarker() {
-    this.markerPositions.pop();
-  }
-
 }
