@@ -7,6 +7,9 @@ type LatLng = google.maps.LatLng;
 
 var HOLES = [
   {//1
+    holeNumber: 1,
+    par: 3,
+    description: 'マンダトリー矢印の木の右側を通す. 不通過の場合は投げた位置より1ペナで投げ直し.',
     path: [
       {lat: 34.788555, lng: 137.322537},
       {lat: 34.788025, lng: 137.323176}
@@ -19,18 +22,27 @@ var HOLES = [
     ]
   },
   {//2
+    holeNumber: 2,
+    par: 4,
+    description: 'Bの島に入った場合はOB.',
     path: [
       {lat: 34.788591, lng: 137.322796},
       {lat: 34.787709, lng: 137.323771}
     ]
   },
   {//3
+    holeNumber: 3,
+    par: 3,
+    description: 'ダスト内はOB, ダストのOBラインはコンクリートのインバウンズ側及びロープ.',
     path: [
       {lat: 34.787493, lng: 137.324089},
       {lat: 34.786938, lng: 137.324051}
     ]
   },
   {//4
+    holeNumber: 4,
+    par: 4,
+    description: '公園外周道路•駐車場のコンクリートはOB.',
     path: [
       {lat: 34.786967, lng: 137.323976},
       {lat: 34.787344, lng: 137.323571},
@@ -38,6 +50,9 @@ var HOLES = [
     ]
   },
   {//5
+    holeNumber: 5,
+    par: 5,
+    description: '公園外周道路•駐車場のコンクリートはOB.',
     path: [
       {lat: 34.787712, lng: 137.322743},
       {lat: 34.788241, lng: 137.321816},
@@ -46,18 +61,27 @@ var HOLES = [
     ]
   },
   {//6
+    holeNumber: 6,
+    par: 3,
+    description: 'ゴールのある島のみセーフ.',
     path: [
       {lat: 34.789608, lng: 137.322875},
       {lat: 34.789001, lng: 137.323815}
     ]
   },
   {//7
+    holeNumber: 7,
+    par: 5,
+    description: 'A•B•Cの島及びゴールのある島のみセーフ.',
     path: [
       {lat: 34.788747, lng: 137.322985},
       {lat: 34.787547, lng: 137.324958}
     ]
   },
   {//8
+    holeNumber: 8,
+    par: 3,
+    description: 'Cの島はOB(砂砂利はセーフ). ダストのOBラインはコンクリートのインバウンズ側及びロープ.',
     path: [
       {lat: 34.787078, lng: 137.325119},
       {lat: 34.787449, lng: 137.324232},
