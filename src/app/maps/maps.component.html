@@ -20,6 +20,10 @@
               *ngFor="let line of holeLines"
               [path]="line"
               [options]="holeLineOptions"></map-polyline>
+    <map-marker #mando
+              *ngFor="let mando of mandos"
+              [position]="mando"
+              [options]="mandoOptions"></map-marker>
     <map-marker #tee
               *ngFor="let tee of tees"
               [position]="tee"
