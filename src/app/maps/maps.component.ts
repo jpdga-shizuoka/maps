@@ -26,6 +26,9 @@ export class MapsComponent implements OnInit {
   mapOptions = {
     maxZoom: 20,
     minZoom: 17,
+    mapTypeId: 'satellite',
+    heading: -20,
+    tilt: 0
   }
   holeLineOptions = {
     strokeColor: 'gray',
@@ -91,7 +94,7 @@ export class MapsComponent implements OnInit {
   openHoleDescription(teemarker: MapMarker, index: number) {
     const hole = this.holes[index];
     this.hole = hole;
-    this.length = distanceBetweenEarthCoordinates(hole.path[0], hole.path[hole.path.length - 1]);
+    this.length = holeLength(hole.path);
     this.infoWindow.open(teemarker);
   }
 
@@ -126,14 +129,24 @@ export class MapsComponent implements OnInit {
   }
 }
 
-function distanceBetweenEarthCoordinates(p1: Position, p2: Position): number {
+function holeLength(path: Position[]) {
+  let length = 0;
+  let top = path[0];
+  path.slice(1).forEach(next => {
+    length += distance(top, next);
+    top = next;
+  });
+  return length;
+}
+
+function distance(p1: Position, p2: Position) {
   const earthRadius = 6378136;
 
-  const dLat = degreesToRadians(p2.lat - p1.lat);
-  const dLng = degreesToRadians(p2.lng - p1.lng);
+  const dLat = d2r(p2.lat - p1.lat);
+  const dLng = d2r(p2.lng - p1.lng);
 
-  const lat1 = degreesToRadians(p1.lat);
-  const lat2 = degreesToRadians(p2.lat);
+  const lat1 = d2r(p1.lat);
+  const lat2 = d2r(p2.lat);
 
   const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
           + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
@@ -142,6 +155,6 @@ function distanceBetweenEarthCoordinates(p1: Position, p2: Position): number {
   return Math.round(earthRadius * c);
 }
 
-function degreesToRadians(degrees) {
+function d2r(degrees) {
   return degrees * Math.PI / 180;
 }
