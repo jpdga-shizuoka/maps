@@ -13,6 +13,7 @@ export interface HoleInfo {
   holeNumber: HoleNumber;
   par: number;
   path: HoleLine;
+  front?: HoleLine;
   length?: number;
   description?: string;
   mandos?: Position[];

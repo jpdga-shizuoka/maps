@@ -4,7 +4,9 @@ import {
 } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
 
-import {TeeSymbol, GoalSymbol, MandoSymbol, TeeMarkers, GoalIcon} from '../Symbols';
+import {
+  TeeSymbol, GoalSymbol, MandoSymbol, TeeMarkers, GoalIcon, FrontMarkers
+} from '../Symbols';
 import { CourseService, HoleInfo } from '../course.service';
 import {HoleNumber, Position} from '../models';
 
@@ -40,6 +42,15 @@ export class MapsComponent implements OnInit {
       {icon: GoalSymbol, offset: '100%'}
     ],
   };
+  frontLineOptions = {
+    strokeColor: '#a9f5bc',
+    strokeOpacity: 1.0,
+    strokeWeight: 4,
+    icons: [
+      {icon: TeeSymbol, offset: '0%'},
+      {icon: GoalSymbol, offset: '100%'}
+    ],
+  };
   obAreaOptions = {
     strokeColor: '#FF0000',
     strokeOpacity: 0.3,
@@ -58,8 +69,10 @@ export class MapsComponent implements OnInit {
 
   holes: HoleInfo[];
   holeLines: google.maps.LatLng[][] = [];
+  frontLines: google.maps.LatLng[][] = [];
   obAreas: google.maps.LatLng[][] = [];
   tees: google.maps.LatLng[] = [];
+  frontTees: google.maps.LatLng[] = [];
   goals: google.maps.LatLng[] = [];
   mandos: google.maps.LatLng[] = [];
   hole: HoleInfo;
@@ -81,6 +94,27 @@ export class MapsComponent implements OnInit {
     return {
       draggable: false,
       icon: this.teeMarker(index),
+    };
+  }
+  private getMarker(index: number, type: 'front' | 'back') {
+    let hole: HoleInfo;
+    let position = 0;
+
+    for (let i = 0; i < this.holes.length; i++) {
+      hole = this.holes[i];
+      if (hole[type]) {
+        position++;
+      }
+      if (index < position) {
+        break;
+      }
+    }
+    return (type === 'front' ? FrontMarkers : TeeMarkers)[hole.holeNumber - 1];
+  }
+  frontTeeOptions(index: number) {
+    return {
+      draggable: false,
+      icon: this.getMarker(index, 'front'),
     };
   }
 
@@ -105,6 +139,13 @@ export class MapsComponent implements OnInit {
     this.infoWindow.open(teemarker);
   }
 
+  onFrontTeeClicked(teemarker: MapMarker, index: number) {
+    const hole = this.holes[index];
+    this.hole = hole;
+    this.length = holeLength(hole.front);
+    this.infoWindow.open(teemarker);
+  }
+
   onResized(event: ResizedEvent) {
     this.width = event.newWidth;
     this.height = event.newHeight;
@@ -117,9 +158,17 @@ export class MapsComponent implements OnInit {
     this.courseService.getCourse().subscribe(holes => {
       this.holes = holes;
       holes.forEach(hole => {
-        const path: LatLng[] = [];
-        hole.path.forEach(point => path.push(new google.maps.LatLng(point)));
-        this.holeLines.push(path);
+
+        if (hole.path) {
+          const path: LatLng[] = [];
+          hole.path.forEach(point => path.push(new google.maps.LatLng(point)));
+          this.holeLines.push(path);
+        }
+        if (hole.front) {
+          const path: LatLng[] = [];
+          hole.front.forEach(point => path.push(new google.maps.LatLng(point)));
+          this.frontLines.push(path);
+        }
 
         const obArea: LatLng[] = [];
         hole.obAreas?.forEach(area => {
@@ -129,8 +178,14 @@ export class MapsComponent implements OnInit {
 
         hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
         if (this.showTee) {
-          const tee = hole.path[0];
-          this.tees.push(new google.maps.LatLng(tee));
+          if (hole.path) {
+            const tee = hole.path[0];
+            this.tees.push(new google.maps.LatLng(tee));
+          }
+          if (hole.front) {
+            const tee = hole.front[0];
+            this.frontTees.push(new google.maps.LatLng(tee));
+          }
         }
         if (this.showGoal) {
           const goal = hole.path[hole.path.length - 1];

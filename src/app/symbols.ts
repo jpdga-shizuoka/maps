@@ -87,3 +87,81 @@ export const TeeMarkers = [
   TeeMarker1, TeeMarker2, TeeMarker3, TeeMarker4, TeeMarker5, TeeMarker6, TeeMarker7, TeeMarker8, TeeMarker9,
   TeeMarker10, TeeMarker11, TeeMarker12, TeeMarker13, TeeMarker14, TeeMarker15, TeeMarker16, TeeMarker17, TeeMarker18
 ];
+
+
+export const FrontMarker1 = {
+  url: 'assets/maps/fronttee1.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker2 = {
+  url: 'assets/maps/fronttee2.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker3 = {
+  url: 'assets/maps/fronttee3.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker4 = {
+  url: 'assets/maps/fronttee4.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker5 = {
+  url: 'assets/maps/fronttee5.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker6 = {
+  url: 'assets/maps/fronttee6.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker7 = {
+  url: 'assets/maps/fronttee7.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker8 = {
+  url: 'assets/maps/fronttee8.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker9 = {
+  url: 'assets/maps/fronttee9.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker10 = {
+  url: 'assets/maps/fronttee10.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker11 = {
+  url: 'assets/maps/fronttee11.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker12 = {
+  url: 'assets/maps/fronttee12.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker13 = {
+  url: 'assets/maps/fronttee13.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker14 = {
+  url: 'assets/maps/fronttee14.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker15 = {
+  url: 'assets/maps/fronttee15.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker16 = {
+  url: 'assets/maps/fronttee16.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker17 = {
+  url: 'assets/maps/fronttee17.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarker18 = {
+  url: 'assets/maps/fronttee18.svg',
+  scaledSize: new google.maps.Size(25, 40)
+}
+export const FrontMarkers = [
+  FrontMarker1, FrontMarker2, FrontMarker3, FrontMarker4, FrontMarker5, FrontMarker6, FrontMarker7, FrontMarker8, FrontMarker9,
+  FrontMarker10, FrontMarker11, FrontMarker12, FrontMarker13, FrontMarker14, FrontMarker15, FrontMarker16, FrontMarker17, FrontMarker18
+];

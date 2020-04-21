@@ -8,16 +8,27 @@
     <map-polygon *ngFor="let area of obAreas"
               [paths]="area"
               [options]="obAreaOptions"></map-polygon>
+
+    <map-polyline *ngFor="let line of frontLines"
+              [path]="line"
+              [options]="frontLineOptions"></map-polyline>
     <map-polyline *ngFor="let line of holeLines"
               [path]="line"
               [options]="holeLineOptions"></map-polyline>
+
     <map-marker *ngFor="let mando of mandos"
               [position]="mando"
               [options]="mandoOptions"></map-marker>
+
     <map-marker #teemarker *ngFor="let tee of tees; index as i"
               [position]="tee"
               [options]="teeOptions(i)"
               (mapClick)="openHoleDescription(teemarker, i)"></map-marker>
+    <map-marker #teemarker *ngFor="let tee of frontTees; index as i"
+              [position]="tee"
+              [options]="frontTeeOptions(i)"
+              (mapClick)="onFrontTeeClicked(teemarker, i)"></map-marker>
+
     <map-marker *ngFor="let goal of goals"
               [position]="goal"
               [options]="goalOptions"></map-marker>
