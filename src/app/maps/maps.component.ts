@@ -3,7 +3,7 @@ import {
   GoogleMap, MapInfoWindow, MapMarker, MapPolyline,
 } from '@angular/google-maps';
 
-import {TeeSymbol, GoalSymbol, MandoSymbol, TeeIcon, GoalIcon} from '../Symbols';
+import {TeeSymbol, GoalSymbol, MandoSymbol, TeeMarkers, GoalIcon} from '../Symbols';
 import { CourseService, HoleInfo } from '../course.service';
 import {HoleNumber, Position} from '../models';
 
@@ -27,11 +27,11 @@ export class MapsComponent implements OnInit {
     maxZoom: 20,
     minZoom: 17,
     mapTypeId: 'satellite',
-    heading: -20,
+    disableDefaultUI: true,
     tilt: 0
   }
   holeLineOptions = {
-    strokeColor: 'gray',
+    strokeColor: 'white',
     strokeOpacity: 1.0,
     strokeWeight: 4,
     icons: [
@@ -45,10 +45,6 @@ export class MapsComponent implements OnInit {
     strokeWeight: 2,
     fillColor: '#FF0000',
     fillOpacity: 0.3
-  };
-  teeOptions = {
-    draggable: false,
-    icon: TeeIcon,
   };
   goalOptions = {
     draggable: false,
@@ -66,6 +62,7 @@ export class MapsComponent implements OnInit {
   goals: google.maps.LatLng[] = [];
   mandos: google.maps.LatLng[] = [];
   hole: HoleInfo;
+  length: number;
   get holeName() {
     return this.hole?.holeNumber;
   }
@@ -75,7 +72,15 @@ export class MapsComponent implements OnInit {
   get description() {
     return this.hole?.description;
   }
-  length: number;
+  teeMarker(index: number) {
+    return TeeMarkers[index];
+  }
+  teeOptions(index: number) {
+    return {
+      draggable: false,
+      icon: this.teeMarker(index),
+    };
+  }
 
   constructor(
     private ngZone: NgZone,
