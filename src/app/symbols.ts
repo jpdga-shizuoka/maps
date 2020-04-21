@@ -3,13 +3,10 @@
 export const TeeSymbol = {path: google.maps.SymbolPath.CIRCLE};
 export const GoalSymbol = {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW};
 export const MandoSymbol = {
-    path: "M0 0 H 90 V 90 H 0 L 0 0",
-    fillColor: '#FF0000',
-    fillOpacity: .5,
-    anchor: new google.maps.Point(45, 45),
-    strokeWeight: 0,
-    scale: .25,
-    rotation: 45
+  url: 'assets/maps/mandoMarker.svg',
+  scaledSize: new google.maps.Size(20, 20),
+  origin: new google.maps.Point(0, 0),
+  anchor: new google.maps.Point(10, 10)
 }
 
 export const GoalIcon = 'assets/maps/goal.svg';
