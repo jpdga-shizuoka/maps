@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { AngularResizedEventModule } from 'angular-resize-event';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -15,7 +16,8 @@ import { MapsComponent } from './maps/maps.component';
   imports: [
     BrowserModule,
     GoogleMapsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularResizedEventModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core'
 import {
   GoogleMap, MapInfoWindow, MapMarker, MapPolyline,
 } from '@angular/google-maps';
+import { ResizedEvent } from 'angular-resize-event';
 
 import {TeeSymbol, GoalSymbol, MandoSymbol, TeeMarkers, GoalIcon} from '../Symbols';
 import { CourseService, HoleInfo } from '../course.service';
@@ -102,6 +103,11 @@ export class MapsComponent implements OnInit {
     this.hole = hole;
     this.length = holeLength(hole.path);
     this.infoWindow.open(teemarker);
+  }
+
+  onResized(event: ResizedEvent) {
+    this.width = event.newWidth;
+    this.height = event.newHeight;
   }
 
   private loadCourse() {
