@@ -5,7 +5,7 @@ import {
 
 import {TeeSymbol, GoalSymbol, MandoSymbol, TeeIcon, GoalIcon} from '../Symbols';
 import { CourseService, HoleInfo } from '../course.service';
-import {HoleNumber} from '../models';
+import {HoleNumber, Position} from '../models';
 
 type LatLng = google.maps.LatLng;
 
@@ -72,6 +72,7 @@ export class MapsComponent implements OnInit {
   get description() {
     return this.hole?.description;
   }
+  length: number;
 
   constructor(
     private ngZone: NgZone,
@@ -88,7 +89,9 @@ export class MapsComponent implements OnInit {
   }
 
   openHoleDescription(teemarker: MapMarker, index: number) {
-    this.hole = this.holes[index];
+    const hole = this.holes[index];
+    this.hole = hole;
+    this.length = distanceBetweenEarthCoordinates(hole.path[0], hole.path[hole.path.length - 1]);
     this.infoWindow.open(teemarker);
   }
 
@@ -121,4 +124,24 @@ export class MapsComponent implements OnInit {
       })
     }).unsubscribe();
   }
+}
+
+function distanceBetweenEarthCoordinates(p1: Position, p2: Position): number {
+  const earthRadius = 6378136;
+
+  const dLat = degreesToRadians(p2.lat - p1.lat);
+  const dLng = degreesToRadians(p2.lng - p1.lng);
+
+  const lat1 = degreesToRadians(p1.lat);
+  const lat2 = degreesToRadians(p2.lat);
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
+          + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return Math.round(earthRadius * c);
+}
+
+function degreesToRadians(degrees) {
+  return degrees * Math.PI / 180;
 }
