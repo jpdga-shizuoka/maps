@@ -14,12 +14,17 @@
     <map-marker *ngFor="let mando of mandos"
               [position]="mando"
               [options]="mandoOptions"></map-marker>
-    <map-marker *ngFor="let tee of tees"
+    <map-marker #teemarker *ngFor="let tee of tees; index as i"
               [position]="tee"
-              [options]="teeOptions"></map-marker>
+              [options]="teeOptions"
+              (mapClick)="openHoleDescription(teemarker, i)"></map-marker>
     <map-marker *ngFor="let goal of goals"
               [position]="goal"
               [options]="goalOptions"></map-marker>
-    <map-info-window>Info Window content</map-info-window>
+    <map-info-window #infowindow>
+      <h1>Hole: {{holeName}}</h1>
+      <h2>Par{{par}}</h2>
+      <p>{{description}}</p>
+    </map-info-window>
   </google-map>
 </div>

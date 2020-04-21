@@ -5,6 +5,7 @@ import {
 
 import {TeeSymbol, GoalSymbol, MandoSymbol, TeeIcon, GoalIcon} from '../Symbols';
 import { CourseService, HoleInfo } from '../course.service';
+import {HoleNumber} from '../models';
 
 type LatLng = google.maps.LatLng;
 
@@ -14,9 +15,9 @@ type LatLng = google.maps.LatLng;
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit {
-  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
+  @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
 
-  showTee = false;
+  showTee = true;
   showGoal = false;
   width: number;
   height: number;
@@ -26,9 +27,6 @@ export class MapsComponent implements OnInit {
     maxZoom: 20,
     minZoom: 17,
   }
-  markerOptions = {
-    draggable: false
-  };
   holeLineOptions = {
     strokeColor: 'gray',
     strokeOpacity: 1.0,
@@ -58,11 +56,22 @@ export class MapsComponent implements OnInit {
     icon: MandoSymbol,
   };
 
-  holeLines: Array<LatLng[]> = [];
-  obAreas: Array<LatLng[]> = [];
-  tees: Array<LatLng> = [];
-  goals: Array<LatLng> = [];
-  mandos: Array<LatLng> = [];
+  holes: HoleInfo[];
+  holeLines: google.maps.LatLng[][] = [];
+  obAreas: google.maps.LatLng[][] = [];
+  tees: google.maps.LatLng[] = [];
+  goals: google.maps.LatLng[] = [];
+  mandos: google.maps.LatLng[] = [];
+  hole: HoleInfo;
+  get holeName() {
+    return this.hole?.holeNumber;
+  }
+  get par() {
+    return this.hole?.par;
+  }
+  get description() {
+    return this.hole?.description;
+  }
 
   constructor(
     private ngZone: NgZone,
@@ -75,32 +84,41 @@ export class MapsComponent implements OnInit {
     this.width = rect.width;
     this.height = rect.height;
 
-    this.courseService.getCourse().subscribe(course => {
-      course.forEach(hole => {
+    this.loadCourse();
+  }
+
+  openHoleDescription(teemarker: MapMarker, index: number) {
+    this.hole = this.holes[index];
+    this.infoWindow.open(teemarker);
+  }
+
+  private loadCourse() {
+    if (this.holes) {
+      return;
+    }
+    this.courseService.getCourse().subscribe(holes => {
+      this.holes = holes;
+      holes.forEach(hole => {
         const path: LatLng[] = [];
-        hole.path.forEach(point => path.push(new google.maps.LatLng(point.lat, point.lng)));
+        hole.path.forEach(point => path.push(new google.maps.LatLng(point)));
         this.holeLines.push(path);
 
         const obArea: LatLng[] = [];
         hole.obAreas?.forEach(area => {
-          area.forEach(point => obArea.push(new google.maps.LatLng(point.lat, point.lng)));
+          area.forEach(point => obArea.push(new google.maps.LatLng(point)));
           this.obAreas.push(obArea);
         });
 
-        hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando.lat, mando.lng)));
+        hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
         if (this.showTee) {
           const tee = hole.path[0];
-          this.tees.push(new google.maps.LatLng(tee.lat, tee.lng));
+          this.tees.push(new google.maps.LatLng(tee));
         }
         if (this.showGoal) {
           const goal = hole.path[hole.path.length - 1];
-          this.goals.push(new google.maps.LatLng(goal.lat, goal.lng));
+          this.goals.push(new google.maps.LatLng(goal));
         }
       })
     }).unsubscribe();
-  }
-
-  openHoleDescription(line: MapPolyline) {
-    // this.infoWindow.open(line);
   }
 }
