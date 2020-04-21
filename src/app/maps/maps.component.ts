@@ -73,7 +73,8 @@ export class MapsComponent implements OnInit {
     return this.hole?.description;
   }
   teeMarker(index: number) {
-    return TeeMarkers[index];
+    const hole = this.holes[index];
+    return TeeMarkers[hole.holeNumber - 1];
   }
   teeOptions(index: number) {
     return {

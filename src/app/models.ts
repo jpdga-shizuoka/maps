@@ -4,7 +4,7 @@ export interface Position {
   lng: number;
 }
 
-export type HoleNumber = number | string;
+export type HoleNumber = number;
 export type HoleLine = Position[];
 export type Area = Position[];
 export type ObLine = Position[];
