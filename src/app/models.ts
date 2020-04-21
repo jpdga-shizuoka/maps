@@ -12,7 +12,7 @@ export type ObLine = Position[];
 export interface HoleInfo {
   holeNumber: HoleNumber;
   par: number;
-  path: HoleLine;
+  back: HoleLine;
   front?: HoleLine;
   length?: number;
   description?: string;

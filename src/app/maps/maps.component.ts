@@ -20,8 +20,6 @@ type LatLng = google.maps.LatLng;
 export class MapsComponent implements OnInit {
   @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
 
-  showTee = true;
-  showGoal = false;
   width: number;
   height: number;
   center = {lat: 34.787550, lng: 137.323436};
@@ -33,7 +31,7 @@ export class MapsComponent implements OnInit {
     disableDefaultUI: true,
     tilt: 0
   }
-  holeLineOptions = {
+  backLineOptions = {
     strokeColor: 'white',
     strokeOpacity: 1.0,
     strokeWeight: 4,
@@ -68,13 +66,16 @@ export class MapsComponent implements OnInit {
   };
 
   holes: HoleInfo[];
-  holeLines: google.maps.LatLng[][] = [];
+  backLines: google.maps.LatLng[][] = [];
   frontLines: google.maps.LatLng[][] = [];
   obAreas: google.maps.LatLng[][] = [];
-  tees: google.maps.LatLng[] = [];
+  backTees: google.maps.LatLng[] = [];
   frontTees: google.maps.LatLng[] = [];
   goals: google.maps.LatLng[] = [];
   mandos: google.maps.LatLng[] = [];
+  //
+  //  for info window
+  //
   hole: HoleInfo;
   length: number;
   get holeName() {
@@ -86,16 +87,7 @@ export class MapsComponent implements OnInit {
   get description() {
     return this.hole?.description;
   }
-  teeMarker(index: number) {
-    const hole = this.holes[index];
-    return TeeMarkers[hole.holeNumber - 1];
-  }
-  teeOptions(index: number) {
-    return {
-      draggable: false,
-      icon: this.teeMarker(index),
-    };
-  }
+
   private getMarker(index: number, type: 'front' | 'back') {
     let hole: HoleInfo;
     let position = 0;
@@ -110,6 +102,12 @@ export class MapsComponent implements OnInit {
       }
     }
     return (type === 'front' ? FrontMarkers : TeeMarkers)[hole.holeNumber - 1];
+  }
+  backTeeOptions(index: number) {
+    return {
+      draggable: false,
+      icon: this.getMarker(index, 'back'),
+    };
   }
   frontTeeOptions(index: number) {
     return {
@@ -132,18 +130,19 @@ export class MapsComponent implements OnInit {
     this.loadCourse();
   }
 
-  openHoleDescription(teemarker: MapMarker, index: number) {
+  private openHoleDescription(teemarker: MapMarker, index: number, type: 'front' | 'back') {
     const hole = this.holes[index];
     this.hole = hole;
-    this.length = holeLength(hole.path);
+    this.length = holeLength(type === 'front' ? hole.front : hole.back);
     this.infoWindow.open(teemarker);
   }
 
+  onBackTeeClicked(teemarker: MapMarker, index: number) {
+    this.openHoleDescription(teemarker, index, 'back');
+  }
+
   onFrontTeeClicked(teemarker: MapMarker, index: number) {
-    const hole = this.holes[index];
-    this.hole = hole;
-    this.length = holeLength(hole.front);
-    this.infoWindow.open(teemarker);
+    this.openHoleDescription(teemarker, index, 'front');
   }
 
   onResized(event: ResizedEvent) {
@@ -159,10 +158,10 @@ export class MapsComponent implements OnInit {
       this.holes = holes;
       holes.forEach(hole => {
 
-        if (hole.path) {
+        if (hole.back) {
           const path: LatLng[] = [];
-          hole.path.forEach(point => path.push(new google.maps.LatLng(point)));
-          this.holeLines.push(path);
+          hole.back.forEach(point => path.push(new google.maps.LatLng(point)));
+          this.backLines.push(path);
         }
         if (hole.front) {
           const path: LatLng[] = [];
@@ -177,19 +176,13 @@ export class MapsComponent implements OnInit {
         });
 
         hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
-        if (this.showTee) {
-          if (hole.path) {
-            const tee = hole.path[0];
-            this.tees.push(new google.maps.LatLng(tee));
-          }
-          if (hole.front) {
-            const tee = hole.front[0];
-            this.frontTees.push(new google.maps.LatLng(tee));
-          }
+        if (hole.back) {
+          const tee = hole.back[0];
+          this.backTees.push(new google.maps.LatLng(tee));
         }
-        if (this.showGoal) {
-          const goal = hole.path[hole.path.length - 1];
-          this.goals.push(new google.maps.LatLng(goal));
+        if (hole.front) {
+          const tee = hole.front[0];
+          this.frontTees.push(new google.maps.LatLng(tee));
         }
       })
     }).unsubscribe();
