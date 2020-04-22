@@ -31,7 +31,7 @@ export class MapsComponent implements OnInit {
     mapTypeId: 'satellite',
     disableDefaultUI: true,
     tilt: 0
-  }
+  };
   backLineOptions = {
     strokeColor: 'white',
     strokeOpacity: 1.0,
@@ -79,12 +79,12 @@ export class MapsComponent implements OnInit {
   //
   hole: HoleInfo;
   length: number;
-  private _teetype: TeeType;
+  private teetype: TeeType;
   get holeName() {
     return this.hole?.holeNumber;
   }
   get par() {
-    return this._teetype === 'front'
+    return this.teetype === 'front'
       ? this.hole?.front.par
       : this.hole?.back.par;
   }
@@ -92,7 +92,7 @@ export class MapsComponent implements OnInit {
     return this.hole?.description;
   }
   get teeType() {
-    return this._teetype === 'front' ? 'フロント•ティー' : 'バック•ティー';
+    return this.teetype === 'front' ? 'フロント•ティー' : 'バック•ティー';
   }
 
   private getHoleNumberFromIndex(index: number, type: TeeType) {
@@ -151,7 +151,7 @@ export class MapsComponent implements OnInit {
   private openHoleDescription(teemarker: MapMarker, index: number, type: TeeType) {
     const hole = this.getHoleFromIndex(index, type);
     this.hole = hole;
-    this._teetype = type;
+    this.teetype = type;
     this.length = holeLength(type === 'front' ? hole.front?.path : hole.back?.path);
     this.infoWindow.open(teemarker);
   }
@@ -203,7 +203,7 @@ export class MapsComponent implements OnInit {
           const tee = hole.front.path[0];
           this.frontTees.push(new google.maps.LatLng(tee));
         }
-      })
+      });
     }).unsubscribe();
   }
 }
