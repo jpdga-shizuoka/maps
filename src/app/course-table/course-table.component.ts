@@ -30,4 +30,31 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
       ? `${Math.round(hole.front.length)}m / Par${hole.front.par}`
       : '';
   }
+
+  get backTotal() {
+    let length = 0;
+    let par = 0;
+    this.dataSource.data.forEach(hole => {
+      length += hole.back.length;
+      par += hole.back.par;
+    });
+    length /= this.dataSource.data.length;
+    return `${Math.round(length)}m / Par${par}`;
+  }
+
+  get frontTotal() {
+    let length = 0;
+    let par = 0;
+    this.dataSource.data.forEach(hole => {
+      if (hole.front) {
+        length += hole.front.length;
+        par += hole.front.par;
+      } else {
+        length += hole.back.length;
+        par += hole.back.par;
+      }
+    });
+    length /= this.dataSource.data.length;
+    return `${Math.round(length)}m / Par${par}`;
+  }
 }

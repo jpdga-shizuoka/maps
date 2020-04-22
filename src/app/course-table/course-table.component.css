@@ -1,10 +1,13 @@
 .full-width-table {
-  width: 100%;
+  width: 30rem;
+  margin: 0 auto 10px;
 }
 
-th.mat-header-cell {
-text-align: center;
-}
+th.mat-header-cell,
+td.mat-footer-cell,
 td.mat-cell {
-text-align: center;
+  text-align: center;
+}
+tr.mat-footer-row {
+  font-weight: bold;
 }
