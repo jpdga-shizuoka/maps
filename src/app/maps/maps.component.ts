@@ -11,6 +11,7 @@ import { CourseService, HoleInfo } from '../course.service';
 import {HoleNumber, Position} from '../models';
 
 type LatLng = google.maps.LatLng;
+type TeeType = 'front' | 'back';
 
 @Component({
   selector: 'app-maps',
@@ -78,6 +79,7 @@ export class MapsComponent implements OnInit {
   //
   hole: HoleInfo;
   length: number;
+  private _teetype: TeeType;
   get holeName() {
     return this.hole?.holeNumber;
   }
@@ -87,8 +89,11 @@ export class MapsComponent implements OnInit {
   get description() {
     return this.hole?.description;
   }
+  get teeType() {
+    return this._teetype === 'front' ? 'フロント•ティー' : 'バック•ティー';
+  }
 
-  private getMarker(index: number, type: 'front' | 'back') {
+  private getHoleNumberFromIndex(index: number, type: TeeType) {
     let hole: HoleInfo;
     let position = 0;
 
@@ -101,8 +106,14 @@ export class MapsComponent implements OnInit {
         break;
       }
     }
-    return (type === 'front' ? FrontMarkers : TeeMarkers)[hole.holeNumber - 1];
+    return hole.holeNumber;
   }
+
+  private getMarker(index: number, type: TeeType) {
+    const holeNumber = this.getHoleNumberFromIndex(index, type);
+    return (type === 'front' ? FrontMarkers : TeeMarkers)[holeNumber - 1];
+  }
+
   backTeeOptions(index: number) {
     return {
       draggable: false,
@@ -130,9 +141,16 @@ export class MapsComponent implements OnInit {
     this.loadCourse();
   }
 
-  private openHoleDescription(teemarker: MapMarker, index: number, type: 'front' | 'back') {
-    const hole = this.holes[index];
+  private getHoleFromIndex(index: number, type: TeeType) {
+    const holeNumber = this.getHoleNumberFromIndex(index, type);
+    return this.holes.find(hole => hole.holeNumber === holeNumber);
+  }
+
+  private openHoleDescription(teemarker: MapMarker, index: number, type: TeeType) {
+    const hole = this.getHoleFromIndex(index, type);
+    console.log(index, type, hole)
     this.hole = hole;
+    this._teetype = type;
     this.length = holeLength(type === 'front' ? hole.front : hole.back);
     this.infoWindow.open(teemarker);
   }
