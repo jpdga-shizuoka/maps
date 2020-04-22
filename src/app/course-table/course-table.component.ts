@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTable } from '@angular/material/table';
-import { CourseTableDataSource, CourseTableItem } from './course-table-datasource';
+import { CourseTableDataSource, HoleInfo } from './course-table-datasource';
 
 @Component({
   selector: 'app-course-table',
@@ -10,21 +8,26 @@ import { CourseTableDataSource, CourseTableItem } from './course-table-datasourc
   styleUrls: ['./course-table.component.css']
 })
 export class CourseTableComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<CourseTableItem>;
+  @ViewChild(MatTable) table: MatTable<HoleInfo>;
   dataSource: CourseTableDataSource;
 
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['hole', 'back', 'front'];
 
   ngOnInit() {
     this.dataSource = new CourseTableDataSource();
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+
+  backtee(hole) {
+    return `${Math.round(hole.back.length)}m / Par${hole.back.par}`;
+  }
+
+  fronttee(hole) {
+    return hole.front
+      ? `${Math.round(hole.front.length)}m / Par${hole.front.par}`
+      : '';
   }
 }
