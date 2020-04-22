@@ -1,0 +1,43 @@
+#!/bin/sh
+
+sed -E "s/>0<\/tspan/>1<\/tspan/" tee0.svg > backtee1.svg
+sed -E "s/>0<\/tspan/>2<\/tspan/" tee0.svg > backtee2.svg
+sed -E "s/>0<\/tspan/>3<\/tspan/" tee0.svg > backtee3.svg
+sed -E "s/>0<\/tspan/>4<\/tspan/" tee0.svg > backtee4.svg
+sed -E "s/>0<\/tspan/>5<\/tspan/" tee0.svg > backtee5.svg
+sed -E "s/>0<\/tspan/>6<\/tspan/" tee0.svg > backtee6.svg
+sed -E "s/>0<\/tspan/>7<\/tspan/" tee0.svg > backtee7.svg
+sed -E "s/>0<\/tspan/>8<\/tspan/" tee0.svg > backtee8.svg
+sed -E "s/>0<\/tspan/>9<\/tspan/" tee0.svg > backtee9.svg
+
+sed -E "s/>00<\/tspan/>10<\/tspan/" tee00.svg > backtee10.svg
+sed -E "s/>00<\/tspan/>11<\/tspan/" tee00.svg > backtee11.svg
+sed -E "s/>00<\/tspan/>12<\/tspan/" tee00.svg > backtee12.svg
+sed -E "s/>00<\/tspan/>13<\/tspan/" tee00.svg > backtee13.svg
+sed -E "s/>00<\/tspan/>14<\/tspan/" tee00.svg > backtee14.svg
+sed -E "s/>00<\/tspan/>15<\/tspan/" tee00.svg > backtee15.svg
+sed -E "s/>00<\/tspan/>16<\/tspan/" tee00.svg > backtee16.svg
+sed -E "s/>00<\/tspan/>17<\/tspan/" tee00.svg > backtee17.svg
+sed -E "s/>00<\/tspan/>18<\/tspan/" tee00.svg > backtee18.svg
+sed -E "s/>00<\/tspan/>19<\/tspan/" tee00.svg > backtee19.svg
+
+sed -E "s/>0<\/tspan/>1<\/tspan/" tee0.svg > fronttee1.svg
+sed -E "s/>0<\/tspan/>2<\/tspan/" tee0.svg > fronttee2.svg
+sed -E "s/>0<\/tspan/>3<\/tspan/" tee0.svg > fronttee3.svg
+sed -E "s/>0<\/tspan/>4<\/tspan/" tee0.svg > fronttee4.svg
+sed -E "s/>0<\/tspan/>5<\/tspan/" tee0.svg > fronttee5.svg
+sed -E "s/>0<\/tspan/>6<\/tspan/" tee0.svg > fronttee6.svg
+sed -E "s/>0<\/tspan/>7<\/tspan/" tee0.svg > fronttee7.svg
+sed -E "s/>0<\/tspan/>8<\/tspan/" tee0.svg > fronttee8.svg
+sed -E "s/>0<\/tspan/>9<\/tspan/" tee0.svg > fronttee9.svg
+
+sed -E "s/>00<\/tspan/>10<\/tspan/" tee00.svg > fronttee10.svg
+sed -E "s/>00<\/tspan/>11<\/tspan/" tee00.svg > fronttee11.svg
+sed -E "s/>00<\/tspan/>12<\/tspan/" tee00.svg > fronttee12.svg
+sed -E "s/>00<\/tspan/>13<\/tspan/" tee00.svg > fronttee13.svg
+sed -E "s/>00<\/tspan/>14<\/tspan/" tee00.svg > fronttee14.svg
+sed -E "s/>00<\/tspan/>15<\/tspan/" tee00.svg > fronttee15.svg
+sed -E "s/>00<\/tspan/>16<\/tspan/" tee00.svg > fronttee16.svg
+sed -E "s/>00<\/tspan/>17<\/tspan/" tee00.svg > fronttee17.svg
+sed -E "s/>00<\/tspan/>18<\/tspan/" tee00.svg > fronttee18.svg
+sed -E "s/>00<\/tspan/>19<\/tspan/" tee00.svg > fronttee19.svg

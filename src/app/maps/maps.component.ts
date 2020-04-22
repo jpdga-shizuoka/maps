@@ -5,7 +5,7 @@ import {
 import { ResizedEvent } from 'angular-resize-event';
 
 import {
-  TeeSymbol, GoalSymbol, MandoSymbol, TeeMarkers, DropZoneSymbol, FrontMarkers
+  TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
 import { CourseService, HoleInfo } from '../course.service';
 import {HoleNumber, Position} from '../models';
@@ -119,7 +119,7 @@ export class MapsComponent implements OnInit {
 
   private getMarker(index: number, type: TeeType) {
     const holeNumber = this.getHoleNumberFromIndex(index, type);
-    return (type === 'front' ? FrontMarkers : TeeMarkers)[holeNumber - 1];
+    return (type === 'front' ? FrontMarkers : BackMarkers)[holeNumber - 1];
   }
 
   backTeeOptions(index: number) {
