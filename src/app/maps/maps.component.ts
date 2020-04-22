@@ -84,7 +84,9 @@ export class MapsComponent implements OnInit {
     return this.hole?.holeNumber;
   }
   get par() {
-    return this.hole?.par;
+    return this._teetype === 'front'
+      ? this.hole?.front.par
+      : this.hole?.back.par;
   }
   get description() {
     return this.hole?.description;
@@ -150,7 +152,7 @@ export class MapsComponent implements OnInit {
     const hole = this.getHoleFromIndex(index, type);
     this.hole = hole;
     this._teetype = type;
-    this.length = holeLength(type === 'front' ? hole.front : hole.back);
+    this.length = holeLength(type === 'front' ? hole.front?.path : hole.back?.path);
     this.infoWindow.open(teemarker);
   }
 
@@ -177,12 +179,12 @@ export class MapsComponent implements OnInit {
 
         if (hole.back) {
           const path: LatLng[] = [];
-          hole.back.forEach(point => path.push(new google.maps.LatLng(point)));
+          hole.back.path.forEach(point => path.push(new google.maps.LatLng(point)));
           this.backLines.push(path);
         }
         if (hole.front) {
           const path: LatLng[] = [];
-          hole.front.forEach(point => path.push(new google.maps.LatLng(point)));
+          hole.front.path.forEach(point => path.push(new google.maps.LatLng(point)));
           this.frontLines.push(path);
         }
 
@@ -194,11 +196,11 @@ export class MapsComponent implements OnInit {
 
         hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
         if (hole.back) {
-          const tee = hole.back[0];
+          const tee = hole.back.path[0];
           this.backTees.push(new google.maps.LatLng(tee));
         }
         if (hole.front) {
-          const tee = hole.front[0];
+          const tee = hole.front.path[0];
           this.frontTees.push(new google.maps.LatLng(tee));
         }
       })

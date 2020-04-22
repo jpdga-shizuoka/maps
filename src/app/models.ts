@@ -9,12 +9,16 @@ export type HoleLine = Position[];
 export type Area = Position[];
 export type ObLine = Position[];
 
+export interface HoleData {
+  path: HoleLine;
+  par: number;
+  length?: number;
+}
+
 export interface HoleInfo {
   holeNumber: HoleNumber;
-  par: number;
-  back: HoleLine;
-  front?: HoleLine;
-  length?: number;
+  back?: HoleData;
+  front?: HoleData;
   description?: string;
   mandos?: Position[];
   safeAreas?: Area[];
