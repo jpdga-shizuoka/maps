@@ -1,0 +1,10 @@
+.combined {
+  display: flex;
+  width: 100%;
+}
+.combined app-maps {
+  width: calc(100% - 320px);
+}
+.combined app-course-table {
+  width: 320px;
+}

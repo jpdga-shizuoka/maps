@@ -1,10 +1,21 @@
-<mat-tab-group>
-  <mat-tab label="コース情報">
-    <app-course-table>
-    </app-course-table>
-   </mat-tab>
-  <mat-tab label="コースマップ">
-    <app-maps>
-    </app-maps>
-  </mat-tab>
-</mat-tab-group>
+<div *ngIf="isHandset$ | async; then thenBlock else elseBlock"></div>
+
+<ng-template #thenBlock>
+  <mat-tab-group>
+    <mat-tab label="コース情報">
+      <app-course-table>
+      </app-course-table>
+     </mat-tab>
+    <mat-tab label="コースマップ">
+      <app-maps>
+      </app-maps>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #elseBlock>
+  <div class="combined">
+    <app-maps></app-maps>
+    <app-course-table></app-course-table>
+  </div>
+</ng-template>

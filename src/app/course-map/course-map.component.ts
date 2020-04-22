@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+
+import { isHandset, Observable } from '../ng-utilities';
 
 @Component({
   selector: 'app-course-map',
@@ -7,7 +10,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CourseMapComponent implements OnInit {
 
-  constructor() { }
+  isHandset$: Observable<boolean>;
+
+  constructor(
+    breakpointObserver: BreakpointObserver,
+  ) {
+    this.isHandset$ = isHandset(breakpointObserver);
+  }
 
   ngOnInit(): void {
   }
