@@ -148,7 +148,6 @@ export class MapsComponent implements OnInit {
 
   private openHoleDescription(teemarker: MapMarker, index: number, type: TeeType) {
     const hole = this.getHoleFromIndex(index, type);
-    console.log(index, type, hole)
     this.hole = hole;
     this._teetype = type;
     this.length = holeLength(type === 'front' ? hole.front : hole.back);
