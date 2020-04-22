@@ -9,6 +9,9 @@
     <map-polygon *ngFor="let area of obAreas"
               [paths]="area"
               [options]="obAreaOptions"></map-polygon>
+    <map-polyline *ngFor="let line of obLines"
+              [path]="line"
+              [options]="obLineOptions"></map-polyline>
 
     <map-polyline *ngFor="let line of frontLines"
               [path]="line"

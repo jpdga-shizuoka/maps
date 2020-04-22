@@ -50,6 +50,11 @@ export class MapsComponent implements OnInit {
       {icon: GoalSymbol, offset: '100%'}
     ],
   };
+  obLineOptions = {
+    strokeColor: 'red',
+    strokeOpacity: 0.5,
+    strokeWeight: 6,
+  };
   obAreaOptions = {
     strokeColor: '#FF0000',
     strokeOpacity: 0.3,
@@ -70,6 +75,7 @@ export class MapsComponent implements OnInit {
   backLines: google.maps.LatLng[][] = [];
   frontLines: google.maps.LatLng[][] = [];
   obAreas: google.maps.LatLng[][] = [];
+  obLines: google.maps.LatLng[][] = [];
   backTees: google.maps.LatLng[] = [];
   frontTees: google.maps.LatLng[] = [];
   goals: google.maps.LatLng[] = [];
@@ -192,6 +198,12 @@ export class MapsComponent implements OnInit {
         hole.obAreas?.forEach(area => {
           area.forEach(point => obArea.push(new google.maps.LatLng(point)));
           this.obAreas.push(obArea);
+        });
+
+        const obLine: LatLng[] = [];
+        hole.obLines?.forEach(line => {
+          line.forEach(point => obLine.push(new google.maps.LatLng(point)));
+          this.obLines.push(obLine);
         });
 
         hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
