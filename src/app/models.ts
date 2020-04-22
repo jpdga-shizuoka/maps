@@ -20,6 +20,7 @@ export interface HoleInfo {
   back?: HoleData;
   front?: HoleData;
   description?: string;
+  dropzones?: Position[];
   mandos?: Position[];
   safeAreas?: Area[];
   obAreas?: Area[];

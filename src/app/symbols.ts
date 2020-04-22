@@ -8,8 +8,12 @@ export const MandoSymbol = {
   origin: new google.maps.Point(0, 0),
   anchor: new google.maps.Point(10, 10)
 };
-
-export const GoalIcon = 'assets/maps/goal.svg';
+export const DropZoneSymbol = {
+  url: 'assets/maps/dropzone.svg',
+  scaledSize: new google.maps.Size(20, 20),
+  origin: new google.maps.Point(0, 0),
+  anchor: new google.maps.Point(10, 10)
+};
 
 export const TeeMarker1 = {
   url: 'assets/maps/tee1.svg',

@@ -23,6 +23,9 @@
     <map-marker *ngFor="let mando of mandos"
               [position]="mando"
               [options]="mandoOptions"></map-marker>
+    <map-marker *ngFor="let zone of dropZones"
+              [position]="zone"
+              [options]="dropZoneOptions"></map-marker>
 
     <map-marker #teemarker *ngFor="let tee of backTees; index as i"
               [position]="tee"

@@ -5,7 +5,7 @@ import {
 import { ResizedEvent } from 'angular-resize-event';
 
 import {
-  TeeSymbol, GoalSymbol, MandoSymbol, TeeMarkers, GoalIcon, FrontMarkers
+  TeeSymbol, GoalSymbol, MandoSymbol, TeeMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
 import { CourseService, HoleInfo } from '../course.service';
 import {HoleNumber, Position} from '../models';
@@ -62,9 +62,9 @@ export class MapsComponent implements OnInit {
     fillColor: '#FF0000',
     fillOpacity: 0.3
   };
-  goalOptions = {
+  dropZoneOptions = {
     draggable: false,
-    icon: GoalIcon,
+    icon: DropZoneSymbol,
   };
   mandoOptions = {
     draggable: false,
@@ -78,7 +78,7 @@ export class MapsComponent implements OnInit {
   obLines: google.maps.LatLng[][] = [];
   backTees: google.maps.LatLng[] = [];
   frontTees: google.maps.LatLng[] = [];
-  goals: google.maps.LatLng[] = [];
+  dropZones: google.maps.LatLng[] = [];
   mandos: google.maps.LatLng[] = [];
   //
   //  for info window
@@ -207,6 +207,8 @@ export class MapsComponent implements OnInit {
         });
 
         hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
+        hole.dropzones?.forEach(zone => this.dropZones.push(new google.maps.LatLng(zone)));
+
         if (hole.back) {
           const tee = hole.back.path[0];
           this.backTees.push(new google.maps.LatLng(tee));
