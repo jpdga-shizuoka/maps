@@ -15,7 +15,6 @@ export class HoleInfoSheetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('HoleInfoSheetComponent', this.data)
   }
 
 }
