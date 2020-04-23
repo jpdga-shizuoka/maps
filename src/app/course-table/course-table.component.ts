@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import { CourseTableDataSource, HoleInfo } from './course-table-datasource';
+import { CourseDataSource, HoleInfo } from '../course-datasource';
 
 @Component({
   selector: 'app-course-table',
@@ -9,12 +9,12 @@ import { CourseTableDataSource, HoleInfo } from './course-table-datasource';
 })
 export class CourseTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatTable) table: MatTable<HoleInfo>;
-  dataSource: CourseTableDataSource;
+  dataSource: CourseDataSource;
 
   displayedColumns = ['hole', 'back', 'front'];
 
   ngOnInit() {
-    this.dataSource = new CourseTableDataSource();
+    this.dataSource = new CourseDataSource();
   }
 
   ngAfterViewInit() {
