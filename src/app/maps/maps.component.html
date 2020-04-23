@@ -35,11 +35,5 @@
               [position]="tee"
               [options]="frontTeeOptions(i)"
               (mapClick)="onFrontTeeClicked(teemarker, i)"></map-marker>
-
-    <map-info-window #infowindow>
-      <h2># {{holeName}}</h2>
-      <h3>{{teeType}}: {{length}}m / Par{{par}}</h3>
-      <p>{{description}}</p>
-    </map-info-window>
   </google-map>
 </div>

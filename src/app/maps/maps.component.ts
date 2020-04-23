@@ -1,7 +1,7 @@
 import {
   Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter
 } from '@angular/core';
-import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
 
 import {
@@ -26,7 +26,6 @@ export interface GoogleMapsInfo {
 })
 export class MapsComponent implements OnInit, AfterViewInit {
   @ViewChild('googlemap') googlemap: GoogleMap;
-  @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
   @Input() mapsInfo: GoogleMapsInfo;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
   dataSource: CourseDataSource;
@@ -88,26 +87,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
   frontTees: google.maps.LatLng[] = [];
   dropZones: google.maps.LatLng[] = [];
   mandos: google.maps.LatLng[] = [];
-  //
-  //  for info window
-  //
-  hole: HoleInfo;
-  length: number;
-  private teetype: TeeType;
-  get holeName() {
-    return this.hole?.holeNumber;
-  }
-  get par() {
-    return this.teetype === 'front'
-      ? this.hole?.front.par
-      : this.hole?.back.par;
-  }
-  get description() {
-    return this.hole?.description;
-  }
-  get teeType() {
-    return this.teetype === 'front' ? 'フロント•ティー' : 'バック•ティー';
-  }
 
   private getHoleNumberFromIndex(index: number, type: TeeType) {
     let hole: HoleInfo;
@@ -208,14 +187,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
     return this.holes.find(hole => hole.holeNumber === holeNumber);
   }
 
-  private openHoleDescription(teemarker: MapMarker, index: number, type: TeeType) {
-    const hole = this.getHoleFromIndex(index, type);
-    this.hole = hole;
-    this.teetype = type;
-    this.length = type === 'front' ? hole.front?.length : hole.back?.length;
-    this.infoWindow.open(teemarker);
-  }
-
   onBackTeeClicked(teemarker: MapMarker, index: number) {
     const hole = this.getHoleFromIndex(index, 'back');
     const metadata = {
@@ -225,7 +196,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
       data: hole.front
     };
     this.holeClicked.emit(metadata);
-    // this.openHoleDescription(teemarker, index, 'back');
   }
 
   onFrontTeeClicked(teemarker: MapMarker, index: number) {
@@ -237,7 +207,6 @@ export class MapsComponent implements OnInit, AfterViewInit {
       data: hole.front
     };
     this.holeClicked.emit(metadata);
-    // this.openHoleDescription(teemarker, index, 'front');
   }
 
   onResized(event: ResizedEvent) {
