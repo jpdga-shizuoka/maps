@@ -75,6 +75,9 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   }
 
   onBackClick(hole: HoleInfo) {
+    if (this.expandedHole === hole) {
+      return;
+    }
     const metadata = {
       hole: hole.holeNumber,
       teeType: 'back' as TeeType,
@@ -85,6 +88,9 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   }
 
   onFrontClick(hole: HoleInfo) {
+    if (this.expandedHole === hole) {
+      return;
+    }
     const metadata = {
       hole: hole.holeNumber,
       teeType: 'front' as TeeType,
