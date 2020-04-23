@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input
+  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter
 } from '@angular/core';
 import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
@@ -8,7 +8,7 @@ import {
   TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
 import { CourseDataSource, HoleInfo } from '../course-datasource';
-import { Position } from '../models';
+import { Position, HoleMetaData } from '../models';
 
 type LatLng = google.maps.LatLng;
 type TeeType = 'front' | 'back';
@@ -28,6 +28,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
   @ViewChild('googlemap') googlemap: GoogleMap;
   @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
   @Input() mapsInfo: GoogleMapsInfo;
+  @Output() holeClicked = new EventEmitter<HoleMetaData>();
   dataSource: CourseDataSource;
 
   width: number;
@@ -216,11 +217,27 @@ export class MapsComponent implements OnInit, AfterViewInit {
   }
 
   onBackTeeClicked(teemarker: MapMarker, index: number) {
-    this.openHoleDescription(teemarker, index, 'back');
+    const hole = this.getHoleFromIndex(index, 'back');
+    const metadata = {
+      hole: hole.holeNumber,
+      teeType: 'back' as TeeType,
+      description: hole.description,
+      data: hole.front
+    };
+    this.holeClicked.emit(metadata);
+    // this.openHoleDescription(teemarker, index, 'back');
   }
 
   onFrontTeeClicked(teemarker: MapMarker, index: number) {
-    this.openHoleDescription(teemarker, index, 'front');
+    const hole = this.getHoleFromIndex(index, 'front');
+    const metadata = {
+      hole: hole.holeNumber,
+      teeType: 'front' as TeeType,
+      description: hole.description,
+      data: hole.front
+    };
+    this.holeClicked.emit(metadata);
+    // this.openHoleDescription(teemarker, index, 'front');
   }
 
   onResized(event: ResizedEvent) {

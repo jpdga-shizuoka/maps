@@ -4,6 +4,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { isHandset, Observable } from '../ng-utilities';
 import { HoleMetaData } from '../models';
 import { MapsComponent } from '../maps/maps.component';
+import { CourseTableComponent } from '../course-table/course-table.component';
 
 @Component({
   selector: 'app-course-map',
@@ -12,6 +13,7 @@ import { MapsComponent } from '../maps/maps.component';
 })
 export class CourseMapComponent implements OnInit {
   @ViewChild(MapsComponent) map: MapsComponent;
+  @ViewChild(CourseTableComponent) table: CourseTableComponent;
 
   isHandset$: Observable<boolean>;
   mapsInfo = {
@@ -29,6 +31,18 @@ export class CourseMapComponent implements OnInit {
   }
 
   onHoleCliked(hole: HoleMetaData) {
-    this.map.panTo(hole.data.path);
+    this.isHandset$.subscribe(handset => {
+      if (!handset) {
+        this.map.panTo(hole.data.path);
+      }
+    }).unsubscribe();
+  }
+
+  onHoleMapCliked(hole: HoleMetaData) {
+    this.isHandset$.subscribe(handset => {
+      if (!handset) {
+        this.table.notifyHole(hole);
+      }
+    }).unsubscribe();
   }
 }

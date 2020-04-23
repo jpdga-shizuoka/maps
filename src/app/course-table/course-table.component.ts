@@ -99,4 +99,9 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     };
     this.holeClicked.emit(metadata);
   }
+
+  notifyHole(data: HoleMetaData) {
+    this.expandedHole
+      = this.dataSource.data.find(h => h.holeNumber === data.hole);
+  }
 }
