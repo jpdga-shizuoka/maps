@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import {
-  GoogleMap, MapInfoWindow, MapMarker, MapPolyline,
-} from '@angular/google-maps';
+  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit
+} from '@angular/core';
+import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
 
 import {
   TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
-import { CourseService, HoleInfo } from '../course.service';
-import {HoleNumber, Position} from '../models';
+import { CourseDataSource, HoleInfo } from '../course-datasource';
+import { Position } from '../models';
 
 type LatLng = google.maps.LatLng;
 type TeeType = 'front' | 'back';
@@ -18,8 +18,9 @@ type TeeType = 'front' | 'back';
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit {
+export class MapsComponent implements OnInit, AfterViewInit {
   @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
+  dataSource: CourseDataSource;
 
   width: number;
   height: number;
@@ -138,7 +139,6 @@ export class MapsComponent implements OnInit {
   constructor(
     private ngZone: NgZone,
     private el: ElementRef,
-    private courseService: CourseService,
   ) { }
 
   ngOnInit(): void {
@@ -146,40 +146,11 @@ export class MapsComponent implements OnInit {
     this.width = rect.width;
     this.height = rect.height;
 
-    this.loadCourse();
+    this.dataSource = new CourseDataSource();
   }
 
-  private getHoleFromIndex(index: number, type: TeeType) {
-    const holeNumber = this.getHoleNumberFromIndex(index, type);
-    return this.holes.find(hole => hole.holeNumber === holeNumber);
-  }
-
-  private openHoleDescription(teemarker: MapMarker, index: number, type: TeeType) {
-    const hole = this.getHoleFromIndex(index, type);
-    this.hole = hole;
-    this.teetype = type;
-    this.length = holeLength(type === 'front' ? hole.front?.path : hole.back?.path);
-    this.infoWindow.open(teemarker);
-  }
-
-  onBackTeeClicked(teemarker: MapMarker, index: number) {
-    this.openHoleDescription(teemarker, index, 'back');
-  }
-
-  onFrontTeeClicked(teemarker: MapMarker, index: number) {
-    this.openHoleDescription(teemarker, index, 'front');
-  }
-
-  onResized(event: ResizedEvent) {
-    this.width = event.newWidth;
-    this.height = event.newHeight;
-  }
-
-  private loadCourse() {
-    if (this.holes) {
-      return;
-    }
-    this.courseService.getCourse().subscribe(holes => {
+  ngAfterViewInit() {
+    this.dataSource.connect().subscribe(holes => {
       this.holes = holes;
       holes.forEach(hole => {
 
@@ -220,34 +191,30 @@ export class MapsComponent implements OnInit {
       });
     }).unsubscribe();
   }
-}
 
-function holeLength(path: Position[]) {
-  let length = 0;
-  let top = path[0];
-  path.slice(1).forEach(next => {
-    length += distance(top, next);
-    top = next;
-  });
-  return length;
-}
+  private getHoleFromIndex(index: number, type: TeeType) {
+    const holeNumber = this.getHoleNumberFromIndex(index, type);
+    return this.holes.find(hole => hole.holeNumber === holeNumber);
+  }
 
-function distance(p1: Position, p2: Position) {
-  const earthRadius = 6378136;
+  private openHoleDescription(teemarker: MapMarker, index: number, type: TeeType) {
+    const hole = this.getHoleFromIndex(index, type);
+    this.hole = hole;
+    this.teetype = type;
+    this.length = type === 'front' ? hole.front?.length : hole.back?.length;
+    this.infoWindow.open(teemarker);
+  }
 
-  const dLat = d2r(p2.lat - p1.lat);
-  const dLng = d2r(p2.lng - p1.lng);
+  onBackTeeClicked(teemarker: MapMarker, index: number) {
+    this.openHoleDescription(teemarker, index, 'back');
+  }
 
-  const lat1 = d2r(p1.lat);
-  const lat2 = d2r(p2.lat);
+  onFrontTeeClicked(teemarker: MapMarker, index: number) {
+    this.openHoleDescription(teemarker, index, 'front');
+  }
 
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-          + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return Math.round(earthRadius * c);
-}
-
-function d2r(degrees) {
-  return degrees * Math.PI / 180;
+  onResized(event: ResizedEvent) {
+    this.width = event.newWidth;
+    this.height = event.newHeight;
+  }
 }
