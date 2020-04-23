@@ -28,3 +28,23 @@ td.mat-cell:last-of-type,
 td.mat-footer-cell:last-of-type {
   padding-right: 0;
 }
+
+tr.detail-row {
+  height: 0;
+}
+tr.hole-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+tr.hole-row:not(.expanded-row):active {
+  background: #efefef;
+}
+.hole-row td {
+  border-bottom-width: 0;
+}
+.hole-detail {
+  overflow: hidden;
+  display: flex;
+}
+.hole-description {
+  padding: 16px;
+}
