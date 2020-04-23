@@ -44,7 +44,11 @@ tr.hole-row:not(.expanded-row):active {
 .hole-detail {
   overflow: hidden;
   display: flex;
+  background-color: #f8effb;
 }
 .hole-description {
   padding: 16px;
+}
+.expanded-row {
+  background-color: #f8effb;
 }

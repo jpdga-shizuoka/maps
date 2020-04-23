@@ -74,6 +74,10 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     return `${Math.round(length)}m / Par${par}`;
   }
 
+  isExpanded(hole: HoleInfo) {
+    return this.expandedHole === hole;
+  }
+
   onBackClick(hole: HoleInfo) {
     if (this.expandedHole === hole) {
       return;
