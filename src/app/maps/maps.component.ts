@@ -193,7 +193,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
       hole: hole.holeNumber,
       teeType: 'back' as TeeType,
       description: hole.description,
-      data: hole.front
+      data: hole.back
     };
     this.holeClicked.emit(metadata);
   }
@@ -204,7 +204,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
       hole: hole.holeNumber,
       teeType: 'front' as TeeType,
       description: hole.description,
-      data: hole.front
+      data: hole.front || hole.back
     };
     this.holeClicked.emit(metadata);
   }
