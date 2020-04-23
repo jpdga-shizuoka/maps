@@ -1,5 +1,12 @@
 <div class="hole-sheet">
-  <h2>#{{data.hole}} {{data.teeType}}</h2>
-  <h3>{{data.data.length}}m / Par{{data.data.par}}</h3>
-  <p>{{data.description}}</p>
+  <div class="hole-number">
+    <img src="assets/maps/{{data.teeType}}tee{{data.hole}}.svg" alt="">
+  </div>
+  <div class="hole-info">
+    <h2>
+      {{data.data.length}}m/Par{{data.data.par}} {{data.teeType}}
+    </h2>
+    <mat-divider></mat-divider>
+    <p>{{data.description}}</p>
+  </div>
 </div>
