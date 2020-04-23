@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 import { isHandset, Observable } from '../ng-utilities';
+import { HoleMetaData } from '../models';
+import { MapsComponent } from '../maps/maps.component';
 
 @Component({
   selector: 'app-course-map',
@@ -9,6 +11,7 @@ import { isHandset, Observable } from '../ng-utilities';
   styleUrls: ['./course-map.component.css']
 })
 export class CourseMapComponent implements OnInit {
+  @ViewChild(MapsComponent) map: MapsComponent;
 
   isHandset$: Observable<boolean>;
   mapsInfo = {
@@ -25,4 +28,7 @@ export class CourseMapComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onHoleCliked(hole: HoleMetaData) {
+    this.map.panTo(hole.data.path);
+  }
 }

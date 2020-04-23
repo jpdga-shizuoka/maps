@@ -3,11 +3,11 @@
 <ng-template #thenBlock>
   <mat-tab-group>
     <mat-tab label="コース情報">
-      <app-course-table>
+      <app-course-table (holeClicked)="onHoleCliked($event)">
       </app-course-table>
      </mat-tab>
     <mat-tab label="コースマップ">
-      <app-maps [mapsInfo]="mapsInfo">
+      <app-maps #appmaps [mapsInfo]="mapsInfo">
       </app-maps>
     </mat-tab>
   </mat-tab-group>
@@ -15,7 +15,7 @@
 
 <ng-template #elseBlock>
   <div class="combined">
-    <app-maps [mapsInfo]="mapsInfo"></app-maps>
-    <app-course-table></app-course-table>
+    <app-maps #appmaps [mapsInfo]="mapsInfo"></app-maps>
+    <app-course-table (holeClicked)="onHoleCliked($event)"></app-course-table>
   </div>
 </ng-template>

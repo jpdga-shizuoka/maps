@@ -1,7 +1,7 @@
 import {
   Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input
 } from '@angular/core';
-import { MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { GoogleMap, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
 
 import {
@@ -25,6 +25,7 @@ export interface GoogleMapsInfo {
   styleUrls: ['./maps.component.css']
 })
 export class MapsComponent implements OnInit, AfterViewInit {
+  @ViewChild('googlemap') googlemap: GoogleMap;
   @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
   @Input() mapsInfo: GoogleMapsInfo;
   dataSource: CourseDataSource;
@@ -195,6 +196,10 @@ export class MapsComponent implements OnInit, AfterViewInit {
         }
       });
     }).unsubscribe();
+  }
+
+  panTo(path: Position[]) {
+    this.googlemap.panTo(new google.maps.LatLng(path[0]));
   }
 
   private getHoleFromIndex(index: number, type: TeeType) {

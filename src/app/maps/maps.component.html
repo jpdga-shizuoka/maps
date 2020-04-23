@@ -1,5 +1,5 @@
 <div class="maps" (resized)="onResized($event)">
-  <google-map
+  <google-map #googlemap
               height="{{height}}px"
               width="{{width}}px"
               [center]="mapsInfo.center"
