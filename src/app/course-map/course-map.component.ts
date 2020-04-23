@@ -11,6 +11,10 @@ import { isHandset, Observable } from '../ng-utilities';
 export class CourseMapComponent implements OnInit {
 
   isHandset$: Observable<boolean>;
+  mapsInfo = {
+    center: {lat: 34.787550, lng: 137.323436},
+    zoom: 18
+  };
 
   constructor(
     breakpointObserver: BreakpointObserver,

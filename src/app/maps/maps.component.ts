@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit
+  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input
 } from '@angular/core';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
@@ -13,6 +13,12 @@ import { Position } from '../models';
 type LatLng = google.maps.LatLng;
 type TeeType = 'front' | 'back';
 
+export { Position };
+export interface GoogleMapsInfo {
+  center: Position;
+  zoom: number;
+};
+
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
@@ -20,12 +26,11 @@ type TeeType = 'front' | 'back';
 })
 export class MapsComponent implements OnInit, AfterViewInit {
   @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
+  @Input() mapsInfo: GoogleMapsInfo;
   dataSource: CourseDataSource;
 
   width: number;
   height: number;
-  center = {lat: 34.787550, lng: 137.323436};
-  zoom = 18;
   mapOptions = {
     maxZoom: 20,
     minZoom: 17,

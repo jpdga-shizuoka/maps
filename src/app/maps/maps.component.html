@@ -2,8 +2,8 @@
   <google-map
               height="{{height}}px"
               width="{{width}}px"
-              [center]="center"
-              [zoom]="zoom"
+              [center]="mapsInfo.center"
+              [zoom]="mapsInfo.zoom"
               [options]="mapOptions">
 
     <map-polygon *ngFor="let area of obAreas"

@@ -7,7 +7,7 @@
       </app-course-table>
      </mat-tab>
     <mat-tab label="コースマップ">
-      <app-maps>
+      <app-maps [mapsInfo]="mapsInfo">
       </app-maps>
     </mat-tab>
   </mat-tab-group>
@@ -15,7 +15,7 @@
 
 <ng-template #elseBlock>
   <div class="combined">
-    <app-maps></app-maps>
+    <app-maps [mapsInfo]="mapsInfo"></app-maps>
     <app-course-table></app-course-table>
   </div>
 </ng-template>
