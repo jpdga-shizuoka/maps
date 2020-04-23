@@ -3,8 +3,10 @@
 <ng-template #thenBlock>
   <mat-tab-group>
     <mat-tab label="コース情報">
-      <app-course-table (holeClicked)="onHoleCliked($event)">
-      </app-course-table>
+      <div><!-- do not remove this block -->
+        <app-course-table (holeClicked)="onHoleCliked($event)">
+        </app-course-table>
+      </div>
      </mat-tab>
     <mat-tab label="コースマップ">
       <app-maps #appmaps [mapsInfo]="mapsInfo" (holeClicked)="onHoleMapCliked($event)">
