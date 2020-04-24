@@ -29,3 +29,16 @@ function distance(p1: Position, p2: Position) {
 function d2r(degrees) {
   return degrees * Math.PI / 180;
 }
+
+export function path2bounds(path: Position[]): google.maps.LatLngBounds {
+  const sw = {lat: 90, lng: 180};
+  const ne = {lat: -90, lng: -180};
+  path.forEach(p => {
+    sw.lat = Math.min(sw.lat, p.lat);
+    sw.lng = Math.min(sw.lng, p.lng);
+    ne.lat = Math.max(ne.lat, p.lat);
+    ne.lng = Math.max(ne.lng, p.lng);
+  });
+  return new google.maps.LatLngBounds(
+    new google.maps.LatLng(sw), new google.maps.LatLng(ne));
+}
