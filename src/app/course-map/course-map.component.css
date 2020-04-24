@@ -8,3 +8,8 @@
 .combined app-course-table {
   width: 320px;
 }
+@media screen and (max-width: 736px) {
+  app-course-table {
+    width: 100%;
+  }
+}

@@ -2,7 +2,7 @@
 
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 736px) {
   body: {
     margin: 0;
   }
