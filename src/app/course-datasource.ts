@@ -3,7 +3,7 @@ import { Observable, of as observableOf } from 'rxjs';
 
 import { HoleInfo } from './models';
 import { holeLength } from './map-utilities';
-import COURSE_DATA from '../assets/models/chubu_open_2019.1.pro.open.json';
+import COURSE_DATA from '../assets/models/chubu_open_2019.1.json';
 
 export { HoleInfo };
 
