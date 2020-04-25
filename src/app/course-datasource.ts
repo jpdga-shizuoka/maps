@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -11,6 +12,9 @@ export { HoleInfo };
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
+@Injectable({
+  providedIn: 'root'
+})
 export class CourseDataSource extends DataSource<HoleInfo> {
   data: HoleInfo[] = [];
 

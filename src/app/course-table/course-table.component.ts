@@ -5,7 +5,6 @@ import { MatTable } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 import { CourseDataSource, HoleInfo } from '../course-datasource';
-import { HoleinfoDataSource } from '../holeinfo-datasource';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { HoleMetaData, TeeType } from '../models';
 
@@ -24,14 +23,12 @@ import { HoleMetaData, TeeType } from '../models';
 export class CourseTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatTable) table: MatTable<HoleInfo>;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
-  dataSource: CourseDataSource;
   expandedHole: HoleInfo | null;
   displayedColumns = ['hole', 'back', 'front'];
 
-  constructor(private service: HoleinfoDataSource) {}
+  constructor(public dataSource: CourseDataSource) {}
 
   ngOnInit() {
-    this.dataSource = new CourseDataSource(this.service);
   }
 
   ngAfterViewInit() {
