@@ -1,14 +1,16 @@
 import {
-  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter
+  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter, OnDestroy
 } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
+import { Subscription } from 'rxjs';
 
 import {
   TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
 import { CourseDataSource, HoleInfo } from '../course-datasource';
 import { Position, HoleMetaData } from '../models';
+import { HoleinfoDataSource } from '../holeinfo-datasource';
 
 type LatLng = google.maps.LatLng;
 type TeeType = 'front' | 'back';
@@ -24,11 +26,10 @@ export interface GoogleMapsInfo {
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit, AfterViewInit {
+export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('googlemap') googlemap: GoogleMap;
   @Input() mapsInfo: GoogleMapsInfo;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
-  dataSource: CourseDataSource;
 
   width: number;
   height: number;
@@ -87,6 +88,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
   frontTees: google.maps.LatLng[] = [];
   dropZones: google.maps.LatLng[] = [];
   mandos: google.maps.LatLng[] = [];
+  subscription?: Subscription;
 
   private getHoleNumberFromIndex(index: number, type: TeeType) {
     let hole: HoleInfo;
@@ -125,6 +127,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
   constructor(
     private ngZone: NgZone,
     private el: ElementRef,
+    public dataSource: HoleinfoDataSource,
   ) { }
 
   ngOnInit(): void {
@@ -132,11 +135,17 @@ export class MapsComponent implements OnInit, AfterViewInit {
     this.width = rect.width;
     this.height = rect.height;
 
-    this.dataSource = new CourseDataSource();
+    // this.dataSource = new HoleinfoDataSource();
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 
   ngAfterViewInit() {
-    this.dataSource.connect().subscribe(holes => {
+    this.subscription = this.dataSource
+    .connect()
+    .subscribe(holes => {
       this.holes = holes;
       holes.forEach(hole => {
 
@@ -175,7 +184,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
           this.frontTees.push(new google.maps.LatLng(tee));
         }
       });
-    }).unsubscribe();
+    });
   }
 
   panTo(path: Position[]) {
