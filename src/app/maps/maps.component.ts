@@ -8,9 +8,8 @@ import { Subscription } from 'rxjs';
 import {
   TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
-import { CourseDataSource, HoleInfo } from '../course-datasource';
 import { Position, HoleMetaData } from '../models';
-import { HoleinfoDataSource } from '../holeinfo-datasource';
+import { HoleinfoDataSource, HoleInfo } from '../holeinfo-datasource';
 
 type LatLng = google.maps.LatLng;
 type TeeType = 'front' | 'back';

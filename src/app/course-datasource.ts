@@ -1,9 +1,8 @@
 import { DataSource } from '@angular/cdk/collections';
-import { Observable, of as observableOf } from 'rxjs';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-import { HoleInfo } from './models';
-import { holeLength } from './map-utilities';
-import COURSE_DATA from '../assets/models/chubu_open_2019.1.json';
+import { HoleinfoDataSource, HoleInfo } from './holeinfo-datasource';
 
 export { HoleInfo };
 
@@ -13,19 +12,10 @@ export { HoleInfo };
  * (including sorting, pagination, and filtering).
  */
 export class CourseDataSource extends DataSource<HoleInfo> {
-  data: HoleInfo[] = COURSE_DATA;
+  data: HoleInfo[] = [];
 
-  constructor() {
+  constructor(private service: HoleinfoDataSource) {
     super();
-
-    this.data.forEach(hole => {
-      if (hole.back) {
-        hole.back.length = holeLength(hole.back.path);
-      }
-      if (hole.front) {
-        hole.front.length = holeLength(hole.front.path);
-      }
-    });
   }
 
   /**
@@ -36,7 +26,9 @@ export class CourseDataSource extends DataSource<HoleInfo> {
   connect(): Observable<HoleInfo[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
-    return observableOf(this.data);
+    return this.service
+    .connect()
+    .pipe(tap(data => this.data = data));
   }
 
   /**
