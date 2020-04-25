@@ -18,7 +18,7 @@ export { HoleInfo };
 @Injectable({
   providedIn: 'root'
 })
-export class HoleinfoDataSource {
+export class CourseService {
 
   private courseId = 'chubu_open_2019.1';
 

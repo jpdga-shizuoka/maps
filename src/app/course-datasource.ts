@@ -3,7 +3,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { HoleinfoDataSource, HoleInfo } from './holeinfo-datasource';
+import { CourseService, HoleInfo } from './course-service';
 
 export { HoleInfo };
 
@@ -18,7 +18,7 @@ export { HoleInfo };
 export class CourseDataSource extends DataSource<HoleInfo> {
   data: HoleInfo[] = [];
 
-  constructor(private service: HoleinfoDataSource) {
+  constructor(private service: CourseService) {
     super();
   }
 

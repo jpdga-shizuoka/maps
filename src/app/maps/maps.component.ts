@@ -9,7 +9,7 @@ import {
   TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
 import { Position, HoleMetaData } from '../models';
-import { HoleinfoDataSource, HoleInfo } from '../holeinfo-datasource';
+import { CourseService, HoleInfo } from '../course-service';
 
 type LatLng = google.maps.LatLng;
 type TeeType = 'front' | 'back';
@@ -126,7 +126,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private ngZone: NgZone,
     private el: ElementRef,
-    public dataSource: HoleinfoDataSource,
+    public dataSource: CourseService,
   ) { }
 
   ngOnInit(): void {
@@ -134,7 +134,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.width = rect.width;
     this.height = rect.height;
 
-    // this.dataSource = new HoleinfoDataSource();
+    // this.dataSource = new CourseService();
   }
 
   ngOnDestroy() {
