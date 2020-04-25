@@ -4,6 +4,11 @@
   height: 100vh;
   margin: 0 auto;
 }
+.spinner-container {
+  position: absolute;
+  top: calc(100vh / 2 - 50px);
+  left: calc(100vw / 2 - 50px);
+}
 th.mat-header-cell,
 td.mat-footer-cell,
 td.mat-cell {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap, finalize } from 'rxjs/operators';
 
 import { CourseService, HoleInfo } from './course-service';
 
@@ -16,10 +16,19 @@ export { HoleInfo };
   providedIn: 'root'
 })
 export class CourseDataSource extends DataSource<HoleInfo> {
-  data: HoleInfo[] = [];
+
+  private readonly _loading: BehaviorSubject<boolean>;
+  get loading() { return this._loading.value; }
+  set loading(state: boolean) { this._loading.next(state); }
+
+  private readonly _data: BehaviorSubject<HoleInfo[]>;
+  get data() { return this._data.value; }
+  set data(info: HoleInfo[]) { this._data.next(info); }
 
   constructor(private service: CourseService) {
     super();
+    this._loading = new BehaviorSubject<boolean>(true);
+    this._data = new BehaviorSubject<HoleInfo[]>([]);
   }
 
   /**
@@ -30,9 +39,13 @@ export class CourseDataSource extends DataSource<HoleInfo> {
   connect(): Observable<HoleInfo[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
+    this.loading = true;
     return this.service
-    .connect()
-    .pipe(tap(data => this.data = data));
+      .connect()
+      .pipe(
+        tap(data => this.data = data),
+        finalize(() => this.loading = false)
+      );
   }
 
   /**

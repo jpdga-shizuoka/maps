@@ -72,6 +72,10 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     return `${Math.round(length)}m / Par${par}`;
   }
 
+  get isLoading() {
+    return this.dataSource.loading;
+  }
+
   isExpanded(hole: HoleInfo) {
     return this.expandedHole === hole;
   }

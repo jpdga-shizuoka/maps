@@ -11,6 +11,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -40,6 +41,7 @@ import { HoleInfoSheetComponent } from './hole-info-sheet/hole-info-sheet.compon
     MatTabsModule,
     MatBottomSheetModule,
     MatDividerModule,
+    MatProgressSpinnerModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent
