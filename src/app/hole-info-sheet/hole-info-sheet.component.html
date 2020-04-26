@@ -7,6 +7,6 @@
       {{data.data.length}}m/Par{{data.data.par}} {{data.teeType}}
     </h2>
     <mat-divider></mat-divider>
-    <p>{{data.description}}</p>
+    <p *ngFor="let description of data.description">{{description}}</p>
   </div>
 </div>

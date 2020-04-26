@@ -81,6 +81,10 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     return this.dataSource.loading;
   }
 
+  get descriptions() {
+    return this.dataSource.descriptions;
+  }
+
   isExpanded(hole: HoleData) {
     return this.expandedHole === hole;
   }

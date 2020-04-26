@@ -3,9 +3,16 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, finalize } from 'rxjs/operators';
 
-import { CourseService, HoleData, CourseId } from './course-service';
+import { CourseService, HoleData, CourseId, CourseData } from './course-service';
 
 export { HoleData, CourseId };
+
+const EMPTY_COURSE_DATA = {
+  id: '',
+  title: '',
+  description: [],
+  holes: []
+};
 
 /**
  * Data source for the CourseTable view. This class should
@@ -18,9 +25,13 @@ export class CourseDataSource extends DataSource<HoleData> {
   get loading() { return this._loading.value; }
   set loading(state: boolean) { this._loading.next(state); }
 
-  private readonly _data: BehaviorSubject<HoleData[]>;
-  get data() { return this._data.value; }
-  set data(info: HoleData[]) { this._data.next(info); }
+  private readonly _course: BehaviorSubject<CourseData>;
+  get course() { return this._course.value; }
+  set course(course: CourseData) { this._course.next(course); }
+
+  get title() { return this.course.title; }
+  get descriptions() { return this.course.description; }
+  get data() { return this.course.holes; }
 
   constructor(
     private readonly courseId: CourseId,
@@ -28,7 +39,7 @@ export class CourseDataSource extends DataSource<HoleData> {
   ) {
     super();
     this._loading = new BehaviorSubject<boolean>(true);
-    this._data = new BehaviorSubject<HoleData[]>([]);
+    this._course = new BehaviorSubject<CourseData>(EMPTY_COURSE_DATA);
   }
 
   /**
@@ -41,8 +52,8 @@ export class CourseDataSource extends DataSource<HoleData> {
     return this.service
       .getCourse(this.courseId)
       .pipe(
+        tap(course => this.course = course),
         map(course => course.holes),
-        tap(holes => this.data = holes),
         finalize(() => this.loading = false)
       );
   }

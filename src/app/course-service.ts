@@ -36,6 +36,7 @@ export class CourseService {
     return this.http
     .get<CourseData>(id2url('course', courseId), {responseType: 'json'})
     .pipe(
+      tap(course => course.description = string2array(course.description)),
       tap(course => course.holes.forEach(hole => {
         if (hole.back) {
           hole.back.length = holeLength(hole.back.path);
@@ -43,6 +44,7 @@ export class CourseService {
         if (hole.front) {
           hole.front.length = holeLength(hole.front.path);
         }
+        hole.description = string2array(hole.description);
       })),
       catchError(this.handleError<CourseData>('getCourse'))
     );
@@ -52,13 +54,14 @@ export class CourseService {
     return this.http
     .get<EventData[]>(id2url('events'), {responseType: 'json'})
     .pipe(
+      tap(events => events.forEach(event =>
+        event.description = string2array(event.description))),
       catchError(this.handleError<EventData[]>('getEvents'))
     );
   }
 
   getEvent(eventId: EventId): Observable<EventData> {
-    return this.http
-    .get<EventData[]>(id2url('events'), {responseType: 'json'})
+    return this.getEvents()
     .pipe(
       map(events => events.find(event => event.id === eventId)),
       catchError(this.handleError< EventData>('getEvent'))
@@ -70,4 +73,8 @@ function id2url(api: string, id?: CourseId | EventId) {
   return id
     ? `assets/models/${api}/${id}.json`
     : `assets/models/${api}.json`
+}
+
+function string2array(obj: string | string[]): string[] {
+  return typeof obj === 'string' ? [obj] : obj;
 }

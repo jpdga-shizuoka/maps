@@ -3,6 +3,16 @@
     <mat-spinner></mat-spinner>
   </div>
   <div class="mat-elevation-z2">
+
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>共通ルール</mat-expansion-panel-header>
+        <ul>
+          <li *ngFor="let description of descriptions">{{description}}</li>
+        </ul>
+      </mat-expansion-panel>
+    </mat-accordion>
+
     <table mat-table multiTemplateDataRows [dataSource]="dataSource">
 
       <ng-container matColumnDef="hole">
@@ -28,7 +38,7 @@
           <div class="hole-detail"
             [@detailExpand]="isExpanded(hole) ? 'expanded' : 'collapsed'">
             <div class="hole-description">
-              {{hole.description}}
+              <p *ngFor="let description of hole.description">{{description}}</p>
             </div>
           </div>
         </td>
