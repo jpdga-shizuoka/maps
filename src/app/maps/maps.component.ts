@@ -4,21 +4,18 @@ import {
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { ResizedEvent } from 'angular-resize-event';
 import { Subscription } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 import {
   TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
 import { Position, HoleMetaData } from '../models';
-import { CourseService, HoleInfo } from '../course-service';
+import { CourseService, HoleData, CourseData, CourseId } from '../course-service';
 
 type LatLng = google.maps.LatLng;
 type TeeType = 'front' | 'back';
 
 export { Position };
-export interface GoogleMapsInfo {
-  center: Position;
-  zoom: number;
-};
 
 @Component({
   selector: 'app-maps',
@@ -27,9 +24,13 @@ export interface GoogleMapsInfo {
 })
 export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('googlemap') googlemap: GoogleMap;
-  @Input() mapsInfo: GoogleMapsInfo;
+  @Input() courseId: CourseId;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
 
+  course?: CourseData;
+  get holes() {return this.course?.holes; }
+  get center() {return this.course?.center; }
+  zoom = 18;
   width: number;
   height: number;
   mapOptions = {
@@ -78,7 +79,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     icon: MandoSymbol,
   };
 
-  holes: HoleInfo[];
   backLines: google.maps.LatLng[][] = [];
   frontLines: google.maps.LatLng[][] = [];
   obAreas: google.maps.LatLng[][] = [];
@@ -90,7 +90,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   subscription?: Subscription;
 
   private getHoleNumberFromIndex(index: number, type: TeeType) {
-    let hole: HoleInfo;
+    let hole: HoleData;
     let position = 0;
 
     for (let i = 0; i < this.holes.length; i++) {
@@ -102,7 +102,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         break;
       }
     }
-    return hole.holeNumber;
+    return hole.number;
   }
 
   private getMarker(index: number, type: TeeType) {
@@ -124,17 +124,15 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(
-    private ngZone: NgZone,
-    private el: ElementRef,
-    public dataSource: CourseService,
+    private readonly ngZone: NgZone,
+    private readonly el: ElementRef,
+    private readonly courseService: CourseService,
   ) { }
 
   ngOnInit(): void {
     const rect = this.el.nativeElement.getBoundingClientRect();
     this.width = rect.width;
     this.height = rect.height;
-
-    // this.dataSource = new CourseService();
   }
 
   ngOnDestroy() {
@@ -142,10 +140,12 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.subscription = this.dataSource
-    .connect()
-    .subscribe(holes => {
-      this.holes = holes;
+    this.subscription = this.courseService
+    .getCourse(this.courseId)
+    .pipe(
+      tap(course => this.course = course),
+      map(course => this.holes)
+    ).subscribe(holes => {
       holes.forEach(hole => {
 
         if (hole.back) {
@@ -192,13 +192,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getHoleFromIndex(index: number, type: TeeType) {
     const holeNumber = this.getHoleNumberFromIndex(index, type);
-    return this.holes.find(hole => hole.holeNumber === holeNumber);
+    return this.holes.find(hole => hole.number === holeNumber);
   }
 
   onBackTeeClicked(teemarker: MapMarker, index: number) {
     const hole = this.getHoleFromIndex(index, 'back');
     const metadata = {
-      hole: hole.holeNumber,
+      hole: hole.number,
       teeType: 'back' as TeeType,
       description: hole.description,
       data: hole.back
@@ -209,7 +209,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   onFrontTeeClicked(teemarker: MapMarker, index: number) {
     const hole = this.getHoleFromIndex(index, 'front');
     const metadata = {
-      hole: hole.holeNumber,
+      hole: hole.number,
       teeType: 'front' as TeeType,
       description: hole.description,
       data: hole.front || hole.back

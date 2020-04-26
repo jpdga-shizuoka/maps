@@ -4,33 +4,60 @@ export interface Position {
   lng: number;
 }
 
+type Polyline = Position[];
+type Polygon = Position[];
+
 export type TeeType = 'front' | 'back';
 export type HoleNumber = number;
-export type HoleLine = Position[];
-export type Area = Position[];
-export type ObLine = Position[];
+export type HolePath = Polyline;
+export type Area = Polygon;
+export type ObLine = Polyline;
+export type Descriptions = string | string[];
+export type CourseId = string;
+export type EventId = string;
 
-export interface HoleData {
-  path: HoleLine;
+export interface HoleLine {
+  path: HolePath;
   par: number;
   length?: number;
-}
-
-export interface HoleInfo {
-  holeNumber: HoleNumber;
-  back?: HoleData;
-  front?: HoleData;
-  description?: string;
-  dropzones?: Position[];
-  mandos?: Position[];
-  safeAreas?: Area[];
-  obAreas?: Area[];
-  obLines?: ObLine[];
 }
 
 export interface HoleMetaData {
   hole: number;
   teeType: TeeType;
-  description: string;
-  data: HoleData;
+  description: Descriptions;
+  data: HoleLine;
+}
+
+export interface HoleData {
+  number: HoleNumber;         // eg. 1,2,3,...18,...
+  back?: HoleLine;            // フロントティーからターゲットまでのライン
+  front?: HoleLine;           // バックティーからターゲットまでのライン
+  description?: Descriptions; // OBルール
+  dropzones?: Position[];     // ドロップゾーン位置
+  mandos?: Position[];        // マンダトリー位置
+  safeAreas?: Area[];         // セーフエリア位置
+  obAreas?: Area[];           // OBエリア位置
+  obLines?: ObLine[];         // OBライン位置
+}
+
+//  GET course/$courseId      return CourseData
+//    eg. course/chubu_open_2019.1
+export interface CourseData {
+  id: CourseId;               // eg. chubu_open_2019.1
+  title: string;              // eg. 第1,2,3ラウンド,準決,決勝
+  description?: Descriptions; // eg. OB共通ルール
+  center?: Position;          // コースマップの中心座標
+  holes: HoleData[];          // ホール情報
+}
+
+//  GET event                 return EventData[]
+//    eg. event
+//  GET event/$eventId        return EventData
+//    eg. event/chubu_open_2019
+export interface EventData {
+  id: EventId;                // eg. chubu_open_2019
+  title: string;              // eg. 第19回中部オープン
+  description?: Descriptions; //
+  courses: CourseId[];        // eg. [chubu_open_2019.1, chubu_open_2019.4, chubu_open_2019.5]
 }

@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
 import { isHandset, Observable } from '../ng-utilities';
-import { HoleMetaData } from '../models';
+import { HoleMetaData, CourseId } from '../models';
 import { MapsComponent } from '../maps/maps.component';
 import { CourseTableComponent } from '../course-table/course-table.component';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
@@ -16,15 +16,11 @@ import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.compo
 export class CourseMapComponent implements OnInit {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
-
+  @Input() courseId: CourseId = 'chubu_open_2019.1';
   isHandset$: Observable<boolean>;
-  mapsInfo = {
-    center: {lat: 34.787550, lng: 137.323436},
-    zoom: 18
-  };
 
   constructor(
-    private sheet: MatBottomSheet,
+    private readonly sheet: MatBottomSheet,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);

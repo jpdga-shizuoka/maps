@@ -1,10 +1,11 @@
 import {
-  AfterViewInit, Component, OnInit, ViewChild, Output, EventEmitter
+  AfterViewInit, Component, OnInit, ViewChild, Output, EventEmitter, Input
 } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-import { CourseDataSource, HoleInfo } from '../course-datasource';
+import { CourseService, HoleData, CourseId } from '../course-service';
+import { CourseDataSource } from '../course-datasource';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { HoleMetaData, TeeType } from '../models';
 
@@ -21,14 +22,18 @@ import { HoleMetaData, TeeType } from '../models';
   ],
 })
 export class CourseTableComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatTable) table: MatTable<HoleInfo>;
+  @ViewChild(MatTable) table: MatTable<HoleData>;
+  @Input() courseId: CourseId;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
-  expandedHole: HoleInfo | null;
-  displayedColumns = ['hole', 'back', 'front'];
+  readonly displayedColumns = ['hole', 'back', 'front'];
+  dataSource?: CourseDataSource;
+  expandedHole: HoleData | null;
 
-  constructor(public dataSource: CourseDataSource) {}
+  constructor(private readonly courseService: CourseService) {
+  }
 
   ngOnInit() {
+    this.dataSource = new CourseDataSource(this.courseId, this.courseService);
   }
 
   ngAfterViewInit() {
@@ -76,16 +81,16 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     return this.dataSource.loading;
   }
 
-  isExpanded(hole: HoleInfo) {
+  isExpanded(hole: HoleData) {
     return this.expandedHole === hole;
   }
 
-  onBackClick(hole: HoleInfo) {
+  onBackClick(hole: HoleData) {
     if (this.expandedHole === hole) {
       return;
     }
     const metadata = {
-      hole: hole.holeNumber,
+      hole: hole.number,
       teeType: 'back' as TeeType,
       description: hole.description,
       data: hole.back
@@ -93,12 +98,12 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     this.holeClicked.emit(metadata);
   }
 
-  onFrontClick(hole: HoleInfo) {
+  onFrontClick(hole: HoleData) {
     if (this.expandedHole === hole) {
       return;
     }
     const metadata = {
-      hole: hole.holeNumber,
+      hole: hole.number,
       teeType: 'front' as TeeType,
       description: hole.description,
       data: hole.front
@@ -108,6 +113,6 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
 
   notifyHole(data: HoleMetaData) {
     this.expandedHole
-      = this.dataSource.data.find(h => h.holeNumber === data.hole);
+      = this.dataSource.data.find(h => h.number === data.hole);
   }
 }
