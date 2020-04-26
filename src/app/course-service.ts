@@ -3,12 +3,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, of as observableOf, throwError } from 'rxjs';
-import { catchError, retry, tap } from 'rxjs/operators';
+import { catchError, retry, tap, map } from 'rxjs/operators';
 
-import { HoleData, CourseId, CourseData } from './models';
+import { HoleData, CourseId, CourseData, EventData, EventId } from './models';
 import { holeLength } from './map-utilities';
 
-export { HoleData, CourseId, CourseData };
+export { HoleData, CourseId, CourseData, EventId, EventData };
+
+const options = {
+  responseType: 'json'
+};
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +47,27 @@ export class CourseService {
       catchError(this.handleError<CourseData>('getCourse'))
     );
   }
+
+  getEvents(): Observable<EventData[]> {
+    return this.http
+    .get<EventData[]>(id2url('events'), {responseType: 'json'})
+    .pipe(
+      catchError(this.handleError<EventData[]>('getEvents'))
+    );
+  }
+
+  getEvent(eventId: EventId): Observable<EventData> {
+    return this.http
+    .get<EventData[]>(id2url('events'), {responseType: 'json'})
+    .pipe(
+      map(events => events.find(event => event.id === eventId)),
+      catchError(this.handleError< EventData>('getEvent'))
+    );
+  }
 }
 
-function id2url(api: string, courseId: CourseId) {
-  return `assets/models/${api}/${courseId}.json`;
+function id2url(api: string, id?: CourseId | EventId) {
+  return id
+    ? `assets/models/${api}/${id}.json`
+    : `assets/models/${api}.json`
 }

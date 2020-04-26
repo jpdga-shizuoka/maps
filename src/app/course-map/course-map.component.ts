@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, ViewChild, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 
@@ -13,20 +14,17 @@ import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.compo
   templateUrl: './course-map.component.html',
   styleUrls: ['./course-map.component.css']
 })
-export class CourseMapComponent implements OnInit {
+export class CourseMapComponent {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
-  @Input() courseId: CourseId = 'chubu_open_2019.1';
   isHandset$: Observable<boolean>;
 
   constructor(
+    private readonly route: ActivatedRoute,
     private readonly sheet: MatBottomSheet,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
-  }
-
-  ngOnInit(): void {
   }
 
   onHoleCliked(hole: HoleMetaData) {
@@ -42,5 +40,9 @@ export class CourseMapComponent implements OnInit {
       ? this.sheet.open(HoleInfoSheetComponent, {data: hole})
       : this.table.notifyHole(hole)
     ).unsubscribe();
+  }
+
+  get courseId() {
+    return this.route.snapshot.paramMap.get('courseId');
   }
 }
