@@ -46,6 +46,5 @@ export class CourseService {
 }
 
 function id2url(api: string, courseId: CourseId) {
-  // return `${api}/${courseId}.json`;
-  return `assets/models/${courseId}.json`;
+  return `assets/models/${api}/${courseId}.json`;
 }
