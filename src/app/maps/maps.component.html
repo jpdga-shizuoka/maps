@@ -35,12 +35,14 @@
               (mapClick)="onDropzoneClicked(dzmarker, i)"></map-marker>
 
     <map-marker #teemarker *ngFor="let tee of backTees; index as i"
-              [position]="tee"
-              [options]="backTeeOptions(i)"
-              (mapClick)="onBackTeeClicked(teemarker, i)"></map-marker>
+              [title]="tee.title"
+              [position]="tee.position"
+              [options]="backTeeOptions(tee.title)"
+              (mapClick)="onBackTeeClicked(teemarker)"></map-marker>
     <map-marker #teemarker *ngFor="let tee of frontTees; index as i"
-              [position]="tee"
-              [options]="frontTeeOptions(i)"
-              (mapClick)="onFrontTeeClicked(teemarker, i)"></map-marker>
+              [title]="tee.title"
+              [position]="tee.position"
+              [options]="frontTeeOptions(tee.title)"
+              (mapClick)="onFrontTeeClicked(teemarker)"></map-marker>
   </google-map>
 </div>

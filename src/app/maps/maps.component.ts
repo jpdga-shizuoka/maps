@@ -96,43 +96,22 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   safeAreas: google.maps.LatLng[][] = [];
   obAreas: google.maps.LatLng[][] = [];
   obLines: google.maps.LatLng[][] = [];
-  backTees: google.maps.LatLng[] = [];
-  frontTees: google.maps.LatLng[] = [];
+  backTees: MarkerInfo[] = [];
+  frontTees: MarkerInfo[] = [];
   dropZones: MarkerInfo[] = [];
   mandos: MarkerInfo[] = [];
   subscription?: Subscription;
 
-  private getHoleNumberFromIndex(index: number, type: TeeType) {
-    let hole: HoleData;
-    let position = 0;
-
-    for (let i = 0; i < this.holes.length; i++) {
-      hole = this.holes[i];
-      if (hole[type]) {
-        position++;
-      }
-      if (index < position) {
-        break;
-      }
-    }
-    return hole.number;
-  }
-
-  private getMarker(index: number, type: TeeType) {
-    const holeNumber = this.getHoleNumberFromIndex(index, type);
-    return (type === 'front' ? FrontMarkers : BackMarkers)[holeNumber - 1];
-  }
-
-  backTeeOptions(index: number) {
+  backTeeOptions(index: string) {
     return {
       draggable: false,
-      icon: this.getMarker(index, 'back'),
+      icon: this.getMarker(Number(index), 'back'),
     };
   }
-  frontTeeOptions(index: number) {
+  frontTeeOptions(index: string) {
     return {
       draggable: false,
-      icon: this.getMarker(index, 'front'),
+      icon: this.getMarker(Number(index), 'front'),
     };
   }
 
@@ -201,11 +180,17 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (hole.back) {
           const tee = hole.back.path[0];
-          this.backTees.push(new google.maps.LatLng(tee));
+          this.backTees.push({
+            title: hole.number.toString(),
+            position: new google.maps.LatLng(tee)
+          });
         }
         if (hole.front) {
           const tee = hole.front.path[0];
-          this.frontTees.push(new google.maps.LatLng(tee));
+          this.frontTees.push({
+            title: hole.number.toString(),
+            position: new google.maps.LatLng(tee)
+          });
         }
       });
     });
@@ -213,11 +198,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   panTo(path: Position[]) {
     this.googlemap.panTo(new google.maps.LatLng(path[0]));
-  }
-
-  private getHoleFromIndex(index: number, type: TeeType) {
-    const holeNumber = this.getHoleNumberFromIndex(index, type);
-    return this.holes.find(hole => hole.number === holeNumber);
   }
 
   onMandoClicked(marker: MapMarker, index: number) {
@@ -228,26 +208,26 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.holeClicked.emit(this.getMetadata(marker, index, 'dz'));
   }
 
-  onBackTeeClicked(teemarker: MapMarker, index: number) {
-    const hole = this.getHoleFromIndex(index, 'back');
-    const metadata = {
+  onBackTeeClicked(marker: MapMarker) {
+    const holeNumber = Number(marker.getTitle());
+    const hole = this.holes[holeNumber - 1];
+    this.holeClicked.emit({
       hole: hole.number,
       teeType: 'back' as TeeType,
       description: hole.description,
       data: hole.back
-    };
-    this.holeClicked.emit(metadata);
+    });
   }
 
-  onFrontTeeClicked(teemarker: MapMarker, index: number) {
-    const hole = this.getHoleFromIndex(index, 'front');
-    const metadata = {
+  onFrontTeeClicked(marker: MapMarker) {
+    const holeNumber = Number(marker.getTitle());
+    const hole = this.holes[holeNumber - 1];
+    this.holeClicked.emit({
       hole: hole.number,
       teeType: 'front' as TeeType,
       description: hole.description,
       data: hole.front || hole.back
-    };
-    this.holeClicked.emit(metadata);
+    });
   }
 
   onResized(event: ResizedEvent) {
@@ -273,5 +253,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
         par: 0
       }
     };
+  }
+
+  private getMarker(holeNumber: number, type: TeeType) {
+    return (type === 'front' ? FrontMarkers : BackMarkers)[holeNumber - 1];
   }
 }
