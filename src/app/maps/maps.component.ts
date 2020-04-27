@@ -2,6 +2,7 @@ import {
   Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter, OnDestroy
 } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ResizedEvent } from 'angular-resize-event';
 import { Subscription } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
@@ -11,6 +12,7 @@ import {
 } from '../Symbols';
 import { Position, HoleMetaData, TeeType } from '../models';
 import { CourseService, HoleData, CourseData, CourseId } from '../course-service';
+import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { holeLength } from '../map-utilities';
 
 type LatLng = google.maps.LatLng;
@@ -116,6 +118,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(
+    private readonly sheet: MatBottomSheet,
     private readonly ngZone: NgZone,
     private readonly el: ElementRef,
     private readonly courseService: CourseService,
@@ -238,6 +241,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   private issueEvent(meta: HoleMetaData) {
     this.holeClicked.emit(meta);
     this.panTo(meta.data.path);
+    this.sheet.open(HoleInfoSheetComponent, {data: meta})
   }
 
   private getMetadata(marker: MapMarker, index: number, type: TeeType) {
