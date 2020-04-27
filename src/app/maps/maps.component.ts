@@ -201,17 +201,17 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onMandoClicked(marker: MapMarker, index: number) {
-    this.holeClicked.emit(this.getMetadata(marker, index, 'mando'));
+    this.issueEvent(this.getMetadata(marker, index, 'mando'));
   }
 
   onDropzoneClicked(marker: MapMarker, index: number) {
-    this.holeClicked.emit(this.getMetadata(marker, index, 'dz'));
+    this.issueEvent(this.getMetadata(marker, index, 'dz'));
   }
 
   onBackTeeClicked(marker: MapMarker) {
     const holeNumber = Number(marker.getTitle());
     const hole = this.holes[holeNumber - 1];
-    this.holeClicked.emit({
+    this.issueEvent({
       hole: hole.number,
       teeType: 'back' as TeeType,
       description: hole.description,
@@ -222,7 +222,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   onFrontTeeClicked(marker: MapMarker) {
     const holeNumber = Number(marker.getTitle());
     const hole = this.holes[holeNumber - 1];
-    this.holeClicked.emit({
+    this.issueEvent({
       hole: hole.number,
       teeType: 'front' as TeeType,
       description: hole.description,
@@ -233,6 +233,11 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   onResized(event: ResizedEvent) {
     this.width = event.newWidth;
     this.height = event.newHeight;
+  }
+
+  private issueEvent(meta: HoleMetaData) {
+    this.holeClicked.emit(meta);
+    this.panTo(meta.data.path);
   }
 
   private getMetadata(marker: MapMarker, index: number, type: TeeType) {
