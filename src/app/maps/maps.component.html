@@ -6,6 +6,9 @@
               [zoom]="zoom"
               [options]="mapOptions">
 
+    <map-polygon *ngFor="let area of safeAreas"
+              [paths]="area"
+              [options]="safeAreaOptions"></map-polygon>
     <map-polygon *ngFor="let area of obAreas"
               [paths]="area"
               [options]="obAreaOptions"></map-polygon>

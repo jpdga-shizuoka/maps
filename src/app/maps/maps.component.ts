@@ -30,7 +30,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   course?: CourseData;
   get holes() {return this.course?.holes; }
   get center() {return this.course?.center; }
-  zoom = 18;
+  zoom = 17;
   width: number;
   height: number;
   mapOptions = {
@@ -58,16 +58,23 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
       {icon: GoalSymbol, offset: '100%'}
     ],
   };
+  safeAreaOptions = {
+    strokeColor: 'green',
+    strokeOpacity: 0.3,
+    strokeWeight: 2,
+    fillColor: 'green',
+    fillOpacity: 0.3
+  };
   obLineOptions = {
     strokeColor: 'red',
     strokeOpacity: 0.5,
     strokeWeight: 6,
   };
   obAreaOptions = {
-    strokeColor: '#FF0000',
+    strokeColor: 'red',
     strokeOpacity: 0.3,
     strokeWeight: 2,
-    fillColor: '#FF0000',
+    fillColor: 'red',
     fillOpacity: 0.3
   };
   dropZoneOptions = {
@@ -81,6 +88,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   backLines: google.maps.LatLng[][] = [];
   frontLines: google.maps.LatLng[][] = [];
+  safeAreas: google.maps.LatLng[][] = [];
   obAreas: google.maps.LatLng[][] = [];
   obLines: google.maps.LatLng[][] = [];
   backTees: google.maps.LatLng[] = [];
@@ -158,6 +166,12 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           hole.front.path.forEach(point => path.push(new google.maps.LatLng(point)));
           this.frontLines.push(path);
         }
+
+        const safeArea: LatLng[] = [];
+        hole.safeAreas?.forEach(area => {
+          area.forEach(point => safeArea.push(new google.maps.LatLng(point)));
+          this.safeAreas.push(safeArea);
+        });
 
         const obArea: LatLng[] = [];
         hole.obAreas?.forEach(area => {
