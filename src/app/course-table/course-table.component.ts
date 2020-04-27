@@ -89,6 +89,10 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     return this.expandedHole === hole;
   }
 
+  hasDescriptions(hole: HoleData) {
+    return hole.description && hole.description[0].length > 0;
+  }
+
   onBackClick(hole: HoleData) {
     if (this.expandedHole === hole) {
       return;

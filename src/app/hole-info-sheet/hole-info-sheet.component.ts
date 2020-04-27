@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
 
 import { HoleMetaData } from '../models';
@@ -8,13 +8,13 @@ import { HoleMetaData } from '../models';
   templateUrl: './hole-info-sheet.component.html',
   styleUrls: ['./hole-info-sheet.component.css']
 })
-export class HoleInfoSheetComponent implements OnInit {
+export class HoleInfoSheetComponent {
 
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: HoleMetaData,
   ) { }
 
-  ngOnInit(): void {
+  get hasDescriptions() {
+    return this.data.description && this.data.description[0].length > 0;
   }
-
 }

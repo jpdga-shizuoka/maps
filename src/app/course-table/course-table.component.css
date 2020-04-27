@@ -12,9 +12,12 @@
 .course-table-container table {
   width: 100%;
 }
+mat-expansion-panel ul {
+  margin-block-start: 0;
+}
 th.mat-header-cell,
 td.mat-footer-cell,
-td.mat-cell {
+td.mat-cell:not(.mat-column-expandedDetail) {
   text-align: center;
 }
 tr.mat-footer-row {
@@ -52,7 +55,6 @@ tr.hole-row:not(.expanded-row):active {
   background-color: #f8effb;
 }
 .hole-description {
-  padding: 16px;
 }
 .expanded-row {
   background-color: #f8effb;
