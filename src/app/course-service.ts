@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of as observableOf, throwError } from 'rxjs';
 import { catchError, retry, tap, map } from 'rxjs/operators';
 
-import { HoleData, CourseId, CourseData, EventData, EventId } from './models';
+import { HoleData, CourseId, CourseData, EventData, EventId, Position, Area } from './models';
 import { holeLength } from './map-utilities';
 
 export { HoleData, CourseId, CourseData, EventId, EventData };
@@ -36,14 +36,24 @@ export class CourseService {
     return this.http
     .get<CourseData>(id2url('course', courseId), {responseType: 'json'})
     .pipe(
-      tap(course => course.description = string2array(course.description)),
+      tap(course => {
+        course.description = string2array(course.description);
+        course.center = array2position(course.center);
+      }),
       tap(course => course.holes.forEach(hole => {
         if (hole.back) {
+          hole.back.path = a2p4array(hole.back.path);
           hole.back.length = holeLength(hole.back.path);
         }
         if (hole.front) {
+          hole.front.path = a2p4array(hole.front.path);
           hole.front.length = holeLength(hole.front.path);
         }
+        hole.dropzones = a2p4array(hole.dropzones);
+        hole.mandos = a2p4array(hole.mandos);
+        hole.safeAreas = arrayOfArea(hole.safeAreas);
+        hole.obAreas = arrayOfArea(hole.obAreas);
+        hole.obLines = arrayOfArea(hole.obLines);
         hole.description = string2array(hole.description);
       })),
       catchError(this.handleError<CourseData>('getCourse'))
@@ -75,6 +85,31 @@ function id2url(api: string, id?: CourseId | EventId) {
     : `assets/models/${api}.json`
 }
 
-function string2array(obj: string | string[]): string[] {
+function string2array(obj?: string | string[]) {
+  if (!obj) {
+    return;
+  }
   return typeof obj === 'string' ? [obj] : obj;
+}
+
+function array2position(obj: number[] | Position): Position {
+  return obj.constructor === Array ? {lat: obj[0], lng: obj[1]} : obj as Position;
+}
+
+function a2p4array(positions?: Position[]) {
+  if (!positions) {
+    return;
+  }
+  const result: Position[] = [];
+  positions.forEach(p => result.push(array2position(p)));
+  return result;
+}
+
+function arrayOfArea(areas?: Area[]) {
+  if (!areas) {
+    return;
+  }
+  const result: Area[] = [];
+  areas.forEach(a => result.push(a2p4array(a)));
+  return result;
 }
