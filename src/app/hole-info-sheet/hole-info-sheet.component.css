@@ -18,10 +18,12 @@
 .hole-info h2 {
   text-align: center;
   margin: 10px 0;
+  font-size: 1.1rem;
 }
 .hole-info .mat-divider {
   margin: 10px 0;
 }
 .hole-info p {
   margin: 10px 0;
+  font-size: 0.9rem;
 }
