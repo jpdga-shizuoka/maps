@@ -167,20 +167,20 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.frontLines.push(path);
         }
 
-        const safeArea: LatLng[] = [];
         hole.safeAreas?.forEach(area => {
+          const safeArea: LatLng[] = [];
           area.forEach(point => safeArea.push(new google.maps.LatLng(point)));
           this.safeAreas.push(safeArea);
         });
 
-        const obArea: LatLng[] = [];
         hole.obAreas?.forEach(area => {
+          const obArea: LatLng[] = [];
           area.forEach(point => obArea.push(new google.maps.LatLng(point)));
           this.obAreas.push(obArea);
         });
 
-        const obLine: LatLng[] = [];
         hole.obLines?.forEach(line => {
+          const obLine: LatLng[] = [];
           line.forEach(point => obLine.push(new google.maps.LatLng(point)));
           this.obLines.push(obLine);
         });
