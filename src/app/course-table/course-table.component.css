@@ -9,6 +9,9 @@
   top: calc(100vh / 2 - 50px);
   left: calc(100vw / 2 - 50px);
 }
+.course-table-container table {
+  width: 100%;
+}
 th.mat-header-cell,
 td.mat-footer-cell,
 td.mat-cell {
