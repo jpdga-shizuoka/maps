@@ -4,5 +4,11 @@
     "title": "第19回中部オープン",
     "description": "説明",
     "courses": ["chubu_open_2019.1"]
+  },
+  {
+    "id": "pwpf_cup_2019",
+    "title": "PWPFカップ2019",
+    "description": "説明",
+    "courses": ["pwpf_cup_2019.1"]
   }
 ]
