@@ -9,13 +9,18 @@ import { tap, map } from 'rxjs/operators';
 import {
   TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
 } from '../Symbols';
-import { Position, HoleMetaData } from '../models';
+import { Position, HoleMetaData, TeeType } from '../models';
 import { CourseService, HoleData, CourseData, CourseId } from '../course-service';
+import { holeLength } from '../map-utilities';
 
 type LatLng = google.maps.LatLng;
-type TeeType = 'front' | 'back';
 
 export { Position };
+
+interface MarkerInfo {
+  title: string;
+  position: google.maps.LatLng;
+}
 
 @Component({
   selector: 'app-maps',
@@ -93,8 +98,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   obLines: google.maps.LatLng[][] = [];
   backTees: google.maps.LatLng[] = [];
   frontTees: google.maps.LatLng[] = [];
-  dropZones: google.maps.LatLng[] = [];
-  mandos: google.maps.LatLng[] = [];
+  dropZones: MarkerInfo[] = [];
+  mandos: MarkerInfo[] = [];
   subscription?: Subscription;
 
   private getHoleNumberFromIndex(index: number, type: TeeType) {
@@ -185,8 +190,14 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.obLines.push(obLine);
         });
 
-        hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
-        hole.dropzones?.forEach(zone => this.dropZones.push(new google.maps.LatLng(zone)));
+        hole.mandos?.forEach(mando => this.mandos.push({
+          title: hole.number.toString(),
+          position: new google.maps.LatLng(mando)
+        }));
+        hole.dropzones?.forEach(dz => this.dropZones.push({
+          title: hole.number.toString(),
+          position: new google.maps.LatLng(dz)
+        }));
 
         if (hole.back) {
           const tee = hole.back.path[0];
@@ -207,6 +218,14 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getHoleFromIndex(index: number, type: TeeType) {
     const holeNumber = this.getHoleNumberFromIndex(index, type);
     return this.holes.find(hole => hole.number === holeNumber);
+  }
+
+  onMandoClicked(marker: MapMarker, index: number) {
+    this.holeClicked.emit(this.getMetadata(marker, index, 'mando'));
+  }
+
+  onDropzoneClicked(marker: MapMarker, index: number) {
+    this.holeClicked.emit(this.getMetadata(marker, index, 'dz'));
   }
 
   onBackTeeClicked(teemarker: MapMarker, index: number) {
@@ -234,5 +253,25 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   onResized(event: ResizedEvent) {
     this.width = event.newWidth;
     this.height = event.newHeight;
+  }
+
+  private getMetadata(marker: MapMarker, index: number, type: TeeType) {
+    const holeNumber = Number(marker.getTitle());
+    const hole = this.holes[holeNumber - 1];
+    const markers = type === 'dz' ? this.dropZones : this.mandos;
+    const position = markers[index].position;
+    const start = {lat: position.lat(), lng: position.lng()};
+    const end = hole.back.path[hole.back.path.length - 1];
+    const path = [start, end];
+    return {
+      hole: holeNumber,
+      teeType: type,
+      description: [""],
+      data: {
+        path: path,
+        length: holeLength(path),
+        par: 0
+      }
+    };
   }
 }

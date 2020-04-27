@@ -23,12 +23,16 @@
               [path]="line"
               [options]="backLineOptions"></map-polyline>
 
-    <map-marker *ngFor="let mando of mandos"
-              [position]="mando"
-              [options]="mandoOptions"></map-marker>
-    <map-marker *ngFor="let zone of dropZones"
-              [position]="zone"
-              [options]="dropZoneOptions"></map-marker>
+    <map-marker #mandomarker *ngFor="let mando of mandos; index as i"
+              [title]="mando.title"
+              [position]="mando.position"
+              [options]="mandoOptions"
+              (mapClick)="onMandoClicked(mandomarker, i)"></map-marker>
+    <map-marker #dzmarker *ngFor="let dz of dropZones; index as i"
+              [title]="dz.title"
+              [position]="dz.position"
+              [options]="dropZoneOptions"
+              (mapClick)="onDropzoneClicked(dzmarker, i)"></map-marker>
 
     <map-marker #teemarker *ngFor="let tee of backTees; index as i"
               [position]="tee"

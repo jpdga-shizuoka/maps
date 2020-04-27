@@ -7,7 +7,7 @@ export interface Position {
 type Polyline = Position[];
 type Polygon = Position[];
 
-export type TeeType = 'front' | 'back';
+export type TeeType = 'front' | 'back' | 'dz' | 'mando';
 export type HoleNumber = number;
 export type HolePath = Polyline;
 export type Area = Polygon;
