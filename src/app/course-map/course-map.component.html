@@ -9,8 +9,10 @@
       </div>
      </mat-tab>
     <mat-tab label="コースマップ">
-      <app-maps #appmaps [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
-      </app-maps>
+      <div class="app-maps">
+        <app-maps #appmaps [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
+        </app-maps>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </ng-template>

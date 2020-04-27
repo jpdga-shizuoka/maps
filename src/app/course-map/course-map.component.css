@@ -12,4 +12,7 @@
   app-course-table {
     width: 100%;
   }
+  .app-maps {
+    height: calc(100vh - 100px);
+  }
 }
