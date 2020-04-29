@@ -1,13 +1,4 @@
-<div class="hole-sheet"
-  [style.-webkit-transform-origin]="origin"
-  [style.transform-origin]="origin"
-  [style.-webkit-transform]="'scale(' + scale + ',1)'"
-  [style.transform]="'scale(' + scale + ',1)'"
-  (pointerdown)="onPointerDown($event)"
-  (pointermove)="onPointerMove($event)"
-  (pointerup)="onPointerUp($event)"
-  (swipeleft)="onSwipeLeft($event)"
-  (swiperight)="onSwipeRight($event)">
+<div matRipple class="hole-sheet ripple-container" (click)="onClick($event)">
   <div class="hole-number">
     <img src="{{teeMark}}" alt="">
   </div>

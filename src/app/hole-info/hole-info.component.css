@@ -1,3 +1,6 @@
+.ripple-container {
+  cursor: pointer;
+}
 .hole-sheet {
   display: flex;
   vertical-align: middle;

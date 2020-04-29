@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HammerModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularResizedEventModule } from 'angular-resize-event';
@@ -14,6 +13,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatRippleModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,8 +24,6 @@ import { HoleInfoSheetComponent } from './hole-info-sheet/hole-info-sheet.compon
 import { EventTableComponent } from './event-table/event-table.component';
 import { EventComponent } from './event/event.component';
 import { HoleInfoComponent } from './hole-info/hole-info.component';
-
-import { MyGestureConfig} from './my-gesture-config';
 
 @NgModule({
   declarations: [
@@ -53,15 +51,12 @@ import { MyGestureConfig} from './my-gesture-config';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
-    HammerModule,
+    MatRippleModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent
   ],
-  providers: [{
-    provide: HAMMER_GESTURE_CONFIG,
-    useClass: MyGestureConfig
-  }],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

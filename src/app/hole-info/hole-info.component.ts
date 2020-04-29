@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { HoleMetaData } from '../models';
 
@@ -19,7 +19,7 @@ export class HoleInfoComponent implements OnInit {
   @Output() next = new EventEmitter<HoleMetaData>();
   @Output() prev = new EventEmitter<HoleMetaData>();
 
-  constructor() { }
+  constructor(private readonly el: ElementRef) { }
 
   ngOnInit(): void {
   }
@@ -77,43 +77,13 @@ export class HoleInfoComponent implements OnInit {
     }
   }
 
-  get scale() {
-    return (500 - Math.abs(this.dx/4))/500;
-  }
-  get origin() {
-    return this.dx >= 0 ? 'left' : 'right';
-  }
-
-  private mousedown = false;
-  private clientX = 0;
-  private dx = 0;
-
-  onSwipeLeft(event) {
-    this.next.emit(this.data);
-    this.onMouseUp(event);
-  }
-
-  onSwipeRight(event) {
-    this.prev.emit(this.data);
-    this.onMouseUp(event);
-  }
-
-  onPointerDown(event) {
+  onClick(event) {
     event.preventDefault();
-    this.mousedown = true;
-    this.clientX = event.clientX;
-  }
-
-  onPointerMove(event) {
-    event.preventDefault();
-    if (this.mousedown) {
-      this.dx = this.clientX - event.clientX;
+    const rect = this.el.nativeElement.getBoundingClientRect();
+    if (event.clientX < rect.width / 2) {
+      this.prev.emit(this.data);
+    } else if (event.clientX > rect.width / 2) {
+      this.next.emit(this.data);
     }
-  }
-
-  onPointerUp(event) {
-    event.preventDefault();
-    this.mousedown = false;
-    this.dx = 0;
   }
 }
