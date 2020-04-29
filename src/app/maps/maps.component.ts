@@ -14,6 +14,7 @@ import { Position, HoleMetaData, TeeType } from '../models';
 import { CourseService, HoleData, CourseData, CourseId } from '../course-service';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { holeLength } from '../map-utilities';
+import { isHandset, Observable, BreakpointObserver } from '../ng-utilities';
 
 type LatLng = google.maps.LatLng;
 
@@ -33,6 +34,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('googlemap') googlemap: GoogleMap;
   @Input() courseId: CourseId;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
+  readonly isHandset$: Observable<boolean>;
 
   course?: CourseData;
   get holes() {return this.course?.holes; }
@@ -103,6 +105,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   dropZones: MarkerInfo[] = [];
   mandos: MarkerInfo[] = [];
   subscription?: Subscription;
+  metadata?: HoleMetaData;
 
   backTeeOptions(index: string) {
     return {
@@ -122,10 +125,14 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly ngZone: NgZone,
     private readonly el: ElementRef,
     private readonly courseService: CourseService,
-  ) { }
+    breakpointObserver: BreakpointObserver,
+  ) {
+    this.isHandset$ = isHandset(breakpointObserver);
+  }
 
   ngOnInit(): void {
-    const rect = this.el.nativeElement.getBoundingClientRect();
+    const element = this.el.nativeElement.querySelector('#googlemap');
+    const rect = element.getBoundingClientRect();
     this.width = rect.width;
     this.height = rect.height;
   }
@@ -139,7 +146,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     .getCourse(this.courseId)
     .pipe(
       tap(course => this.course = course),
-      map(course => this.holes)
+      map(course => this.holes),
+      tap(holes => this.issueEvent(this.holes[0], 'back'))
     ).subscribe(holes => {
       holes.forEach(hole => {
 
@@ -214,23 +222,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   onBackTeeClicked(marker: MapMarker) {
     const holeNumber = Number(marker.getTitle());
     const hole = this.holes[holeNumber - 1];
-    this.issueEvent({
-      hole: hole.number,
-      teeType: 'back' as TeeType,
-      description: hole.description,
-      data: hole.back
-    });
+    this.issueEvent(hole, 'back');
   }
 
   onFrontTeeClicked(marker: MapMarker) {
     const holeNumber = Number(marker.getTitle());
     const hole = this.holes[holeNumber - 1];
-    this.issueEvent({
-      hole: hole.number,
-      teeType: 'front' as TeeType,
-      description: hole.description,
-      data: hole.front || hole.back
-    });
+    this.issueEvent(hole, 'front');
   }
 
   onResized(event: ResizedEvent) {
@@ -238,10 +236,30 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.height = event.newHeight;
   }
 
-  private issueEvent(meta: HoleMetaData) {
-    this.holeClicked.emit(meta);
+  private issueEvent(data: HoleMetaData | HoleData, type?: TeeType) {
+    let meta: HoleMetaData;
+    if (isHoleData(data)) {
+      const hole = data as HoleData;
+      meta = {
+        hole: hole.number,
+        teeType: type,
+        description: hole.description,
+        data: hole[type]
+      };
+    } else {
+      meta = data as HoleMetaData;
+    }
+    this.metadata = meta;
     this.panTo(meta.data.path);
-    this.sheet.open(HoleInfoSheetComponent, {data: meta})
+    this.isHandset$.subscribe(handset => {
+      if (!handset) {
+        if (meta.teeType === 'dz' || meta.teeType === 'mando') {
+          this.sheet.open(HoleInfoSheetComponent, {data: meta});
+        } else {
+          this.holeClicked.emit(meta);
+        }
+      }
+    }).unsubscribe();
   }
 
   private getMetadata(marker: MapMarker, index: number, type: TeeType) {
@@ -251,14 +269,14 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     const position = markers[index].position;
     const start = {lat: position.lat(), lng: position.lng()};
     const end = hole.back.path[hole.back.path.length - 1];
-    const path = [start, end];
+    const line = [start, end];
     return {
       hole: holeNumber,
       teeType: type,
-      description: [""],
+      description: [''],
       data: {
-        path: path,
-        length: holeLength(path),
+        path: line,
+        length: holeLength(line),
         par: 0
       }
     };
@@ -267,4 +285,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getMarker(holeNumber: number, type: TeeType) {
     return (type === 'front' ? FrontMarkers : BackMarkers)[holeNumber - 1];
   }
+}
+
+function isHoleData(object: any): object is HoleData {
+  return 'number' in object;
 }
