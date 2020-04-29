@@ -22,6 +22,7 @@ import { CourseTableComponent } from './course-table/course-table.component';
 import { HoleInfoSheetComponent } from './hole-info-sheet/hole-info-sheet.component';
 import { EventTableComponent } from './event-table/event-table.component';
 import { EventComponent } from './event/event.component';
+import { HoleInfoComponent } from './hole-info/hole-info.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { EventComponent } from './event/event.component';
     HoleInfoSheetComponent,
     EventTableComponent,
     EventComponent,
+    HoleInfoComponent,
   ],
   imports: [
     BrowserModule,
