@@ -236,6 +236,27 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.height = event.newHeight;
   }
 
+  onNext(data: HoleMetaData) {
+    if (data.teeType === 'back' && this.holes[data.hole - 1].front) {
+      this.issueEvent(this.holes[data.hole - 1], 'front');
+      return;
+    }
+    let next = data.hole + 1;
+    next = next > this.holes.length ? 1 : next;
+    this.issueEvent(this.holes[next - 1], 'back');
+  }
+
+  onPrev(data: HoleMetaData) {
+    if (data.teeType === 'front' && this.holes[data.hole - 1].front) {
+      this.issueEvent(this.holes[data.hole - 1], 'back');
+      return;
+    }
+    let prev = data.hole - 1;
+    prev = prev > 0 ? prev : this.holes.length;
+    const prevHole = this.holes[prev - 1];
+    this.issueEvent(prevHole, prevHole.front ? 'front' : 'back');
+  }
+
   private issueEvent(data: HoleMetaData | HoleData, type?: TeeType) {
     let meta: HoleMetaData;
     if (isHoleData(data)) {

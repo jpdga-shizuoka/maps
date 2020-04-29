@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { HoleMetaData } from '../models';
 
@@ -16,6 +16,8 @@ const TEE_NAME = {
 })
 export class HoleInfoComponent implements OnInit {
   @Input() data: HoleMetaData;
+  @Output() next = new EventEmitter<HoleMetaData>();
+  @Output() prev = new EventEmitter<HoleMetaData>();
 
   constructor() { }
 
@@ -73,5 +75,15 @@ export class HoleInfoComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  onSwipeLeft(event) {
+    this.next.emit(this.data);
+    event.preventDefault();
+  }
+
+  onSwipeRight(event) {
+    this.prev.emit(this.data);
+    event.preventDefault();
   }
 }

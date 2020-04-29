@@ -48,7 +48,8 @@
     </google-map>
   </div>
   <div *ngIf="isHandset$ | async">
-    <app-hole-info [data]="metadata" [class.hole-info-hide]="!metadata">
+    <app-hole-info (next)="onNext($event)" (prev)="onPrev($event)"
+      [data]="metadata" [class.hole-info-hide]="!metadata">
     </app-hole-info>
   </div>
 </div>
