@@ -77,13 +77,43 @@ export class HoleInfoComponent implements OnInit {
     }
   }
 
+  get scale() {
+    return (500 - Math.abs(this.dx/4))/500;
+  }
+  get origin() {
+    return this.dx >= 0 ? 'left' : 'right';
+  }
+
+  private mousedown = false;
+  private clientX = 0;
+  private dx = 0;
+
   onSwipeLeft(event) {
     this.next.emit(this.data);
-    event.preventDefault();
+    this.onMouseUp(event);
   }
 
   onSwipeRight(event) {
     this.prev.emit(this.data);
+    this.onMouseUp(event);
+  }
+
+  onMouseDown(event) {
     event.preventDefault();
+    this.mousedown = true;
+    this.clientX = event.clientX;
+  }
+
+  onMouseMove(event) {
+    event.preventDefault();
+    if (this.mousedown) {
+      this.dx = this.clientX - event.clientX;
+    }
+  }
+
+  onMouseUp(event) {
+    event.preventDefault();
+    this.mousedown = false;
+    this.dx = 0;
   }
 }

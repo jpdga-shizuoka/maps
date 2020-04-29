@@ -1,4 +1,11 @@
-<div class="hole-sheet" (swipeleft)="onSwipeLeft($event)" (swiperight)="onSwipeRight($event)">
+<div class="hole-sheet"
+  [style.transform-origin]="origin"
+  [style.transform]="'scale(' + scale + ',1)'"
+  (mousedown)="onMouseDown($event)"
+  (mousemove)="onMouseMove($event)"
+  (mouseup)="onMouseUp($event)"
+  (swipeleft)="onSwipeLeft($event)"
+  (swiperight)="onSwipeRight($event)">
   <div class="hole-number">
     <img src="{{teeMark}}" alt="">
   </div>
