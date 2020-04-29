@@ -1,9 +1,11 @@
 <div class="hole-sheet"
+  [style.-webkit-transform-origin]="origin"
   [style.transform-origin]="origin"
+  [style.-webkit-transform]="'scale(' + scale + ',1)'"
   [style.transform]="'scale(' + scale + ',1)'"
-  (mousedown)="onMouseDown($event)"
-  (mousemove)="onMouseMove($event)"
-  (mouseup)="onMouseUp($event)"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
   (swipeleft)="onSwipeLeft($event)"
   (swiperight)="onSwipeRight($event)">
   <div class="hole-number">

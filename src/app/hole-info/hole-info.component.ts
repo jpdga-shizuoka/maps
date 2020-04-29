@@ -98,20 +98,20 @@ export class HoleInfoComponent implements OnInit {
     this.onMouseUp(event);
   }
 
-  onMouseDown(event) {
+  onPointerDown(event) {
     event.preventDefault();
     this.mousedown = true;
     this.clientX = event.clientX;
   }
 
-  onMouseMove(event) {
+  onPointerMove(event) {
     event.preventDefault();
     if (this.mousedown) {
       this.dx = this.clientX - event.clientX;
     }
   }
 
-  onMouseUp(event) {
+  onPointerUp(event) {
     event.preventDefault();
     this.mousedown = false;
     this.dx = 0;
