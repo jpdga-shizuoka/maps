@@ -6,8 +6,11 @@
 }
 .spinner-container {
   position: absolute;
-  top: calc(100vh / 2 - 50px);
-  left: calc(100vw / 2 - 50px);
+  top: calc(100% / 2 - 50px);
+  left: calc(100% / 2 - 50px);
+}
+.height-zero {
+  visibility: hidden;
 }
 .course-table-container table {
   width: 100%;
@@ -66,5 +69,9 @@ tr.hole-row:not(.expanded-row):active {
   .course-table-container {
     height: 100%;
     margin-bottom: 3px;
+  }
+  .spinner-container {
+    top: calc(100vh / 2 - 50px);
+    left: calc(100vw / 2 - 50px);
   }
 }

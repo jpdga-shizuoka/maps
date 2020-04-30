@@ -2,6 +2,7 @@
   <div class="spinner-container" *ngIf="isLoading">
     <mat-spinner></mat-spinner>
   </div>
+  <div [ngClass]="{'height-zero': isLoading}">
   <div class="mat-elevation-z2">
 
     <mat-accordion>
@@ -58,5 +59,6 @@
   </div>
   <div class="meter-foot">
     <app-meter-foot></app-meter-foot>
+  </div>
   </div>
 </div>
