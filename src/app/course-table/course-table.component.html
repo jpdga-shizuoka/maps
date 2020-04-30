@@ -49,6 +49,7 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let hole; columns: displayedColumns;" class="hole-row"
+          id="rowid{{hole.number}}"
           [class.expanded-row]="isExpanded(hole)"
           (click)="expandedHole = isExpanded(hole) ? null : hole">
       </tr>

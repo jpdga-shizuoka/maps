@@ -1,5 +1,5 @@
 import {
-  AfterViewInit, Component, OnInit, ViewChild, Output, EventEmitter, Input
+  AfterViewInit, Component, OnInit, ViewChild, Output, EventEmitter, Input, ElementRef
 } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -33,6 +33,7 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   constructor(
     private readonly courseService: CourseService,
     private readonly commonService: CommonService,
+    private readonly el: ElementRef,
   ) {
   }
 
@@ -114,6 +115,8 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   notifyHole(data: HoleMetaData) {
     this.expandedHole
       = this.dataSource.data.find(h => h.number === data.hole);
+    const element = this.el.nativeElement.querySelector(`#rowid${data.hole}`);
+    element?.scrollIntoView();
   }
 
   private issueEvent(hole: HoleData, type: TeeType) {
