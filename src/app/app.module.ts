@@ -14,6 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatRippleModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -24,6 +25,7 @@ import { HoleInfoSheetComponent } from './hole-info-sheet/hole-info-sheet.compon
 import { EventTableComponent } from './event-table/event-table.component';
 import { EventComponent } from './event/event.component';
 import { HoleInfoComponent } from './hole-info/hole-info.component';
+import { MeterFootComponent } from './meter-foot/meter-foot.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import { HoleInfoComponent } from './hole-info/hole-info.component';
     EventTableComponent,
     EventComponent,
     HoleInfoComponent,
+    MeterFootComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import { HoleInfoComponent } from './hole-info/hole-info.component';
     MatProgressSpinnerModule,
     MatExpansionModule,
     MatRippleModule,
+    MatRadioModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent

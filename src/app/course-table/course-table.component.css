@@ -59,6 +59,9 @@ tr.hole-row:not(.expanded-row):active {
 .expanded-row {
   background-color: #f8effb;
 }
+.meter-foot {
+  float: right;
+}
 @media screen and (max-width: 736px) {
   .course-table-container {
     height: 100%;

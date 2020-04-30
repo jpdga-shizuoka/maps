@@ -4,6 +4,7 @@ import {
 import { MatTable } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
+import { CommonService } from '../common.service';
 import { CourseService, HoleData, CourseId } from '../course-service';
 import { CourseDataSource } from '../course-datasource';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
@@ -29,7 +30,10 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   dataSource?: CourseDataSource;
   expandedHole: HoleData | null;
 
-  constructor(private readonly courseService: CourseService) {
+  constructor(
+    private readonly courseService: CourseService,
+    private readonly commonService: CommonService,
+  ) {
   }
 
   ngOnInit() {
@@ -41,12 +45,12 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   }
 
   backtee(hole) {
-    return `${Math.round(hole.back.length)}m / Par${hole.back.par}`;
+    return `${this.commonService.length(hole.back.length)}/Par${hole.back.par}`;
   }
 
   fronttee(hole) {
     return hole.front
-      ? `${Math.round(hole.front.length)}m / Par${hole.front.par}`
+      ? `${this.commonService.length(hole.front.length)}/Par${hole.front.par}`
       : '';
   }
 
@@ -58,7 +62,7 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
       par += hole.back.par;
     });
     length /= this.dataSource.data.length;
-    return `${Math.round(length)}m / Par${par}`;
+    return `${this.commonService.length(length)}/Par${par}`;
   }
 
   get frontTotal() {
@@ -74,7 +78,7 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
       }
     });
     length /= this.dataSource.data.length;
-    return `${Math.round(length)}m / Par${par}`;
+    return `${this.commonService.length(length)}/Par${par}`;
   }
 
   get isLoading() {

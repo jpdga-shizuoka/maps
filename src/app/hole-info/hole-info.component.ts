@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
+import { CommonService } from '../common.service';
 import { HoleMetaData } from '../models';
 
 const TEE_NAME = {
@@ -20,7 +21,10 @@ export class HoleInfoComponent implements OnInit {
   @Output() next = new EventEmitter<HoleMetaData>();
   @Output() prev = new EventEmitter<HoleMetaData>();
 
-  constructor(private readonly el: ElementRef) { }
+  constructor(
+    private readonly el: ElementRef,
+    private readonly commonService: CommonService,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -45,7 +49,7 @@ export class HoleInfoComponent implements OnInit {
         return this.data.description;
       case 'dz':
       case 'mando':
-        return [`${TEE_NAME[this.data.teeType]}からターゲットまで, ${this.data.data.length}m`];
+        return [`${TEE_NAME[this.data.teeType]}からターゲットまで, ${this.commonService.length(this.data.data.length)}`];
       default:
         return '';
     }
@@ -69,7 +73,7 @@ export class HoleInfoComponent implements OnInit {
     switch (this.data?.teeType) {
       case 'back':
       case 'front':
-        return `${this.data.data.length}m/Par${this.data.data.par} ${TEE_NAME[this.data.teeType]}`;
+        return `${this.commonService.length(this.data.data.length)}/Par${this.data.data.par} ${TEE_NAME[this.data.teeType]}`;
       case 'dz':
       case 'mando':
         return `#${this.data.hole} ${TEE_NAME[this.data.teeType]}`;
