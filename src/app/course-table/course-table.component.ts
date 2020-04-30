@@ -97,30 +97,28 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
     if (this.expandedHole === hole) {
       return;
     }
-    const metadata = {
-      hole: hole.number,
-      teeType: 'back' as TeeType,
-      description: hole.description,
-      data: hole.back
-    };
-    this.holeClicked.emit(metadata);
+    this.issueEvent(hole, 'back');
   }
 
   onFrontClick(hole: HoleData) {
     if (this.expandedHole === hole) {
       return;
     }
-    const metadata = {
-      hole: hole.number,
-      teeType: 'front' as TeeType,
-      description: hole.description,
-      data: hole.front
-    };
-    this.holeClicked.emit(metadata);
+    this.issueEvent(hole, 'front');
   }
 
   notifyHole(data: HoleMetaData) {
     this.expandedHole
       = this.dataSource.data.find(h => h.number === data.hole);
+  }
+
+  private issueEvent(hole: HoleData, type: TeeType) {
+    const metadata = {
+      hole: hole.number,
+      teeType: type,
+      description: hole.description,
+      data: hole[type] || hole.back
+    };
+    this.holeClicked.emit(metadata);
   }
 }
