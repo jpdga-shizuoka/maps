@@ -20,16 +20,15 @@ export class CourseMapComponent {
 
   constructor(
     private readonly route: ActivatedRoute,
-    // private readonly sheet: MatBottomSheet,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
   }
 
-  onHoleCliked(hole: HoleMetaData) {
+  onHoleCliked(meta: HoleMetaData) {
     this.isHandset$.subscribe(handset => {
       if (!handset) {
-        this.map.panTo(hole.data.path);
+        this.map.panTo(meta.data.path);
       }
     }).unsubscribe();
   }
