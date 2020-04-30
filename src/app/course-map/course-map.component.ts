@@ -16,6 +16,7 @@ export class CourseMapComponent {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
   isHandset$: Observable<boolean>;
+  lastHole = 0;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -33,11 +34,12 @@ export class CourseMapComponent {
     }).unsubscribe();
   }
 
-  onHoleMapCliked(hole: HoleMetaData) {
+  onHoleMapCliked(meta: HoleMetaData) {
+    this.lastHole = meta.hole - 1;
     this.isHandset$
     .subscribe(handset => {
       if (!handset) {
-        this.table.notifyHole(hole);
+        this.table.notifyHole(meta);
       }
     }).unsubscribe();
   }

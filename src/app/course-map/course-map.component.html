@@ -9,10 +9,12 @@
       </div>
      </mat-tab>
     <mat-tab label="コースマップ">
+      <ng-template matTabContent><!-- workaround for issue of resizing & ripple animation -->
       <div class="app-maps">
-        <app-maps #appmaps [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
+        <app-maps #appmaps [lastHole]="lastHole" [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
         </app-maps>
       </div>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </ng-template>

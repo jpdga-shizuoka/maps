@@ -33,6 +33,7 @@ interface MarkerInfo {
 export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('googlemap') googlemap: GoogleMap;
   @Input() courseId: CourseId;
+  @Input() lastHole = 0;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
   readonly isHandset$: Observable<boolean>;
 
@@ -147,7 +148,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(
       tap(course => this.course = course),
       map(course => this.holes),
-      tap(holes => this.issueEvent(this.holes[0], 'back'))
+      tap(holes => this.issueEvent(this.holes[this.lastHole], 'back'))
     ).subscribe(holes => {
       holes.forEach(hole => {
 
