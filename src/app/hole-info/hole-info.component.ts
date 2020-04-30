@@ -16,6 +16,7 @@ const TEE_NAME = {
 })
 export class HoleInfoComponent implements OnInit {
   @Input() data: HoleMetaData;
+  @Input() disabled = false;
   @Output() next = new EventEmitter<HoleMetaData>();
   @Output() prev = new EventEmitter<HoleMetaData>();
 
@@ -79,6 +80,9 @@ export class HoleInfoComponent implements OnInit {
 
   onClick(event) {
     event.preventDefault();
+    if (this.disabled) {
+      return;
+    }
     const rect = this.el.nativeElement.getBoundingClientRect();
     if (event.clientX < rect.width / 2) {
       this.prev.emit(this.data);

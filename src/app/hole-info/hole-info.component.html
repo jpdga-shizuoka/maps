@@ -1,4 +1,7 @@
-<div matRipple class="hole-sheet ripple-container" (click)="onClick($event)">
+<div matRipple
+  [ngClass]="{'hole-info-container': true, 'ripple-container': !disabled}"
+  [matRippleDisabled]="disabled"
+  (click)="onClick($event)">
   <div class="hole-number">
     <img src="{{teeMark}}" alt="">
   </div>

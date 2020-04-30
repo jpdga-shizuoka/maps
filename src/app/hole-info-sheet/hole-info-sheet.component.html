@@ -1,14 +1,4 @@
 <div class="hole-sheet">
-  <div class="hole-number">
-    <img src="{{teeMark}}" alt="">
-  </div>
-  <div class="hole-info">
-    <h2>
-      {{title}}
-    </h2>
-    <div *ngIf="hasDescriptions">
-      <mat-divider></mat-divider>
-      <p *ngFor="let description of descriptions">{{description}}</p>
-    </div>
-  </div>
+  <app-hole-info [data]="data" [disabled]="true">
+  </app-hole-info>
 </div>
