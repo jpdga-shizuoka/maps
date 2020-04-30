@@ -273,11 +273,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.metadata = meta;
     this.panTo(meta.data.path);
-    if (meta.teeType === 'dz' || meta.teeType === 'mando') {
-      this.sheet.open(HoleInfoSheetComponent, {data: meta});
-    } else {
-      this.holeClicked.emit(meta);
-    }
+    this.isHandset$.subscribe(handset => {
+      if (!handset && (meta.teeType === 'dz' || meta.teeType === 'mando')) {
+        this.sheet.open(HoleInfoSheetComponent, {data: meta});
+      } else {
+        this.holeClicked.emit(meta);
+      }
+    }).unsubscribe();
   }
 
   private getMetadata(marker: MapMarker, index: number, type: TeeType) {
