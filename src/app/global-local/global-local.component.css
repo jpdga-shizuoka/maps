@@ -1,0 +1,13 @@
+.global-local {
+  display: flex;
+  margin: 10px;
+}
+.global-local-title {
+  margin: auto 10px auto 0;
+}
+.global-local-content {
+  margin: auto 10px auto 0;
+}
+.global-local-content mat-radio-button {
+  margin-right: 15px;
+}

@@ -29,6 +29,8 @@ import { MeterFootComponent } from './meter-foot/meter-foot.component';
 import { PeriodPipe } from './period.pipe';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { LocalizePipe } from './localize.pipe';
+import { GlobalLocalComponent } from './global-local/global-local.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MeterFootComponent,
     PeriodPipe,
     EventDetailComponent,
+    LocalizePipe,
+    GlobalLocalComponent,
   ],
   imports: [
     BrowserModule,

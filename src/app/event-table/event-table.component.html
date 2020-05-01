@@ -10,7 +10,7 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let row">{{row.title}}</td>
+      <td mat-cell *matCellDef="let row">{{row.title | localize}}</td>
     </ng-container>
 
     <ng-container matColumnDef="eventDetail">
@@ -38,4 +38,5 @@
 </div>
 <div class="meter-foot">
   <app-meter-foot></app-meter-foot>
+  <app-global-local></app-global-local>
 </div>
