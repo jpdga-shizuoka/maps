@@ -2,13 +2,13 @@
 
 <ng-template #thenBlock>
   <mat-tab-group>
-    <mat-tab label="コース情報">
+    <mat-tab label="{{'Data' | localize}}">
       <div><!-- do not remove this block -->
         <app-course-table [courseId]="courseId" (holeClicked)="onHoleCliked($event)">
         </app-course-table>
       </div>
      </mat-tab>
-    <mat-tab label="コースマップ">
+    <mat-tab label="{{'Map' | localize}}">
       <ng-template matTabContent><!-- workaround for issue of resizing & ripple animation -->
       <div class="app-maps">
         <app-maps #appmaps [lastHole]="lastHole" [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
