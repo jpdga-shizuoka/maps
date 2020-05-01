@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonService } from '../common.service';
+import { LocalizeService } from '../localize.service';
 
 @Component({
   selector: 'app-global-local',
@@ -8,14 +8,14 @@ import { CommonService } from '../common.service';
 })
 export class GlobalLocalComponent {
 
-  constructor(private readonly commonService: CommonService) { }
+  constructor(private readonly localizeService: LocalizeService) { }
 
   get language() {
-    return this.commonService.language;
+    return this.localizeService.language;
   }
 
   set language(value) {
-    this.commonService.language = value;
+    this.localizeService.language = value;
   }
 
   onChanged(event) {

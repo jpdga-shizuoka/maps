@@ -1,13 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 import { CommonService } from '../common.service';
+import { LocalizeService } from '../localize.service';
 import { HoleMetaData } from '../models';
 
 const TEE_NAME = {
-  back: 'バックティー',
-  front: 'フロントティー',
-  dz: 'ドロップゾーン',
-  mando: 'マンダトリー'
+  back: 'Back Tee',
+  front: 'Front Tee',
+  dz: 'Drop Zone',
+  mando: 'Mando'
 };
 
 @Component({
@@ -15,7 +16,7 @@ const TEE_NAME = {
   templateUrl: './hole-info.component.html',
   styleUrls: ['./hole-info.component.css']
 })
-export class HoleInfoComponent implements OnInit {
+export class HoleInfoComponent {
   @Input() data: HoleMetaData;
   @Input() disabled = false;
   @Output() next = new EventEmitter<HoleMetaData>();
@@ -24,9 +25,15 @@ export class HoleInfoComponent implements OnInit {
   constructor(
     private readonly el: ElementRef,
     private readonly commonService: CommonService,
+    private readonly localizeService: LocalizeService,
   ) { }
 
-  ngOnInit(): void {
+  get length() {
+    return this.commonService.length(this.data.data.length);
+  }
+
+  get teename() {
+    return this.localizeService.transform(TEE_NAME[this.data.teeType]);
   }
 
   get hasDescriptions() {
@@ -49,9 +56,9 @@ export class HoleInfoComponent implements OnInit {
         return this.data.description;
       case 'dz':
       case 'mando':
-        return [`${TEE_NAME[this.data.teeType]}からターゲットまで, ${this.commonService.length(this.data.data.length)}`];
+        return [this.localizeService.distanseFromMarkerToGoal(this.length, this.teename)];
       default:
-        return '';
+        return [''];
     }
   }
 
@@ -73,10 +80,10 @@ export class HoleInfoComponent implements OnInit {
     switch (this.data?.teeType) {
       case 'back':
       case 'front':
-        return `${this.commonService.length(this.data.data.length)}/Par${this.data.data.par} ${TEE_NAME[this.data.teeType]}`;
+        return `${this.length}/Par${this.data.data.par}, ${this.teename}`;
       case 'dz':
       case 'mando':
-        return `#${this.data.hole} ${TEE_NAME[this.data.teeType]}`;
+        return `#${this.data.hole} ${this.teename}`;
       default:
         return '';
     }
