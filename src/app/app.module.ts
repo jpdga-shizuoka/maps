@@ -25,7 +25,11 @@ import { HoleInfoSheetComponent } from './hole-info-sheet/hole-info-sheet.compon
 import { EventTableComponent } from './event-table/event-table.component';
 import { EventComponent } from './event/event.component';
 import { HoleInfoComponent } from './hole-info/hole-info.component';
+import { LengthUnitPipe } from './length-unit.pipe';
 import { MeterFootComponent } from './meter-foot/meter-foot.component';
+import { PeriodPipe } from './period.pipe';
+import { EventDetailComponent } from './event-detail/event-detail.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,10 @@ import { MeterFootComponent } from './meter-foot/meter-foot.component';
     EventTableComponent,
     EventComponent,
     HoleInfoComponent,
+    LengthUnitPipe,
     MeterFootComponent,
+    PeriodPipe,
+    EventDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +63,7 @@ import { MeterFootComponent } from './meter-foot/meter-foot.component';
     MatExpansionModule,
     MatRippleModule,
     MatRadioModule,
+    MatChipsModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent

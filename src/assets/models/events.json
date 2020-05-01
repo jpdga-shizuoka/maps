@@ -2,13 +2,21 @@
   {
     "id": "chubu_open_2019",
     "title": "第19回中部オープン",
-    "description": "説明",
+    "location": "mikawarinkairyokuchi",
+    "period": {
+      "from": "2019-12-14",
+      "to": "2019-12-15"
+    },
     "courses": ["chubu_open_2019.1"]
   },
   {
     "id": "pwpf_cup_2019",
     "title": "PWPFカップ2019",
-    "description": "説明",
+    "location": "picaactivitypark",
+    "period": {
+      "from": "2019-04-13",
+      "to": "2019-04-14"
+    },
     "courses": ["pwpf_cup_2019.1"]
   }
 ]

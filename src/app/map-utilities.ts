@@ -42,3 +42,20 @@ export function path2bounds(path: Position[]): google.maps.LatLngBounds {
   return new google.maps.LatLngBounds(
     new google.maps.LatLng(sw), new google.maps.LatLng(ne));
 }
+
+export function position2geolink(p?: Position): string {
+  if (!p) {
+    return;
+  }
+  return getUrlForGeolocation() + `${p.lat},${p.lng}`;
+}
+
+function getUrlForGeolocation(): string {
+  return isAppleDevice()
+    ? 'http://maps.apple.com/?ll='
+    : 'https://maps.google.com/?q=';
+}
+
+function isAppleDevice(): boolean {
+  return /iPhone|iPad|Macintosh/.test(window.navigator.userAgent);
+}

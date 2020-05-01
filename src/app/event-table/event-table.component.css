@@ -4,3 +4,22 @@
 .meter-foot {
   float: right;
 }
+tr.event-detail-row {
+  height: 0;
+}
+tr.event-row:not(.event-expanded-row):hover {
+  background: whitesmoke;
+}
+tr.event-row:not(.event-expanded-row):active {
+  background: #efefef;
+}
+.event-row td {
+  border-bottom-width: 0;
+}
+.event-detail {
+  overflow: hidden;
+  display: flex;
+}
+.event-description {
+  padding: 16px;
+}

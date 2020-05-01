@@ -5,10 +5,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of as observableOf, throwError } from 'rxjs';
 import { catchError, retry, tap, map } from 'rxjs/operators';
 
-import { HoleData, CourseId, CourseData, EventData, EventId, Position, Area } from './models';
+import {
+  HoleData, CourseId, CourseData, EventData, EventId, Position, Area, LocationId, LocationData
+} from './models';
 import { holeLength } from './map-utilities';
 
-export { HoleData, CourseId, CourseData, EventId, EventData };
+export { HoleData, CourseId, CourseData, EventId, LocationId, EventData, LocationData };
 
 const options = {
   responseType: 'json'
@@ -64,8 +66,6 @@ export class CourseService {
     return this.http
     .get<EventData[]>(id2url('events'), {responseType: 'json'})
     .pipe(
-      tap(events => events.forEach(event =>
-        event.description = string2array(event.description))),
       catchError(this.handleError<EventData[]>('getEvents'))
     );
   }
@@ -77,12 +77,35 @@ export class CourseService {
       catchError(this.handleError< EventData>('getEvent'))
     );
   }
+
+  getLocations(): Observable<LocationData[]> {
+    return this.http
+    .get<LocationData[]>(locationsUrl(), {responseType: 'json'})
+    .pipe(
+      tap(locations =>
+        locations.forEach(location =>
+          location.geolocation = array2position(location.geolocation))),
+      catchError(this.handleError<LocationData[]>('getLocations'))
+    );
+  }
+
+  getLocation(id: LocationId): Observable<LocationData> {
+    return this.getLocations()
+    .pipe(
+      map(locations => locations.find(location => location.id === id)),
+      catchError(this.handleError< LocationData>('getLocation'))
+    );
+  }
 }
 
 function id2url(api: string, id?: CourseId | EventId) {
   return id
     ? `assets/models/${api}/${id}.json`
     : `assets/models/${api}.json`
+}
+
+function locationsUrl() {
+  return `assets/models/locations.json`
 }
 
 function string2array(obj?: string | string[]) {

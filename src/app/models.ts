@@ -15,6 +15,13 @@ export type ObLine = Polyline;
 export type Descriptions = string | string[];
 export type CourseId = string;
 export type EventId = string;
+export type LocationId = string;
+export type ISO_Date_String = string;
+
+export interface Period {
+  from: ISO_Date_String;
+  to: ISO_Date_String;
+}
 
 export interface HoleLine {
   path: HolePath;
@@ -51,6 +58,14 @@ export interface CourseData {
   holes: HoleData[];          // ホール情報
 }
 
+export interface LocationData {
+  id: LocationId;
+  title: string;
+  description?: Descriptions; //
+  geolocation: Position;
+  prefecture: string;
+}
+
 //  GET event                 return EventData[]
 //    eg. event
 //  GET event/$eventId        return EventData
@@ -58,6 +73,7 @@ export interface CourseData {
 export interface EventData {
   id: EventId;                // eg. chubu_open_2019
   title: string;              // eg. 第19回中部オープン
-  description?: Descriptions; //
+  location: LocationId;
+  period: Period;
   courses: CourseId[];        // eg. [chubu_open_2019.1, chubu_open_2019.4, chubu_open_2019.5]
 }

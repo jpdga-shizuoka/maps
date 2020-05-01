@@ -1,0 +1,11 @@
+<h3>
+  <a href="{{geolink}}" target="_blank" rel="noopener">
+    {{location?.title}}, {{location?.prefecture}}
+  </a>
+</h3>
+
+<mat-chip-list aria-label="Course selection">
+  <mat-chip class="mat-chip-list-stacked" *ngFor="let course of courses">
+    <a routerLink="/course/{{course?.id}}">{{course?.title}}</a>
+  </mat-chip>
+</mat-chip-list>
