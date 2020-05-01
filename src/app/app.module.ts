@@ -23,7 +23,6 @@ import { CourseMapComponent } from './course-map/course-map.component';
 import { CourseTableComponent } from './course-table/course-table.component';
 import { HoleInfoSheetComponent } from './hole-info-sheet/hole-info-sheet.component';
 import { EventTableComponent } from './event-table/event-table.component';
-import { EventComponent } from './event/event.component';
 import { HoleInfoComponent } from './hole-info/hole-info.component';
 import { LengthUnitPipe } from './length-unit.pipe';
 import { MeterFootComponent } from './meter-foot/meter-foot.component';
@@ -39,7 +38,6 @@ import { MatChipsModule } from '@angular/material/chips';
     CourseMapComponent,
     HoleInfoSheetComponent,
     EventTableComponent,
-    EventComponent,
     HoleInfoComponent,
     LengthUnitPipe,
     MeterFootComponent,
