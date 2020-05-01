@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {
   CourseService, EventId, LocationId, EventData, LocationData, CourseData, CourseId
@@ -16,11 +16,24 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   private ssEvent?: Subscription;
   private ssLocation?: Subscription;
   private ssCourses: Subscription[] = [];
-  event?: EventData;
-  location?: LocationData;
-  courses: CourseData[] = [];
 
-  constructor(private readonly remoteService: CourseService) { }
+  private readonly _event: BehaviorSubject<EventData>;
+  get event() { return this._event.value; }
+  set event(event: EventData) { this._event.next(event); }
+
+  private readonly _location: BehaviorSubject<LocationData>;
+  get location() { return this._location.value; }
+  set location(location: LocationData) { this._location.next(location); }
+
+  private readonly _courses: BehaviorSubject<CourseData[]>;
+  get courses() { return this._courses.value; }
+  set courses(courses: CourseData[]) { this._courses.next(courses); }
+
+  constructor(private readonly remoteService: CourseService) {
+    this._event = new BehaviorSubject<EventData|undefined>(undefined);
+    this._location = new BehaviorSubject<LocationData|undefined>(undefined);
+    this._courses = new BehaviorSubject<CourseData[]>([]);
+  }
 
   ngOnInit(): void {
     this.ssEvent = this.remoteService.getEvent(this.eventId)

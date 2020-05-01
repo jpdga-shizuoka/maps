@@ -4,7 +4,7 @@ import {
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ResizedEvent } from 'angular-resize-event';
-import { Subscription } from 'rxjs';
+import { Subscription, BehaviorSubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
 import {
@@ -37,7 +37,10 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
   readonly isHandset$: Observable<boolean>;
 
-  course?: CourseData;
+  private readonly _course: BehaviorSubject<CourseData>;
+  get course() { return this._course.value; }
+  set course(course: CourseData) { this._course.next(course); }
+
   get holes() {return this.course?.holes; }
   get center() {return this.course?.center; }
   zoom = 17;
@@ -129,6 +132,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
+    this._course = new BehaviorSubject<CourseData|undefined>(undefined);
   }
 
   ngOnInit(): void {
