@@ -31,3 +31,22 @@ a[href^="http://maps.apple"] {
   background-size: 1.2rem 1.2rem;
   padding-right: 1.3rem;
 }
+.config-item {
+  display: flex;
+  margin: 10px 0;
+}
+.config-item-title {
+  margin: auto 10px auto 0;
+}
+.config-item-content {
+  margin: auto 10px auto 0;
+}
+.config-item-content mat-radio-button:not(:last-child) {
+  margin-right: 15px;
+}
+@media screen and (max-width: 320px) {
+  .config .mat-expansion-panel-body {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

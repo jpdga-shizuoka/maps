@@ -1,11 +1,12 @@
-<div class="meter-foot">
-  <div class="meter-foot-title">
-    <span>Length Unit:</span>
+<div class="config-item">
+  <div class="config-item-title app-icon-label">
+    <mat-icon>straighten</mat-icon>
+    <span>{{'Length' | localize}}:</span>
   </div>
-  <div class="meter-foot-content">
+  <div class="config-item-content">
     <mat-radio-group [value]="lengthUnit" (change)="onUnitChanged($event)">
-      <mat-radio-button value="meter">Meter</mat-radio-button>
-      <mat-radio-button value="foot">Foot</mat-radio-button>
+      <mat-radio-button value="meter">{{'Meter' | localize}}</mat-radio-button>
+      <mat-radio-button value="foot">{{'Foot' | localize}}</mat-radio-button>
     </mat-radio-group>
   </div>
 </div>

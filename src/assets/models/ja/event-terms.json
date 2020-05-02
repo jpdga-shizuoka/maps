@@ -23,5 +23,8 @@
   "safearea": "セーフエリア",
   "obarea": "OBエリア",
   "obline": "OBライン",
-  "uilanguagechanged": "UI言語を切り替えました."
+  "uilanguagechanged": "UI言語を切り替えました.",
+  "meter": "メートル",
+  "foot": "フィート",
+  "length": "長さ"
 }
