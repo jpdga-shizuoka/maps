@@ -13,6 +13,7 @@ import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 
@@ -31,6 +32,10 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { LocalizePipe } from './localize.pipe';
 import { GlobalLocalComponent } from './global-local/global-local.component';
+import { EventPageComponent } from './event-page/event-page.component';
+import { PrefaceComponent } from './preface/preface.component';
+import { ConfigComponent } from './config/config.component';
+import { IndexComponent } from './index/index.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +52,10 @@ import { GlobalLocalComponent } from './global-local/global-local.component';
     EventDetailComponent,
     LocalizePipe,
     GlobalLocalComponent,
+    EventPageComponent,
+    PrefaceComponent,
+    ConfigComponent,
+    IndexComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +72,7 @@ import { GlobalLocalComponent } from './global-local/global-local.component';
     MatDividerModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
+    MatIconModule,
     MatRippleModule,
     MatRadioModule,
     MatChipsModule,

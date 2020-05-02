@@ -16,5 +16,11 @@
   "hole": "ホール",
   "ave/total": "平均/計",
   "title": "大会名",
-  "date": "開催日"
+  "date": "開催日",
+  "preface": "はじめに",
+  "config": "設定",
+  "indexofmap": "マップの凡例",
+  "safearea": "セーフエリア",
+  "obarea": "OBエリア",
+  "obline": "OBライン"
 }

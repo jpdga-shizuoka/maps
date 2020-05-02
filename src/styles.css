@@ -10,3 +10,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.app-icon-label {
+  display: inline-flex;
+  align-items: center;
+}
+.app-icon-label > .mat-icon {
+  margin-right: 10px;
+}
+a[target="_blank"] {
+  display: inline-block;
+  background: url("assets/img/open_in_new-24px.svg") no-repeat right center;
+  background-size: 1.2rem 1.2rem;
+  padding-right: 1.3rem;
+}
+a[href^="https://maps.google"],
+a[href^="http://maps.apple"] {
+  display: inline-block;
+  background: url("assets/img/room-24px.svg") no-repeat right center;
+  background-size: 1.2rem 1.2rem;
+  padding-right: 1.3rem;
+}

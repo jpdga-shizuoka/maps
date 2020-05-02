@@ -1,0 +1,9 @@
+.event-page {
+  max-width: 414px;
+  margin: auto;
+  padding: 2px 4px 4px 4px;
+}
+
+.event-page > div {
+  margin-bottom: 5px;
+}

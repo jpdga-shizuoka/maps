@@ -1,6 +1,6 @@
 .global-local {
   display: flex;
-  margin: 10px;
+  margin: 10px 0;
 }
 .global-local-title {
   margin: auto 10px auto 0;

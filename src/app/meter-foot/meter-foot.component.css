@@ -1,6 +1,6 @@
 .meter-foot {
   display: flex;
-  margin: 10px;
+  margin: 10px 0;
 }
 .meter-foot-title {
   margin: auto 10px auto 0;
