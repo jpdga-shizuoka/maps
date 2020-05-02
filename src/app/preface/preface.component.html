@@ -3,6 +3,6 @@
     <mat-expansion-panel-header>
       {{'Preface' | localize}}
     </mat-expansion-panel-header>
-    This the expansion 1 content
+    <div class="app-preface" [innerHTML]="content$ | async"></div>
   </mat-expansion-panel>
 </mat-accordion>

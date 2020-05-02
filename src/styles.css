@@ -11,12 +11,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.app-preface-name {
+  text-align: right;
+}
 .app-icon-label {
   display: inline-flex;
   align-items: center;
 }
 .app-icon-label > .mat-icon {
   margin-right: 10px;
+}
+a {
+  text-decoration: none;
 }
 a[target="_blank"] {
   display: inline-block;

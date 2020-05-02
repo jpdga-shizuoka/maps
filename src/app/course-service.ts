@@ -96,6 +96,10 @@ export class CourseService {
       catchError(this.handleError< LocationData>('getLocation'))
     );
   }
+
+  getText(path: string): Observable<string> {
+    return this.http.get('assets/models/ja/' + path, {responseType: 'text'});
+  }
 }
 
 function id2url(api: string, id?: CourseId | EventId) {
