@@ -242,24 +242,46 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onNext(data: HoleMetaData) {
-    if (data.teeType === 'back' && this.holes[data.hole - 1].front) {
-      this.issueEvent(this.holes[data.hole - 1], 'front');
-      return;
+    if (data.teeType === 'back') {
+      const currentHole = this.findHole(data);
+      if (currentHole.front) {
+        this.issueEvent(currentHole, 'front');
+        return;
+      }
     }
-    let next = data.hole + 1;
-    next = next > this.holes.length ? 1 : next;
-    this.issueEvent(this.holes[next - 1], 'back');
+    const nextHole = this.findNext(data);
+    this.issueEvent(nextHole, nextHole.back ? 'back' : 'front');
   }
 
   onPrev(data: HoleMetaData) {
-    if (data.teeType === 'front' && this.holes[data.hole - 1].front) {
-      this.issueEvent(this.holes[data.hole - 1], 'back');
-      return;
+    if (data.teeType === 'front') {
+      const currentHole = this.findHole(data);
+      if (currentHole.back) {
+        this.issueEvent(currentHole, 'back');
+        return;
+      }
     }
-    let prev = data.hole - 1;
-    prev = prev > 0 ? prev : this.holes.length;
-    const prevHole = this.holes[prev - 1];
+    const prevHole = this.findPrev(data);
     this.issueEvent(prevHole, prevHole.front ? 'front' : 'back');
+  }
+
+  private findHole(currentHole: HoleMetaData): HoleData {
+    let index = this.holes.findIndex(hole => hole.number === currentHole.hole);
+    return this.holes[index];
+  }
+
+  private findNext(currentHole: HoleMetaData): HoleData {
+    let index = this.holes.findIndex(hole => hole.number === currentHole.hole);
+    index++;
+    index = index >= this.holes.length ? 0 : index;
+    return this.holes[index];
+  }
+
+  private findPrev(currentHole: HoleMetaData): HoleData {
+    let index = this.holes.findIndex(hole => hole.number === currentHole.hole);
+    index--;
+    index = index < 0 ? this.holes.length - 1 : index;
+    return this.holes[index];
   }
 
   private issueEvent(data: HoleMetaData | HoleData, type?: TeeType) {
