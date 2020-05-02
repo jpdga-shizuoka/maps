@@ -7,7 +7,12 @@
 
     <mat-accordion>
       <mat-expansion-panel>
-        <mat-expansion-panel-header>{{'Common rule'|localize}}</mat-expansion-panel-header>
+        <mat-expansion-panel-header>
+          <div class="app-icon-label">
+            <mat-icon>format_list_bulleted</mat-icon>
+            <span>{{'Common rule'|localize}}</span>
+          </div>
+        </mat-expansion-panel-header>
         <ul>
           <li *ngFor="let description of descriptions">{{description}}</li>
         </ul>
