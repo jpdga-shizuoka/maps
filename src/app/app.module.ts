@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -76,6 +77,7 @@ import { IndexComponent } from './index/index.component';
     MatRippleModule,
     MatRadioModule,
     MatChipsModule,
+    MatSnackBarModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent

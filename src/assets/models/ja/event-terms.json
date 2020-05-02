@@ -22,5 +22,6 @@
   "indexofmap": "マップの凡例",
   "safearea": "セーフエリア",
   "obarea": "OBエリア",
-  "obline": "OBライン"
+  "obline": "OBライン",
+  "uilanguagechanged": "UI言語を切り替えました."
 }
