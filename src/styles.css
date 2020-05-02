@@ -31,6 +31,10 @@ a[href^="http://maps.apple"] {
   background-size: 1.2rem 1.2rem;
   padding-right: 1.3rem;
 }
+.app-snackbar span {
+  margin: auto;
+  text-align: center;
+}
 .config-item {
   display: flex;
   margin: 10px 0;

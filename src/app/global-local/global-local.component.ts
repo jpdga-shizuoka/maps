@@ -32,7 +32,10 @@ export class GlobalLocalComponent {
   onChanged(event) {
     this.language = event.value;
     this.requestReloadCurrentPage();
-    this.snackbar.open(this.message, '', {duration: 3000});
+    this.snackbar.open(this.message, '', {
+      panelClass: 'app-snackbar',
+      duration: 2500
+    });
   }
 
   private requestReloadCurrentPage() {
