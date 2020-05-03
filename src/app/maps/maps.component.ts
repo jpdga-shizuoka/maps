@@ -8,7 +8,7 @@ import { Subscription, BehaviorSubject } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
 
 import {
-  TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
+  TEE_SYMBOL, GOAL_SYMBOL, MANDO_SYMBOL, BACK_MARKERS, DROP_ZONE_SYMBOL, FRONT_MARKERS
 } from '../Symbols';
 import { Position, HoleMetaData, TeeType } from '../models';
 import { CourseService, HoleData, CourseData, CourseId } from '../course-service';
@@ -58,8 +58,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     strokeOpacity: 1.0,
     strokeWeight: 4,
     icons: [
-      {icon: TeeSymbol, offset: '0%'},
-      {icon: GoalSymbol, offset: '100%'}
+      {icon: TEE_SYMBOL, offset: '0%'},
+      {icon: GOAL_SYMBOL, offset: '100%'}
     ],
   };
   frontLineOptions = {
@@ -67,8 +67,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     strokeOpacity: 1.0,
     strokeWeight: 4,
     icons: [
-      {icon: TeeSymbol, offset: '0%'},
-      {icon: GoalSymbol, offset: '100%'}
+      {icon: TEE_SYMBOL, offset: '0%'},
+      {icon: GOAL_SYMBOL, offset: '100%'}
     ],
   };
   safeAreaOptions = {
@@ -92,11 +92,11 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   dropZoneOptions = {
     draggable: false,
-    icon: DropZoneSymbol,
+    icon: DROP_ZONE_SYMBOL,
   };
   mandoOptions = {
     draggable: false,
-    icon: MandoSymbol,
+    icon: MANDO_SYMBOL,
   };
 
   backLines: google.maps.LatLng[][] = [];
@@ -266,7 +266,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private findHole(currentHole: HoleMetaData): HoleData {
-    let index = this.holes.findIndex(hole => hole.number === currentHole.hole);
+    const index = this.holes.findIndex(hole => hole.number === currentHole.hole);
     return this.holes[index];
   }
 
@@ -329,7 +329,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getMarker(holeNumber: number, type: TeeType) {
-    return (type === 'front' ? FrontMarkers : BackMarkers)[holeNumber - 1];
+    return (type === 'front' ? FRONT_MARKERS : BACK_MARKERS)[holeNumber - 1];
   }
 }
 

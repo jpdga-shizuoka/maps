@@ -43,7 +43,7 @@ export class LocalizeService {
   }
 
   transform(value?: string): string {
-    if(!value || this.isGlobal) {
+    if (!value || this.isGlobal) {
       return value;
     }
     let result = value;
@@ -51,7 +51,7 @@ export class LocalizeService {
       const local = dict[name2key(value)];
       if (local) {
         result = local;
-        break
+        break;
       }
     }
     if (value === result) {
@@ -71,7 +71,8 @@ export class LocalizeService {
 }
 
 function prepareLocals() {
-  const locals = environment['localize'];
+  const localize = 'localize';
+  const locals = environment[localize];
   if (!locals) {
     return;
   }

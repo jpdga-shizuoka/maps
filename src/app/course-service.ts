@@ -105,11 +105,11 @@ export class CourseService {
 function id2url(api: string, id?: CourseId | EventId) {
   return id
     ? `assets/models/${api}/${id}.json`
-    : `assets/models/${api}.json`
+    : `assets/models/${api}.json`;
 }
 
 function locationsUrl() {
-  return `assets/models/locations.json`
+  return `assets/models/locations.json`;
 }
 
 function string2array(obj?: string | string[]) {
