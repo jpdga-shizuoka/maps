@@ -5,7 +5,9 @@
 export const environment = {
   production: false,
   projectPathName: '',
-  localLanguage: 'ja',
+  localize: {
+    distanseFromMarkerToGoal: ['a', 'b', "return b + 'からゴールまで' + a"],
+  }
 };
 
 /*
