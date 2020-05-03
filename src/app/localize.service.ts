@@ -17,6 +17,7 @@ const DICTIONARIES = [
   EVENT_TERMS,
 ];
 const DEFAULT_LOCAL_LANGUAGE = 'ja';
+const LOCAL_LANGUAGE = environment['localLanguage'] || DEFAULT_LOCAL_LANGUAGE;
 const DISTANSE_FROM_MARKER_TO_GOAL = {
   global: (distanse: string, marker: string) => `${distanse} to goal from the ${marker.toLowerCase()}`,
   ja: (distanse: string, marker: string) => `${marker}からゴールまで${distanse}`,
@@ -35,9 +36,7 @@ export class LocalizeService {
   language = LOCAL;
 
   get localLanguage() {
-    return this.language === GLOBAL
-    ? GLOBAL
-    : (environment['localLanguage'] || DEFAULT_LOCAL_LANGUAGE);
+    return this.language === GLOBAL ? GLOBAL : LOCAL_LANGUAGE;
   }
 
   get isGlobal() {
