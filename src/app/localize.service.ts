@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../environments/environment';
 
 import LOCATION_TITLE from '../assets/models/ja/location-title.json';
 import PREFECTURE from '../assets/models/ja/prefecture.json';
@@ -15,6 +16,11 @@ const DICTIONARIES = [
   PREFECTURE,
   EVENT_TERMS,
 ];
+const DEFAULT_LOCAL_LANGUAGE = 'ja';
+const DISTANSE_FROM_MARKER_TO_GOAL = {
+  global: (distanse: string, marker: string) => `${distanse} to goal from the ${marker.toLowerCase()}`,
+  ja: (distanse: string, marker: string) => `${marker}からゴールまで${distanse}`,
+};
 
 interface EventParts {
   count: number;
@@ -27,6 +33,12 @@ interface EventParts {
 export class LocalizeService {
 
   language = LOCAL;
+
+  get localLanguage() {
+    return this.language === GLOBAL
+    ? GLOBAL
+    : (environment['localLanguage'] || DEFAULT_LOCAL_LANGUAGE);
+  }
 
   get isGlobal() {
     return this.language === GLOBAL;
@@ -52,11 +64,7 @@ export class LocalizeService {
   }
 
   distanseFromMarkerToGoal(distanse: string, marker: string) {
-    if (this.isGlobal) {
-      return `${distanse} to goal from the ${marker.toLowerCase()}`;
-    } else {
-      return `${marker}からゴールまで${distanse}`;
-    }
+    return DISTANSE_FROM_MARKER_TO_GOAL[this.localLanguage](distanse, marker);
   }
 }
 
