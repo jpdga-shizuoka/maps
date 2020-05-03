@@ -98,7 +98,7 @@ export class CourseService {
   }
 
   getText(path: string): Observable<string> {
-    return this.http.get('assets/models/ja/' + path, {responseType: 'text'});
+    return this.http.get('assets/local/' + path, {responseType: 'text'});
   }
 }
 
