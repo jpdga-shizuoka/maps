@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
 
-import LOCATION_TITLE from '../assets/models/ja/location-title.json';
-import PREFECTURE from '../assets/models/ja/prefecture.json';
-import EVENT_TITLE from '../assets/models/ja/event-title.json';
-import EVENT_TERMS from '../assets/models/ja/event-terms.json';
+import { environment } from '../environments/environment';
+import LOCATION_TITLE from '../assets/local/location-title.json';
+import PREFECTURE from '../assets/local/prefecture.json';
+import EVENT_TITLE from '../assets/local/event-title.json';
+import EVENT_TERMS from '../assets/local/event-terms.json';
 
 export type Language = 'global' | 'local';
 export const GLOBAL = 'global' as Language;
