@@ -30,17 +30,19 @@ function d2r(degrees) {
   return degrees * Math.PI / 180;
 }
 
-export function path2bounds(path: Position[]): google.maps.LatLngBounds {
-  const sw = {lat: 90, lng: 180};
-  const ne = {lat: -90, lng: -180};
-  path.forEach(p => {
-    sw.lat = Math.min(sw.lat, p.lat);
-    sw.lng = Math.min(sw.lng, p.lng);
-    ne.lat = Math.max(ne.lat, p.lat);
-    ne.lng = Math.max(ne.lng, p.lng);
-  });
-  return new google.maps.LatLngBounds(
-    new google.maps.LatLng(sw), new google.maps.LatLng(ne));
+export class Path2Bounds {
+  readonly bounds = {
+    sw: {lat: 90, lng: 180},
+    ne: {lat: -90, lng: -180}
+  };
+  addPath(path: Position[]) {
+    path.forEach(p => {
+      this.bounds.sw.lat = Math.min(this.bounds.sw.lat, p.lat);
+      this.bounds.sw.lng = Math.min(this.bounds.sw.lng, p.lng);
+      this.bounds.ne.lat = Math.max(this.bounds.ne.lat, p.lat);
+      this.bounds.ne.lng = Math.max(this.bounds.ne.lng, p.lng);
+    });
+  }
 }
 
 export function position2geolink(p?: Position): string {

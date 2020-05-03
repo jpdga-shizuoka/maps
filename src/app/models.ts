@@ -54,7 +54,6 @@ export interface CourseData {
   id: CourseId;               // eg. chubu_open_2019.1
   title: string;              // eg. 第1,2,3ラウンド,準決,決勝
   description?: Descriptions; // eg. OB共通ルール
-  center?: Position;          // コースマップの中心座標
   holes: HoleData[];          // ホール情報
 }
 

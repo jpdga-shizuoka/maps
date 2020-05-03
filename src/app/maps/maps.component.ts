@@ -13,12 +13,25 @@ import {
 import { Position, HoleMetaData, TeeType } from '../models';
 import { CourseService, HoleData, CourseData, CourseId } from '../course-service';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
-import { holeLength } from '../map-utilities';
+import { holeLength, Path2Bounds } from '../map-utilities';
 import { isHandset, Observable, BreakpointObserver } from '../ng-utilities';
 
 type LatLng = google.maps.LatLng;
 
 export { Position };
+
+class Holes2Bounds extends Path2Bounds {
+  get center() {
+    return {
+      lat: (this.bounds.sw.lat + this.bounds.ne.lat) / 2,
+      lng: (this.bounds.sw.lng + this.bounds.ne.lng) / 2
+    };
+  }
+  constructor(holes: HoleData[]) {
+    super();
+    holes.forEach(hole => this.addPath(hole.back?.path || hole.front.path));
+  }
+}
 
 interface MarkerInfo {
   title: string;
@@ -40,9 +53,9 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly _course: BehaviorSubject<CourseData>;
   get course() { return this._course.value; }
   set course(course: CourseData) { this._course.next(course); }
-
   get holes() {return this.course?.holes; }
-  get center() {return this.course?.center; }
+
+  center: Position;
   zoom = 17;
   width: number;
   height: number;
@@ -152,6 +165,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     .pipe(
       tap(course => this.course = course),
       map(course => this.holes),
+      tap(holes => this.center = new Holes2Bounds(holes).center),
       tap(holes => this.issueEvent(this.holes[this.lastHole], 'back'))
     ).subscribe(holes => {
       holes.forEach(hole => {

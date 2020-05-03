@@ -40,7 +40,6 @@ export class CourseService {
     .pipe(
       tap(course => {
         course.description = string2array(course.description);
-        course.center = array2position(course.center);
       }),
       tap(course => course.holes.forEach(hole => {
         if (hole.back) {
