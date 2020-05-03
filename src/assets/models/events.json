@@ -1,17 +1,21 @@
 [
   {
-    "id": "chubu_open_2019",
+    "id": "the19thchubuopen",
     "title": "The 19th Chubu Open",
     "location": "mikawarinkairyokuchi",
     "period": {
       "from": "2019-12-14",
       "to": "2019-12-15"
     },
-    "courses": ["chubu_open_2019.1"]
+    "courses": [
+      "chubu_open_2019.1",
+      "the19thchubuopen.4",
+      "the19thchubuopen.5"
+    ]
   },
   {
-    "id": "pwpf_cup_2019",
-    "title": "The 2019 PWBF Cup",
+    "id": "the1stpwbfcup",
+    "title": "The 1st PWBF Cup",
     "location": "picaactivitypark",
     "period": {
       "from": "2019-04-13",
