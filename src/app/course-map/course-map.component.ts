@@ -9,6 +9,7 @@ import { isHandset, Observable } from '../ng-utilities';
 import { HoleMetaData, CourseId, CourseItem } from '../models';
 import { MapsComponent } from '../maps/maps.component';
 import { CourseTableComponent } from '../course-table/course-table.component';
+import { CommonService } from '../common.service';
 
 @Component({
   selector: 'app-course-map',
@@ -27,6 +28,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly commonService: CommonService,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
@@ -39,10 +41,11 @@ export class CourseMapComponent implements OnInit, OnDestroy {
     // https://netbasal.com/set-state-object-when-navigating-in-angular-7-2-b87c5b977bb
     this.subscription = this.route.paramMap.pipe(
       map(() => window.history.state.courses as CourseItem[])
-    ).subscribe(courses => this.courses = courses);
+    ).subscribe(courses => this.courses = courses || this.commonService.courses);
   }
 
   ngOnDestroy() {
+    this.commonService.courses = this.courses;  // workaround for previous page issue
     this.subscription?.unsubscribe();
   }
 
