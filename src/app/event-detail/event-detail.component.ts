@@ -5,6 +5,16 @@ import {
   CourseService, EventId, LocationId, EventData, LocationData, CourseData, CourseId
 } from '../course-service';
 import { position2geolink } from '../map-utilities';
+import { CourseItem } from '../models';
+
+class CourseItemExt implements CourseItem {
+  readonly id: CourseId;
+  readonly title: string;
+  constructor(courseData: CourseData) {
+    this.id = courseData.id;
+    this.title = courseData.title;
+  }
+};
 
 @Component({
   selector: 'app-event-detail',
@@ -25,14 +35,14 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   get location() { return this._location.value; }
   set location(location: LocationData) { this._location.next(location); }
 
-  private readonly _courses: BehaviorSubject<CourseData[]>;
+  private readonly _courses = new  BehaviorSubject<CourseItem[]>([]);
   get courses() { return this._courses.value; }
-  set courses(courses: CourseData[]) { this._courses.next(courses); }
+  set courses(courses: CourseItem[]) { this._courses.next(courses); }
+  get courseItems() { return { courses: this.courses}}
 
   constructor(private readonly remoteService: CourseService) {
     this._event = new BehaviorSubject<EventData|undefined>(undefined);
     this._location = new BehaviorSubject<LocationData|undefined>(undefined);
-    this._courses = new BehaviorSubject<CourseData[]>([]);
   }
 
   ngOnInit(): void {
@@ -61,7 +71,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   private getCourses(ids: CourseId[]) {
     ids.forEach(id => {
       const ss = this.remoteService.getCourse(id)
-      .subscribe(course => this.courses.push(course));
+      .subscribe(course => this.courses.push(new CourseItemExt(course)));
       this.ssCourses.push(ss);
     });
   }

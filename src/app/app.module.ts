@@ -17,6 +17,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +33,6 @@ import { LengthUnitPipe } from './length-unit.pipe';
 import { MeterFootComponent } from './meter-foot/meter-foot.component';
 import { PeriodPipe } from './period.pipe';
 import { EventDetailComponent } from './event-detail/event-detail.component';
-import { MatChipsModule } from '@angular/material/chips';
 import { LocalizePipe } from './localize.pipe';
 import { GlobalLocalComponent } from './global-local/global-local.component';
 import { EventPageComponent } from './event-page/event-page.component';
@@ -78,6 +80,8 @@ import { IndexComponent } from './index/index.component';
     MatRadioModule,
     MatChipsModule,
     MatSnackBarModule,
+    MatToolbarModule,
+    MatSelectModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent

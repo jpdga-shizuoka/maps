@@ -48,11 +48,14 @@ export interface HoleData {
   obLines?: ObLine[];         // OBライン位置
 }
 
-//  GET course/$courseId      return CourseData
-//    eg. course/chubu_open_2019.1
-export interface CourseData {
+export interface CourseItem {
   id: CourseId;               // eg. chubu_open_2019.1
   title: string;              // eg. 第1,2,3ラウンド,準決,決勝
+};
+
+//  GET course/$courseId      return CourseData
+//    eg. course/chubu_open_2019.1
+export interface CourseData extends CourseItem {
   description?: Descriptions; // eg. OB共通ルール
   holes: HoleData[];          // ホール情報
 }

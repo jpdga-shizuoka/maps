@@ -26,5 +26,7 @@
   "uilanguagechanged": "UI言語を切り替えました.",
   "meter": "メートル",
   "foot": "フィート",
-  "length": "長さ"
+  "length": "長さ",
+  "mposemifinal": "MPO準決勝",
+  "mpofinal": "MPO決勝"
 }

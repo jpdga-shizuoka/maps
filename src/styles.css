@@ -21,6 +21,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .app-icon-label > .mat-icon {
   margin-right: 10px;
 }
+.app-titlebar .mat-form-field {
+  font-size: 14px;
+  text-align: right;
+}
+.app-titlebar .mat-form-field-underline {
+  display: none;
+}
 a {
   text-decoration: none;
 }
@@ -53,6 +60,9 @@ a[href^="http://maps.apple"] {
 }
 .config-item-content mat-radio-button:not(:last-child) {
   margin-right: 15px;
+}
+.app-spacer {
+  flex: 1 1 auto;
 }
 @media screen and (max-width: 320px) {
   .config .mat-expansion-panel-body {

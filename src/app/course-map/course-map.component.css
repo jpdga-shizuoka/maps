@@ -8,11 +8,14 @@
 .combined app-course-table {
   width: 320px;
 }
+.app-maps {
+  height: calc(100% - 64px);
+}
 @media screen and (max-width: 736px) {
   app-course-table {
     width: 100%;
   }
   .app-maps {
-    height: calc(100vh - 48px);
+    height: calc(100vh - 48px - 64px);
   }
 }
