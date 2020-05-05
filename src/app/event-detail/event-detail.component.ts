@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Subscription, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import {
   CourseService, EventId, LocationId, EventData, LocationData, CourseData, CourseId
 } from '../course-service';
@@ -25,7 +24,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   @Input() eventId: EventId;
   private ssEvent?: Subscription;
   private ssLocation?: Subscription;
-  private ssCourses: Subscription[] = [];
+  private ssCourses?: Subscription;
 
   private readonly _event: BehaviorSubject<EventData>;
   get event() { return this._event.value; }
@@ -38,25 +37,27 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   private readonly _courses = new  BehaviorSubject<CourseItem[]>([]);
   get courses() { return this._courses.value; }
   set courses(courses: CourseItem[]) { this._courses.next(courses); }
-  get courseItems() { return { courses: this.courses}}
 
-  constructor(private readonly remoteService: CourseService) {
+  constructor(private readonly remote: CourseService) {
     this._event = new BehaviorSubject<EventData|undefined>(undefined);
     this._location = new BehaviorSubject<LocationData|undefined>(undefined);
   }
 
   ngOnInit(): void {
-    this.ssEvent = this.remoteService.getEvent(this.eventId)
-    .pipe(
-      tap(event => this.getLocation(event.location)),
-      tap(event => this.getCourses(event.courses))
-    ).subscribe(event => this.event = event);
+    this.ssEvent = this.remote.getEvent(this.eventId)
+    .subscribe(
+      event => this.event = event,
+      err => console.error(err),
+      () => {
+        this.getLocation(this.event.location);
+        this.getCourses(this.event.courses);
+    });
   }
 
   ngOnDestroy() {
     this.ssEvent?.unsubscribe();
     this.ssLocation?.unsubscribe();
-    this.ssCourses.forEach(ss => ss.unsubscribe());
+    this.ssCourses?.unsubscribe();
   }
 
   get geolink() {
@@ -64,15 +65,12 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   private getLocation(id: LocationId) {
-    this.ssLocation = this.remoteService.getLocation(id)
+    this.ssLocation = this.remote.getLocation(id)
     .subscribe(location => this.location = location);
   }
 
   private getCourses(ids: CourseId[]) {
-    ids.forEach(id => {
-      const ss = this.remoteService.getCourse(id)
+    this.ssCourses = this.remote.getCourses(ids)
       .subscribe(course => this.courses.push(new CourseItemExt(course)));
-      this.ssCourses.push(ss);
-    });
   }
 }

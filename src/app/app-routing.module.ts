@@ -6,7 +6,7 @@ import { CourseMapComponent } from './course-map/course-map.component';
 
 const routes: Routes = [
   { path: '', component: EventPageComponent},
-  { path: 'course/:courseId', component: CourseMapComponent},
+  { path: 'course/:eventId/:courseId', component: CourseMapComponent},
 ];
 
 @NgModule({

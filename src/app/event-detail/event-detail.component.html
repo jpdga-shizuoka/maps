@@ -6,7 +6,7 @@
 
 <mat-chip-list aria-label="Course selection">
   <mat-chip class="mat-chip-list-stacked" *ngFor="let course of courses">
-    <a routerLink="/course/{{course?.id}}" [state]="courseItems">
+    <a routerLink="/course/{{eventId}}/{{course?.id}}">
       {{course?.title | localize}}
     </a>
   </mat-chip>

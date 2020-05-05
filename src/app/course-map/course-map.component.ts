@@ -3,13 +3,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSelectChange } from '@angular/material/select';
 import { Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 
 import { isHandset, Observable } from '../ng-utilities';
-import { HoleMetaData, CourseId, CourseItem } from '../models';
+import { HoleMetaData, CourseId, CourseItem, EventData, EventId } from '../models';
 import { MapsComponent } from '../maps/maps.component';
 import { CourseTableComponent } from '../course-table/course-table.component';
-import { CommonService } from '../common.service';
+import { CourseService } from '../course-service';
 
 @Component({
   selector: 'app-course-map',
@@ -19,34 +18,43 @@ import { CommonService } from '../common.service';
 export class CourseMapComponent implements OnInit, OnDestroy {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
-  isHandset$: Observable<boolean>;
+  readonly eventId: EventId;
+  readonly courseId: CourseId;
+  readonly isHandset$: Observable<boolean>;
   lastHole = 0;
-  selectedCourse: CourseId;
-  courses?: CourseItem[];
-  subscription: Subscription;
+  courses: CourseItem[] = [];
+  ssEvent?: Subscription;
+  ssCourses?: Subscription;
+  event?: EventData;
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly commonService: CommonService,
+    private readonly remote: CourseService,
     breakpointObserver: BreakpointObserver,
   ) {
+    this.courseId = route.snapshot.paramMap.get('courseId');
+    this.eventId = route.snapshot.paramMap.get('eventId');
     this.isHandset$ = isHandset(breakpointObserver);
   }
 
+  private loadCourses() {
+    this.ssCourses = this.remote.getCourses(this.event.courses)
+    .subscribe(course => this.courses.push(course));
+  }
+
   ngOnInit() {
-    this.selectedCourse = this.courseId;
-    // https://angular.io/api/router/NavigationExtras#state
-    // https://medium.com/ableneo/how-to-pass-data-between-routed-components-in-angular-2306308d8255
-    // https://netbasal.com/set-state-object-when-navigating-in-angular-7-2-b87c5b977bb
-    this.subscription = this.route.paramMap.pipe(
-      map(() => window.history.state.courses as CourseItem[])
-    ).subscribe(courses => this.courses = courses || this.commonService.courses);
+    this.ssEvent = this.remote.getEvent(this.eventId)
+    .subscribe(
+      event => this.event = event,
+      err => console.log(err),
+      () => this.loadCourses()
+    );
   }
 
   ngOnDestroy() {
-    this.commonService.courses = this.courses;  // workaround for previous page issue
-    this.subscription?.unsubscribe();
+    this.ssEvent?.unsubscribe();
+    this.ssCourses?.unsubscribe();
   }
 
   onHoleCliked(meta: HoleMetaData) {
@@ -69,12 +77,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
 
   onSelectionChange(event: MatSelectChange) {
     this.router.navigate(['./..', event.value], {
-      relativeTo: this.route,
-      state: {courses: this.courses}
+      relativeTo: this.route
     });
-  }
-
-  get courseId() {
-    return this.route.snapshot.paramMap.get('courseId');
   }
 }

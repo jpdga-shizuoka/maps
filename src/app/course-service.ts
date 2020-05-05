@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, of as observableOf, throwError } from 'rxjs';
-import { catchError, retry, tap, map } from 'rxjs/operators';
+import { catchError, tap, map, mergeMap } from 'rxjs/operators';
 
 import {
   HoleData, CourseId, CourseData, EventData, EventId, Position, Area, LocationId, LocationData
@@ -11,10 +11,6 @@ import {
 import { holeLength } from './map-utilities';
 
 export { HoleData, CourseId, CourseData, EventId, LocationId, EventData, LocationData };
-
-const options = {
-  responseType: 'json'
-};
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +54,13 @@ export class CourseService {
         hole.description = string2array(hole.description);
       })),
       catchError(this.handleError<CourseData>('getCourse'))
+    );
+  }
+
+  getCourses(ids: CourseId[]): Observable<CourseData> {
+    return observableOf(...ids)
+    .pipe(
+      mergeMap(id => this.getCourse(id))
     );
   }
 

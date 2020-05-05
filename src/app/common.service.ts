@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CourseItem } from './models';
 
 export type LengthUnit = 'meter' | 'foot';
 export const METER = 'meter' as LengthUnit;
@@ -12,7 +11,6 @@ export const ONE_FOOT = 3.28084;
 export class CommonService {
 
   lengthUnit = METER;
-  courses?: CourseItem[];
 
   length(value: number, unit?: LengthUnit): string {
     const lengthUnit = unit || this.lengthUnit;

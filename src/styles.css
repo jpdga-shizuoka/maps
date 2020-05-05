@@ -21,8 +21,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .app-icon-label > .mat-icon {
   margin-right: 10px;
 }
+.app-titlebar {
+  font-size: 1rem;
+}
+.app-titlebar > span {
+  flex: 1 1 auto;
+}
+.app-titlebar > span:first-child {
+  flex: 0 1 auto;
+}
+.app-titlebar > span:last-child {
+  flex: 0 1 auto;
+}
 .app-titlebar .mat-form-field {
-  font-size: 14px;
   text-align: right;
 }
 .app-titlebar .mat-form-field-underline {
@@ -43,6 +54,9 @@ a[href^="http://maps.apple"] {
   background: url("assets/img/room-24px.svg") no-repeat right center;
   background-size: 1.2rem 1.2rem;
   padding-right: 1.3rem;
+}
+.mat-row.detail-row ul {
+  margin-right: 10px;
 }
 .app-snackbar span {
   margin: auto;
@@ -68,5 +82,11 @@ a[href^="http://maps.apple"] {
   .config .mat-expansion-panel-body {
     padding-left: 12px;
     padding-right: 12px;
+  }
+  .mat-row.detail-row ul {
+    margin-right: 6px;
+  }
+  .app-titlebar {
+    font-size: 0.8rem;
   }
 }
