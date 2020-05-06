@@ -37,6 +37,9 @@ body {
 .app-titlebar > span:last-child {
   flex: 0 1 auto;
 }
+.footer {
+  text-align: center;
+}
 .app-titlebar .mat-form-field {
   text-align: right;
 }
