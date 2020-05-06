@@ -71,13 +71,9 @@ export class LocalizeService {
 }
 
 function prepareLocals() {
-  const localize = 'localize';
-  const locals = environment[localize];
-  if (!locals) {
-    return;
-  }
-  Object.keys(locals)
-    .forEach(name => LOCALIZE_TABLE[name] = new Function(...locals[name]));
+  Object.keys(environment?.localize)
+    .forEach(name => LOCALIZE_TABLE[name]
+      = new Function(...environment.localize[name]));
 }
 
 function event2local(eventName: string): string {
