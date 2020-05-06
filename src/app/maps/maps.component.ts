@@ -5,7 +5,6 @@ import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ResizedEvent } from 'angular-resize-event';
 import { Subscription, BehaviorSubject } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
 
 import {
   TEE_SYMBOL, GOAL_SYMBOL, MANDO_SYMBOL, BACK_MARKERS, DROP_ZONE_SYMBOL, FRONT_MARKERS
@@ -21,15 +20,14 @@ type LatLng = google.maps.LatLng;
 export { Position };
 
 class Holes2Bounds extends Path2Bounds {
-  get center() {
-    return {
-      lat: (this.bounds.sw.lat + this.bounds.ne.lat) / 2,
-      lng: (this.bounds.sw.lng + this.bounds.ne.lng) / 2
-    };
-  }
+  readonly center: Position;
   constructor(holes: HoleData[]) {
     super();
     holes.forEach(hole => this.addPath(hole.back?.path || hole.front.path));
+    this.center = {
+      lat: (this.bounds.sw.lat + this.bounds.ne.lat) / 2,
+      lng: (this.bounds.sw.lng + this.bounds.ne.lng) / 2
+    };
   }
 }
 
@@ -162,68 +160,16 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.subscription = this.courseService
     .getCourse(this.courseId)
-    .pipe(
-      tap(course => this.course = course),
-      map(course => this.holes),
-      tap(holes => this.center = new Holes2Bounds(holes).center),
-      tap(holes => this.issueEvent(this.holes[this.lastHole], 'back'))
-    ).subscribe(holes => {
-      holes.forEach(hole => {
-
-        if (hole.back) {
-          const path: LatLng[] = [];
-          hole.back.path.forEach(point => path.push(new google.maps.LatLng(point)));
-          this.backLines.push(path);
-        }
-        if (hole.front) {
-          const path: LatLng[] = [];
-          hole.front.path.forEach(point => path.push(new google.maps.LatLng(point)));
-          this.frontLines.push(path);
-        }
-
-        hole.safeAreas?.forEach(area => {
-          const safeArea: LatLng[] = [];
-          area.forEach(point => safeArea.push(new google.maps.LatLng(point)));
-          this.safeAreas.push(safeArea);
-        });
-
-        hole.obAreas?.forEach(area => {
-          const obArea: LatLng[] = [];
-          area.forEach(point => obArea.push(new google.maps.LatLng(point)));
-          this.obAreas.push(obArea);
-        });
-
-        hole.obLines?.forEach(line => {
-          const obLine: LatLng[] = [];
-          line.forEach(point => obLine.push(new google.maps.LatLng(point)));
-          this.obLines.push(obLine);
-        });
-
-        hole.mandos?.forEach(mando => this.mandos.push({
-          title: hole.number.toString(),
-          position: new google.maps.LatLng(mando)
-        }));
-        hole.dropzones?.forEach(dz => this.dropZones.push({
-          title: hole.number.toString(),
-          position: new google.maps.LatLng(dz)
-        }));
-
-        if (hole.back) {
-          const tee = hole.back.path[0];
-          this.backTees.push({
-            title: hole.number.toString(),
-            position: new google.maps.LatLng(tee)
-          });
-        }
-        if (hole.front) {
-          const tee = hole.front.path[0];
-          this.frontTees.push({
-            title: hole.number.toString(),
-            position: new google.maps.LatLng(tee)
-          });
-        }
-      });
-    });
+    .subscribe(
+      course => this.course = course,
+      err => console.error(err),
+      () => {
+        this.center = new Holes2Bounds(this.holes).center;
+        this.prepareObjectsForMap(this.course.holes);
+        const latestHole = this.holes[this.lastHole];
+        this.issueEvent(latestHole, latestHole.back ? 'back' : 'front');
+      }
+    );
   }
 
   panTo(path: Position[]) {
@@ -277,6 +223,64 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     const prevHole = this.findPrev(data);
     this.issueEvent(prevHole, prevHole.front ? 'front' : 'back');
+  }
+
+  private prepareObjectsForMap(holes: HoleData[]) {
+    holes.forEach(hole => {
+
+      if (hole.back) {
+        const path: LatLng[] = [];
+        hole.back.path.forEach(point => path.push(new google.maps.LatLng(point)));
+        this.backLines.push(path);
+      }
+      if (hole.front) {
+        const path: LatLng[] = [];
+        hole.front.path.forEach(point => path.push(new google.maps.LatLng(point)));
+        this.frontLines.push(path);
+      }
+
+      hole.safeAreas?.forEach(area => {
+        const safeArea: LatLng[] = [];
+        area.forEach(point => safeArea.push(new google.maps.LatLng(point)));
+        this.safeAreas.push(safeArea);
+      });
+
+      hole.obAreas?.forEach(area => {
+        const obArea: LatLng[] = [];
+        area.forEach(point => obArea.push(new google.maps.LatLng(point)));
+        this.obAreas.push(obArea);
+      });
+
+      hole.obLines?.forEach(line => {
+        const obLine: LatLng[] = [];
+        line.forEach(point => obLine.push(new google.maps.LatLng(point)));
+        this.obLines.push(obLine);
+      });
+
+      hole.mandos?.forEach(mando => this.mandos.push({
+        title: hole.number.toString(),
+        position: new google.maps.LatLng(mando)
+      }));
+      hole.dropzones?.forEach(dz => this.dropZones.push({
+        title: hole.number.toString(),
+        position: new google.maps.LatLng(dz)
+      }));
+
+      if (hole.back) {
+        const tee = hole.back.path[0];
+        this.backTees.push({
+          title: hole.number.toString(),
+          position: new google.maps.LatLng(tee)
+        });
+      }
+      if (hole.front) {
+        const tee = hole.front.path[0];
+        this.frontTees.push({
+          title: hole.number.toString(),
+          position: new google.maps.LatLng(tee)
+        });
+      }
+    });
   }
 
   private findHole(currentHole: HoleMetaData): HoleData {
