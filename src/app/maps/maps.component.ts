@@ -186,13 +186,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onBackTeeClicked(marker: MapMarker) {
     const holeNumber = Number(marker.getTitle());
-    const hole = this.holes[holeNumber - 1];
+    const hole = this.holes.find(hole => hole.number === holeNumber);
     this.issueEvent(hole, 'back');
   }
 
   onFrontTeeClicked(marker: MapMarker) {
     const holeNumber = Number(marker.getTitle());
-    const hole = this.holes[holeNumber - 1];
+    const hole = this.holes.find(hole => hole.number === holeNumber);
     this.issueEvent(hole, 'front');
   }
 
@@ -328,7 +328,7 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getMetadata(marker: MapMarker, index: number, type: TeeType) {
     const holeNumber = Number(marker.getTitle());
-    const hole = this.holes[holeNumber - 1];
+    const hole = this.holes.find(hole => hole.number === holeNumber);
     const markers = type === 'dz' ? this.dropZones : this.mandos;
     const position = markers[index].position;
     const start = {lat: position.lat(), lng: position.lng()};
