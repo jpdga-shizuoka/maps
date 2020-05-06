@@ -13,7 +13,7 @@ class CourseItemExt implements CourseItem {
     this.id = courseData.id;
     this.title = courseData.title;
   }
-};
+}
 
 @Component({
   selector: 'app-event-detail',

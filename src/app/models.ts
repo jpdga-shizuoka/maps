@@ -51,7 +51,7 @@ export interface HoleData {
 export interface CourseItem {
   id: CourseId;               // eg. chubu_open_2019.1
   title: string;              // eg. 第1,2,3ラウンド,準決,決勝
-};
+}
 
 //  GET course/$courseId      return CourseData
 //    eg. course/chubu_open_2019.1

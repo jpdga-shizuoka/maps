@@ -9,7 +9,7 @@ export interface Environment {
   localize?: {
     distanseFromMarkerToGoal?: string[];
   };
-};
+}
 
 export const environment: Environment = {
   production: false,
