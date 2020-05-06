@@ -43,6 +43,9 @@ body {
 .app-titlebar .mat-form-field-underline {
   display: none;
 }
+.app-course-map {
+  background-color: white;
+}
 a {
   text-decoration: none;
 }
