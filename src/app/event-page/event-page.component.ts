@@ -3,6 +3,7 @@ import { Router, NavigationEnd, RouterEvent } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-event-page',
@@ -11,6 +12,7 @@ import { filter } from 'rxjs/operators';
 })
 export class EventPageComponent implements OnDestroy {
   private subscription: Subscription;
+  title = environment.title;
 
   constructor(
     private readonly router: Router,
