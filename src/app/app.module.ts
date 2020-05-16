@@ -39,6 +39,7 @@ import { EventPageComponent } from './event-page/event-page.component';
 import { PrefaceComponent } from './preface/preface.component';
 import { ConfigComponent } from './config/config.component';
 import { IndexComponent } from './index/index.component';
+import { ReloadComponent } from './app-reload';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { IndexComponent } from './index/index.component';
     PrefaceComponent,
     ConfigComponent,
     IndexComponent,
+    ReloadComponent,
   ],
   imports: [
     BrowserModule,

@@ -66,8 +66,7 @@ export class CourseMapComponent implements OnInit {
   }
 
   onSelectionChange(event: MatSelectChange) {
-    this.router.navigate(['./..', event.value], {
-      relativeTo: this.route
-    });
+    this.router.navigate(['reload'])
+      .then(() => this.router.navigate(['course', this.eventId,  event.value]));
   }
 }
