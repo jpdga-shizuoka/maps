@@ -1,9 +1,8 @@
-import { Component, ViewChild, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSelectChange } from '@angular/material/select';
-import { Subscription } from 'rxjs';
-
+import { take } from 'rxjs/operators';
 import { isHandset, Observable } from '../ng-utilities';
 import { HoleMetaData, CourseId, CourseItem, EventData, EventId } from '../models';
 import { MapsComponent } from '../maps/maps.component';
@@ -15,7 +14,7 @@ import { CourseService } from '../course-service';
   templateUrl: './course-map.component.html',
   styleUrls: ['./course-map.component.css']
 })
-export class CourseMapComponent implements OnInit, OnDestroy {
+export class CourseMapComponent implements OnInit {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
   readonly eventId: EventId;
@@ -23,8 +22,6 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   readonly isHandset$: Observable<boolean>;
   lastHole = 0;
   courses: CourseItem[] = [];
-  ssEvent?: Subscription;
-  ssCourses?: Subscription;
   event?: EventData;
 
   constructor(
@@ -39,40 +36,33 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   private loadCourses() {
-    this.ssCourses = this.remote.getCourses(this.event.courses)
-    .subscribe(course => this.courses.push(course));
+    this.remote.getCourses(this.event.courses)
+      .subscribe(course => this.courses.push(course));
   }
 
   ngOnInit() {
-    this.ssEvent = this.remote.getEvent(this.eventId)
-    .subscribe(
+    this.remote.getEvent(this.eventId).subscribe(
       event => this.event = event,
       err => console.log(err),
       () => this.loadCourses()
     );
   }
 
-  ngOnDestroy() {
-    this.ssEvent?.unsubscribe();
-    this.ssCourses?.unsubscribe();
-  }
-
   onHoleCliked(meta: HoleMetaData) {
-    this.isHandset$.subscribe(handset => {
+    this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset) {
         this.map.panTo(meta.data.path);
       }
-    }).unsubscribe();
+    });
   }
 
   onHoleMapCliked(meta: HoleMetaData) {
     this.lastHole = meta.hole - 1;
-    this.isHandset$
-    .subscribe(handset => {
+    this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset) {
         this.table.notifyHole(meta);
       }
-    }).unsubscribe();
+    });
   }
 
   onSelectionChange(event: MatSelectChange) {

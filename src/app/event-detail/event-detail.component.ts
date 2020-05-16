@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { Component, OnInit, Input } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {
   CourseService, EventId, LocationId, EventData, LocationData, CourseData, CourseId
 } from '../course-service';
@@ -20,11 +20,8 @@ class CourseItemExt implements CourseItem {
   templateUrl: './event-detail.component.html',
   styleUrls: ['./event-detail.component.css']
 })
-export class EventDetailComponent implements OnInit, OnDestroy {
+export class EventDetailComponent implements OnInit {
   @Input() eventId: EventId;
-  private ssEvent?: Subscription;
-  private ssLocation?: Subscription;
-  private ssCourses?: Subscription;
 
   private readonly _event: BehaviorSubject<EventData>;
   get event() { return this._event.value; }
@@ -44,8 +41,7 @@ export class EventDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.ssEvent = this.remote.getEvent(this.eventId)
-    .subscribe(
+    this.remote.getEvent(this.eventId).subscribe(
       event => this.event = event,
       err => console.error(err),
       () => {
@@ -54,23 +50,17 @@ export class EventDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this.ssEvent?.unsubscribe();
-    this.ssLocation?.unsubscribe();
-    this.ssCourses?.unsubscribe();
-  }
-
   get geolink() {
     return position2geolink(this.location?.geolocation);
   }
 
   private getLocation(id: LocationId) {
-    this.ssLocation = this.remote.getLocation(id)
-    .subscribe(location => this.location = location);
+    this.remote.getLocation(id)
+      .subscribe(location => this.location = location);
   }
 
   private getCourses(ids: CourseId[]) {
-    this.ssCourses = this.remote.getCourses(ids)
+    this.remote.getCourses(ids)
       .subscribe(course => this.courses.push(new CourseItemExt(course)));
   }
 }

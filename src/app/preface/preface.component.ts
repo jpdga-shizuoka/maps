@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { CourseService } from '../course-service';
 
@@ -8,22 +8,16 @@ import { CourseService } from '../course-service';
   templateUrl: './preface.component.html',
   styleUrls: ['./preface.component.css']
 })
-export class PrefaceComponent implements OnInit, OnDestroy {
+export class PrefaceComponent implements OnInit {
 
   readonly content$: BehaviorSubject<string>;
-  private subscription?: Subscription;
 
   constructor(private readonly remoteService: CourseService) {
     this.content$ = new BehaviorSubject<string>('');
   }
 
   ngOnInit(): void {
-    this.subscription = this.remoteService
-    .getText('preface.html')
-    .subscribe(data => this.content$.next(data));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.remoteService.getText('preface.html')
+      .subscribe(data => this.content$.next(data));
   }
 }

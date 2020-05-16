@@ -1,10 +1,11 @@
 import {
-  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter, OnDestroy
+  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter
 } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ResizedEvent } from 'angular-resize-event';
-import { Subscription, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import {
   TEE_SYMBOL, GOAL_SYMBOL, MANDO_SYMBOL, BACK_MARKERS, DROP_ZONE_SYMBOL, FRONT_MARKERS
@@ -41,7 +42,7 @@ interface MarkerInfo {
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MapsComponent implements OnInit, AfterViewInit {
   @ViewChild('googlemap') googlemap: GoogleMap;
   @Input() courseId: CourseId;
   @Input() lastHole = 0;
@@ -119,7 +120,6 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
   frontTees: MarkerInfo[] = [];
   dropZones: MarkerInfo[] = [];
   mandos: MarkerInfo[] = [];
-  subscription?: Subscription;
   metadata?: HoleMetaData;
 
   backTeeOptions(index: string) {
@@ -153,14 +153,8 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.height = rect.height;
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
-  }
-
   ngAfterViewInit() {
-    this.subscription = this.courseService
-    .getCourse(this.courseId)
-    .subscribe(
+    this.courseService.getCourse(this.courseId).subscribe(
       course => this.course = course,
       err => console.error(err),
       () => {
@@ -317,13 +311,13 @@ export class MapsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.metadata = meta;
     this.panTo(meta.data.path);
-    this.isHandset$.subscribe(handset => {
+    this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset && (meta.teeType === 'dz' || meta.teeType === 'mando')) {
         this.sheet.open(HoleInfoSheetComponent, {data: meta});
       } else {
         this.holeClicked.emit(meta);
       }
-    }).unsubscribe();
+    });
   }
 
   private getMetadata(marker: MapMarker, index: number, type: TeeType) {
