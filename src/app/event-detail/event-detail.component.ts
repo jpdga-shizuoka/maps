@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {
-  CourseService, EventId, LocationId, EventData, LocationData, CourseData, CourseId
-} from '../course-service';
+  RemoteService, EventId, LocationId, EventData, LocationData, CourseData, CourseId
+} from '../remote-service';
 import { position2geolink } from '../map-utilities';
 import { CourseItem } from '../models';
 
@@ -35,7 +35,7 @@ export class EventDetailComponent implements OnInit {
   get courses() { return this._courses.value; }
   set courses(courses: CourseItem[]) { this._courses.next(courses); }
 
-  constructor(private readonly remote: CourseService) {
+  constructor(private readonly remote: RemoteService) {
     this._event = new BehaviorSubject<EventData|undefined>(undefined);
     this._location = new BehaviorSubject<LocationData|undefined>(undefined);
   }

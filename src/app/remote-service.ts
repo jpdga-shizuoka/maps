@@ -15,7 +15,7 @@ export { HoleData, CourseId, CourseData, EventId, LocationId, EventData, Locatio
 @Injectable({
   providedIn: 'root'
 })
-export class CourseService {
+export class RemoteService {
 
   constructor(private readonly http: HttpClient) { }
 

@@ -1,5 +1,5 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { CourseService, EventData } from '../course-service';
+import { RemoteService, EventData } from '../remote-service';
 export { EventData };
 
 /**
@@ -10,7 +10,7 @@ export { EventData };
 export class EventTableDataSource extends MatTableDataSource<EventData> {
   loading = true;
 
-  constructor(private readonly remote: CourseService) {
+  constructor(private readonly remote: RemoteService) {
     super();
   }
 

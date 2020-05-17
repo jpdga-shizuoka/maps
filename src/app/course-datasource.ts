@@ -3,7 +3,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, finalize } from 'rxjs/operators';
 
-import { CourseService, HoleData, CourseId, CourseData } from './course-service';
+import { RemoteService, HoleData, CourseId, CourseData } from './remote-service';
 
 export { HoleData, CourseId };
 
@@ -35,7 +35,7 @@ export class CourseDataSource extends DataSource<HoleData> {
 
   constructor(
     private readonly courseId: CourseId,
-    private readonly service: CourseService,
+    private readonly remote: RemoteService,
   ) {
     super();
     this._loading = new BehaviorSubject<boolean>(true);
@@ -49,7 +49,7 @@ export class CourseDataSource extends DataSource<HoleData> {
    */
   connect(): Observable<HoleData[]> {
     this.loading = true;
-    return this.service
+    return this.remote
       .getCourse(this.courseId)
       .pipe(
         tap(course => this.course = course),

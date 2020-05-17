@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 
 import { EventTableDataSource, EventData } from './event-table-datasource';
-import { CourseService } from '../course-service';
+import { RemoteService } from '../remote-service';
 
 @Component({
   selector: 'app-event-table',
@@ -27,10 +27,10 @@ export class EventTableComponent implements AfterViewInit, OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   readonly displayedColumns = ['date', 'name'];
 
-  constructor(private readonly courseService: CourseService) { }
+  constructor(private readonly remote: RemoteService) { }
 
   ngOnInit() {
-    this.dataSource = new EventTableDataSource(this.courseService);
+    this.dataSource = new EventTableDataSource(this.remote);
   }
 
   ngAfterViewInit() {

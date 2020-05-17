@@ -11,7 +11,7 @@ import {
   TEE_SYMBOL, GOAL_SYMBOL, MANDO_SYMBOL, BACK_MARKERS, DROP_ZONE_SYMBOL, FRONT_MARKERS
 } from '../Symbols';
 import { Position, HoleMetaData, TeeType } from '../models';
-import { CourseService, HoleData, CourseData, CourseId } from '../course-service';
+import { RemoteService, HoleData, CourseData, CourseId } from '../remote-service';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { holeLength, Path2Bounds } from '../map-utilities';
 import { isHandset, Observable, BreakpointObserver } from '../ng-utilities';
@@ -141,7 +141,7 @@ export class MapsComponent implements OnInit, OnDestroy {
     private readonly sheet: MatBottomSheet,
     private readonly ngZone: NgZone,
     private readonly el: ElementRef,
-    private readonly courseService: CourseService,
+    private readonly remote: RemoteService,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
@@ -215,7 +215,7 @@ export class MapsComponent implements OnInit, OnDestroy {
 
   private loadCourse(courseId: CourseId) {
     if (!courseId) { return; }
-    this.courseService.getCourse(courseId).subscribe(
+    this.remote.getCourse(courseId).subscribe(
       course => this.course = course,
       err => console.error(err),
       () => {

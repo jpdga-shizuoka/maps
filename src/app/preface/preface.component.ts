@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import { CourseService } from '../course-service';
+import { RemoteService } from '../remote-service';
 
 @Component({
   selector: 'app-preface',
@@ -12,12 +12,12 @@ export class PrefaceComponent implements OnInit {
 
   readonly content$: BehaviorSubject<string>;
 
-  constructor(private readonly remoteService: CourseService) {
+  constructor(private readonly remote: RemoteService) {
     this.content$ = new BehaviorSubject<string>('');
   }
 
   ngOnInit(): void {
-    this.remoteService.getText('preface.html')
+    this.remote.getText('preface.html')
       .subscribe(data => this.content$.next(data));
   }
 }

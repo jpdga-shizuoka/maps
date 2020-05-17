@@ -8,7 +8,7 @@ import { isHandset, Observable } from '../ng-utilities';
 import { HoleMetaData, CourseId, CourseItem, EventData, EventId } from '../models';
 import { MapsComponent } from '../maps/maps.component';
 import { CourseTableComponent } from '../course-table/course-table.component';
-import { CourseService } from '../course-service';
+import { RemoteService } from '../remote-service';
 
 @Component({
   selector: 'app-course-map',
@@ -29,7 +29,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly remote: CourseService,
+    private readonly remote: RemoteService,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);

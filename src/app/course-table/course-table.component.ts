@@ -6,7 +6,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { CommonService } from '../common.service';
-import { CourseService, HoleData, CourseId } from '../course-service';
+import { RemoteService, HoleData, CourseId } from '../remote-service';
 import { CourseDataSource } from '../course-datasource';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { HoleMetaData, TeeType } from '../models';
@@ -35,7 +35,7 @@ export class CourseTableComponent implements OnInit, OnDestroy {
   private ssCourse: Subscription;
 
   constructor(
-    private readonly courseService: CourseService,
+    private readonly remote: RemoteService,
     private readonly commonService: CommonService,
     private readonly el: ElementRef,
   ) {
@@ -44,7 +44,7 @@ export class CourseTableComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.ssCourse = this._courseId.subscribe(courseId => {
       if (!courseId) { return; }
-      this.dataSource = new CourseDataSource(courseId, this.courseService);
+      this.dataSource = new CourseDataSource(courseId, this.remote);
       this.table.dataSource = this.dataSource;
     })
   }
