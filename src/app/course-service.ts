@@ -31,6 +31,9 @@ export class CourseService {
   }
 
   getCourse(courseId: CourseId): Observable<CourseData> {
+    if (!courseId) {
+      throw new TypeError('getCourse: no courseId specified');
+    }
     return this.http
     .get<CourseData>(id2url('course', courseId), {responseType: 'json'})
     .pipe(
@@ -58,6 +61,10 @@ export class CourseService {
   }
 
   getCourses(ids: CourseId[]): Observable<CourseData> {
+    if (!ids) {
+      throw new TypeError('getCourses: no courseId[] specified');
+    }
+    console.log(ids)
     return observableOf(...ids)
     .pipe(
       mergeMap(id => this.getCourse(id))
@@ -73,6 +80,9 @@ export class CourseService {
   }
 
   getEvent(eventId: EventId): Observable<EventData> {
+    if (!eventId) {
+      throw new TypeError('getEvent: no eventId specified');
+    }
     return this.getEvents()
     .pipe(
       map(events => events.find(event => event.id === eventId)),
@@ -92,6 +102,9 @@ export class CourseService {
   }
 
   getLocation(id: LocationId): Observable<LocationData> {
+    if (!id) {
+      throw new TypeError('getLocation: no locationId specified');
+    }
     return this.getLocations()
     .pipe(
       map(locations => locations.find(location => location.id === id)),
