@@ -44,7 +44,7 @@ interface MarkerInfo {
 })
 export class MapsComponent implements OnInit, OnDestroy {
   @ViewChild('googlemap') googlemap: GoogleMap;
-  @Input() lastHole = 0;
+  @Input() lastHole = 1;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
   @Input()
   set courseId(courseId: CourseId) { this._courseId.next(courseId); }
@@ -53,8 +53,7 @@ export class MapsComponent implements OnInit, OnDestroy {
   readonly isHandset$: Observable<boolean>;
   private ssCourse: Subscription;
   private readonly _course: BehaviorSubject<CourseData>;
-  get course() { return this._course.value; }
-  set course(course: CourseData) { this._course.next(course); }
+  course: CourseData;
   get holes() {return this.course?.holes; }
 
   center: Position;
@@ -222,7 +221,8 @@ export class MapsComponent implements OnInit, OnDestroy {
       () => {
         this.center = new Holes2Bounds(this.holes).center;
         this.prepareObjectsForMap(this.course.holes);
-        const latestHole = this.holes[this.lastHole];
+        const latestHole
+          = this.holes.find(hole => hole.number === this.lastHole) || this.holes[0];
         this.issueEvent(latestHole, latestHole.back ? 'back' : 'front');
       }
     );

@@ -21,7 +21,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   readonly isHandset$: Observable<boolean>;
   eventId: EventId;
   courseId: CourseId;
-  lastHole = 0;
+  lastHole = 1;
   courses: CourseItem[];
   event?: EventData;
   private ssRoute: Subscription;
@@ -53,7 +53,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   onHoleMapCliked(meta: HoleMetaData) {
-    this.lastHole = meta.hole - 1;
+    this.lastHole = meta.hole;
     this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset) {
         this.table.notifyHole(meta);
@@ -66,6 +66,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   private loadEvent(params: Params) {
+    this.lastHole = 1;
     this.courses = [];
     this.eventId = params.eventId;
     this.remote.getEvent(this.eventId).subscribe(
