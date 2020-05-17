@@ -1,6 +1,10 @@
 <div class="app-course-map">
 <mat-toolbar color="primary" class="app-titlebar">
-  <span>{{event?.title | localize}}</span>
+  <span>
+    <a routerLink="/">
+      <mat-icon>navigate_before</mat-icon><span>{{event?.title | localize}}</span>
+    </a>
+  </span>
   <span></span>
   <span>
     <mat-form-field>

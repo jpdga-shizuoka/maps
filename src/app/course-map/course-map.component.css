@@ -11,6 +11,16 @@
 .app-maps {
   height: calc(100% - 64px);
 }
+.app-titlebar > span {
+  display: flex;
+}
+.app-titlebar a {
+  display: flex;
+  color: white;
+}
+.app-titlebar .mat-icon {
+  font-size: 30px;
+}
 @media screen and (max-width: 736px) {
   app-course-table {
     width: 100%;
