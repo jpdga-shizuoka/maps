@@ -280,7 +280,7 @@ export class MapsComponent implements OnInit, AfterViewInit {
       }
       if (hole.front) {
         const tee = hole.front.path[0];
-        this.frontTees.push({
+        frontTees.push({
           title: hole.number.toString(),
           position: new google.maps.LatLng(tee)
         });
