@@ -45,7 +45,7 @@ export class GlobalLocalComponent {
     // @note The following technique is working, but it affects routerLinkActive;
     // https://medium.com/@rakshitshah/refresh-angular-component-without-navigation-148a87c2de3f
     const currentPath = this.location.path().replace(/^\//, '');
-    this.router.navigate(['reload'])
-    .then(() => this.router.navigate([currentPath]));
+    this.router.navigate(['reload'], { skipLocationChange: true })
+    .then(() => this.router.navigate([currentPath], { skipLocationChange: true }));
   }
 }
