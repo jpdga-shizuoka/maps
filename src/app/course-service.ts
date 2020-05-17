@@ -64,7 +64,6 @@ export class CourseService {
     if (!ids) {
       throw new TypeError('getCourses: no courseId[] specified');
     }
-    console.log(ids)
     return observableOf(...ids)
     .pipe(
       mergeMap(id => this.getCourse(id))
