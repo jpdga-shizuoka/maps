@@ -1,8 +1,9 @@
 import {
-  AfterViewInit, Component, OnInit, ViewChild, Output, EventEmitter, Input, ElementRef
+  Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter, Input, ElementRef
 } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { CommonService } from '../common.service';
 import { CourseService, HoleData, CourseId } from '../course-service';
@@ -22,13 +23,16 @@ import { HoleMetaData, TeeType } from '../models';
     ]),
   ],
 })
-export class CourseTableComponent implements AfterViewInit, OnInit {
+export class CourseTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<HoleData>;
-  @Input() courseId: CourseId;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
+  @Input() set courseId(courseId: CourseId) { this._courseId.next(courseId); }
+  get courseId() { return this._courseId.value; }
+  private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
   readonly displayedColumns = ['hole', 'back', 'front'];
   dataSource?: CourseDataSource;
   expandedHole: HoleData | null;
+  private ssCourse: Subscription;
 
   constructor(
     private readonly courseService: CourseService,
@@ -38,11 +42,15 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   }
 
   ngOnInit() {
-    this.dataSource = new CourseDataSource(this.courseId, this.courseService);
+    this.ssCourse = this._courseId.subscribe(courseId => {
+      if (!courseId) { return; }
+      this.dataSource = new CourseDataSource(courseId, this.courseService);
+      this.table.dataSource = this.dataSource;
+    })
   }
 
-  ngAfterViewInit() {
-    this.table.dataSource = this.dataSource;
+  ngOnDestroy() {
+    this.ssCourse?.unsubscribe();
   }
 
   backtee(hole) {
@@ -56,6 +64,7 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   }
 
   get backTotal() {
+    if (!this.dataSource) { return '';}
     let length = 0;
     let par = 0;
     this.dataSource.data.forEach(hole => {
@@ -67,6 +76,7 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   }
 
   get frontTotal() {
+    if (!this.dataSource) { return '';}
     let length = 0;
     let par = 0;
     this.dataSource.data.forEach(hole => {
@@ -83,11 +93,11 @@ export class CourseTableComponent implements AfterViewInit, OnInit {
   }
 
   get isLoading() {
-    return this.dataSource.loading;
+    return this.dataSource?.loading;
   }
 
   get descriptions() {
-    return this.dataSource.descriptions;
+    return this.dataSource?.descriptions;
   }
 
   isExpanded(hole: HoleData) {

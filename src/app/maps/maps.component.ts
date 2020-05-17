@@ -1,10 +1,10 @@
 import {
-  Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewInit, Input, Output, EventEmitter
+  Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy, Input, Output, EventEmitter
 } from '@angular/core';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ResizedEvent } from 'angular-resize-event';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import {
@@ -42,13 +42,16 @@ interface MarkerInfo {
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit, AfterViewInit {
+export class MapsComponent implements OnInit, OnDestroy {
   @ViewChild('googlemap') googlemap: GoogleMap;
-  @Input() courseId: CourseId;
   @Input() lastHole = 0;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
+  @Input()
+  set courseId(courseId: CourseId) { this._courseId.next(courseId); }
+  get courseId() { return this._courseId.value; }
+  private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
   readonly isHandset$: Observable<boolean>;
-
+  private ssCourse: Subscription;
   private readonly _course: BehaviorSubject<CourseData>;
   get course() { return this._course.value; }
   set course(course: CourseData) { this._course.next(course); }
@@ -151,19 +154,11 @@ export class MapsComponent implements OnInit, AfterViewInit {
     const rect = element.getBoundingClientRect();
     this.width = rect.width;
     this.height = rect.height;
+    this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId));
   }
 
-  ngAfterViewInit() {
-    this.courseService.getCourse(this.courseId).subscribe(
-      course => this.course = course,
-      err => console.error(err),
-      () => {
-        this.center = new Holes2Bounds(this.holes).center;
-        this.prepareObjectsForMap(this.course.holes);
-        const latestHole = this.holes[this.lastHole];
-        this.issueEvent(latestHole, latestHole.back ? 'back' : 'front');
-      }
-    );
+  ngOnDestroy() {
+    this.ssCourse?.unsubscribe();
   }
 
   panTo(path: Position[]) {
@@ -217,6 +212,20 @@ export class MapsComponent implements OnInit, AfterViewInit {
     }
     const prevHole = this.findPrev(data);
     this.issueEvent(prevHole, prevHole.front ? 'front' : 'back');
+  }
+
+  private loadCourse(courseId: CourseId) {
+    if (!courseId) { return; }
+    this.courseService.getCourse(courseId).subscribe(
+      course => this.course = course,
+      err => console.error(err),
+      () => {
+        this.center = new Holes2Bounds(this.holes).center;
+        this.prepareObjectsForMap(this.course.holes);
+        const latestHole = this.holes[this.lastHole];
+        this.issueEvent(latestHole, latestHole.back ? 'back' : 'front');
+      }
+    );
   }
 
   private prepareObjectsForMap(holes: HoleData[]) {

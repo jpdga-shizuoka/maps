@@ -1,7 +1,8 @@
-import { Component, ViewChild, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, ViewChild, Input, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, Params } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSelectChange } from '@angular/material/select';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { isHandset, Observable } from '../ng-utilities';
 import { HoleMetaData, CourseId, CourseItem, EventData, EventId } from '../models';
@@ -14,15 +15,16 @@ import { CourseService } from '../course-service';
   templateUrl: './course-map.component.html',
   styleUrls: ['./course-map.component.css']
 })
-export class CourseMapComponent implements OnInit {
+export class CourseMapComponent implements OnInit, OnDestroy {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
-  readonly eventId: EventId;
-  readonly courseId: CourseId;
   readonly isHandset$: Observable<boolean>;
+  eventId: EventId;
+  courseId: CourseId;
   lastHole = 0;
-  courses: CourseItem[] = [];
+  courses: CourseItem[];
   event?: EventData;
+  private ssRoute: Subscription;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -30,22 +32,16 @@ export class CourseMapComponent implements OnInit {
     private readonly remote: CourseService,
     breakpointObserver: BreakpointObserver,
   ) {
-    this.courseId = route.snapshot.paramMap.get('courseId');
-    this.eventId = route.snapshot.paramMap.get('eventId');
     this.isHandset$ = isHandset(breakpointObserver);
   }
 
-  private loadCourses() {
-    this.remote.getCourses(this.event.courses)
-      .subscribe(course => this.courses.push(course));
+  ngOnInit() {
+    this.ssRoute
+      = this.route.params.subscribe(params => this.loadEvent(params));
   }
 
-  ngOnInit() {
-    this.remote.getEvent(this.eventId).subscribe(
-      event => this.event = event,
-      err => console.log(err),
-      () => this.loadCourses()
-    );
+  ngOnDestroy() {
+    this.ssRoute?.unsubscribe();
   }
 
   onHoleCliked(meta: HoleMetaData) {
@@ -66,7 +62,22 @@ export class CourseMapComponent implements OnInit {
   }
 
   onSelectionChange(event: MatSelectChange) {
-    this.router.navigate(['reload'])
-      .then(() => this.router.navigate(['course', this.eventId,  event.value]));
+    this.router.navigate(['course', this.eventId,  event.value]);
+  }
+
+  private loadEvent(params: Params) {
+    this.courses = [];
+    this.eventId = params.eventId;
+    this.remote.getEvent(this.eventId).subscribe(
+      event => this.event = event,
+      err => console.log(err),
+      () => this.loadCourses(params.courseId)
+    );
+  }
+
+  private loadCourses(courseId: CourseId) {
+    this.courseId = courseId;
+    this.remote.getCourses(this.event.courses)
+      .subscribe(course => this.courses.push(course));
   }
 }
