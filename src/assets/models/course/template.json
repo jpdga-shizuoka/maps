@@ -7,11 +7,17 @@
       "number": 1,
       "description": [""],
       "back": {
-        "path": [],
+        "path": [
+          [],
+          []
+        ],
         "par": 3
       },
       "front": {
-        "path": [],
+        "path": [
+          [],
+          []
+        ],
         "par": 3
       },
       "dropzones": [],
