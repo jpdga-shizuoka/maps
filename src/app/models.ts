@@ -46,6 +46,7 @@ export interface HoleData {
   safeAreas?: Area[];         // セーフエリア位置
   obAreas?: Area[];           // OBエリア位置
   obLines?: ObLine[];         // OBライン位置
+  hazardAreas?: Area[];       // ハザードエリア位置
 }
 
 export interface CourseItem {

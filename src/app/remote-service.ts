@@ -54,6 +54,7 @@ export class RemoteService {
         hole.safeAreas = arrayOfArea(hole.safeAreas);
         hole.obAreas = arrayOfArea(hole.obAreas);
         hole.obLines = arrayOfArea(hole.obLines);
+        hole.hazardAreas = arrayOfArea(hole.hazardAreas);
         hole.description = string2array(hole.description);
       })),
       catchError(this.handleError<CourseData>('getCourse'))

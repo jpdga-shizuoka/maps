@@ -104,6 +104,13 @@ export class MapsComponent implements OnInit, OnDestroy {
     fillColor: 'red',
     fillOpacity: 0.3
   };
+  hazardAreaOptions = {
+    strokeColor: 'purple',
+    strokeOpacity: 1,
+    strokeWeight: 2,
+    fillColor: 'purple',
+    fillOpacity: 0.3
+  };
   dropZoneOptions = {
     draggable: false,
     icon: DROP_ZONE_SYMBOL,
@@ -118,6 +125,7 @@ export class MapsComponent implements OnInit, OnDestroy {
   safeAreas: google.maps.LatLng[][];
   obAreas: google.maps.LatLng[][];
   obLines: google.maps.LatLng[][];
+  hazardAreas: google.maps.LatLng[][];
   backTees: MarkerInfo[];
   frontTees: MarkerInfo[];
   dropZones: MarkerInfo[];
@@ -234,6 +242,7 @@ export class MapsComponent implements OnInit, OnDestroy {
     const safeAreas: google.maps.LatLng[][] = [];
     const obAreas: google.maps.LatLng[][] = [];
     const obLines: google.maps.LatLng[][] = [];
+    const hazardAreas: google.maps.LatLng[][] = [];
     const mandos: MarkerInfo[] = [];
     const dropZones: MarkerInfo[] = [];
     const backTees: MarkerInfo[] = [];
@@ -270,6 +279,12 @@ export class MapsComponent implements OnInit, OnDestroy {
         obLines.push(obLine);
       });
 
+      hole.hazardAreas?.forEach(area => {
+        const hazardArea: LatLng[] = [];
+        area.forEach(point => hazardArea.push(new google.maps.LatLng(point)));
+        hazardAreas.push(hazardArea);
+      });
+
       hole.mandos?.forEach(mando => mandos.push({
         title: hole.number.toString(),
         position: new google.maps.LatLng(mando)
@@ -301,6 +316,7 @@ export class MapsComponent implements OnInit, OnDestroy {
     this.safeAreas = safeAreas;
     this.obAreas = obAreas;
     this.obLines = obLines;
+    this.hazardAreas = hazardAreas;
     this.mandos = mandos;
     this.dropZones = dropZones;
     this.backTees = backTees;
