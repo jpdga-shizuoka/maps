@@ -4,6 +4,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularResizedEventModule } from 'angular-resize-event';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -20,6 +21,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -68,6 +71,7 @@ import { ReloadComponent } from './app-reload';
     AppRoutingModule,
     AngularResizedEventModule,
     BrowserAnimationsModule,
+    FormsModule,
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
@@ -84,6 +88,7 @@ import { ReloadComponent } from './app-reload';
     MatSnackBarModule,
     MatToolbarModule,
     MatSelectModule,
+    MatInputModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent

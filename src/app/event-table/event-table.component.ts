@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Input } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
@@ -23,6 +23,7 @@ export class EventTableComponent implements AfterViewInit, OnInit {
   @ViewChild(MatTable) table: MatTable<EventData>;
   dataSource?: EventTableDataSource;
   expandedEvent: EventData | null;
+  search = '';
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   readonly displayedColumns = ['date', 'name'];
