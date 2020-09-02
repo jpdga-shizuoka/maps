@@ -14,7 +14,7 @@ export interface Environment {
 export const environment: Environment = {
   production: false,
   projectPathName: '',
-  title: 'アプリ名未だ決まらず',
+  title: 'Caddie Book Japan',
   localize: {
     distanseFromMarkerToGoal: ['a', 'b', 'return b + "からゴールまで" + a'],
   }
