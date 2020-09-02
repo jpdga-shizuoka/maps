@@ -119,6 +119,12 @@
               "devServerTarget": "maps:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "https://jpdga-shizuoka.github.io/maps/"
+          }
         }
       }
     }
