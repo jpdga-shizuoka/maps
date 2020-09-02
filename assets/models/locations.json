@@ -1,0 +1,248 @@
+[
+  {
+    "id": "showakinenpark",
+    "title": "dummy title",
+    "prefecture": "Tokyo",
+    "geolocation": [35.711596, 139.391561]
+  },
+  {
+    "id": "tatsuminomoriseasidepark",
+    "title": "dummy title",
+    "prefecture": "Tokyo",
+    "geolocation": [35.649155, 139.813418]
+  },
+  {
+    "id": "minamisomahoseridingpark",
+    "title": "dummy title",
+    "prefecture": "Fukushima",
+    "geolocation": [37.593227, 140.929094]
+  },
+  {
+    "id": "minamisomabajipark",
+    "title": "dummy title",
+    "prefecture": "Fukushima",
+    "geolocation": [37.593227, 140.929094]
+  },
+  {
+    "id": "okawafurusatopark",
+    "title": "dummy title",
+    "prefecture": "Fukushima",
+    "geolocation": [37.244885, 139.858533]
+  },
+  {
+    "id": "maikodiscgolfpark",
+    "title": "dummy title",
+    "prefecture": "Niigata",
+    "geolocation": [36.982452, 138.826901]
+  },
+  {
+    "id": "kiyotsugawafleshpark",
+    "title": "dummy title",
+    "prefecture": "Niigata",
+    "geolocation": [37.029490, 138.699248]
+  },
+  {
+    "id": "echigohillsidepark",
+    "title": "dummy title",
+    "prefecture": "Niigata",
+    "geolocation": [37.426250, 138.746526]
+  },
+  {
+    "id": "fuminnomorihiyoshi",
+    "title": "スチールの森ひよし",
+    "prefecture": "Kyoto",
+    "geolocation": [35.137323, 135.530041]
+  },
+  {
+    "id": "hanamakikoikipark",
+    "title": "dummy title",
+    "prefecture": "Iwate",
+    "geolocation": [39.434693, 141.056849]
+  },
+  {
+    "id": "kitakamisportpark",
+    "title": "dummy title",
+    "prefecture": "Iwate",
+    "geolocation": [39.261938, 141.091096]
+  },
+  {
+    "id": "uminonakamichiseasidepark",
+    "title": "dummy title",
+    "prefecture": "Fukuoka",
+    "geolocation": [33.654713, 130.355778]
+  },
+  {
+    "id": "kiyoharakohgyodanchi",
+    "title": "dummy title",
+    "prefecture": "Tochigi",
+    "geolocation": [36.559136, 139.978235]
+  },
+  {
+    "id": "kiyoharakogyodanchi",
+    "title": "dummy title",
+    "prefecture": "Tochigi",
+    "geolocation": [36.559136, 139.978235]
+  },
+  {
+    "id": "oyamaomoinomoripark",
+    "title": "dummy title",
+    "prefecture": "Tochigi",
+    "geolocation": [36.274043, 139.799768]
+  },
+  {
+    "id": "oyamasportpark",
+    "title": "dummy title",
+    "prefecture": "Tochigi",
+    "geolocation": [36.303584, 139.782942]
+  },
+  {
+    "id": "tbctaiyoclub",
+    "title": "dummy title",
+    "prefecture": "Tochigi",
+    "geolocation": [36.271956, 139.798813]
+  },
+  {
+    "id": "asominnanomori",
+    "title": "dummy title",
+    "prefecture": "Kumamoto",
+    "geolocation": [32.920066, 131.090188]
+  },
+  {
+    "id": "aikawafureainomura",
+    "title": "dummy title",
+    "prefecture": "Kanagawa",
+    "geolocation": [35.537993, 139.263713]
+  },
+  {
+    "id": "picaactivitypark",
+    "title": "PICA Activity Park",
+    "prefecture": "Shizuoka",
+    "geolocation": [35.297226, 138.775824]
+  },
+  {
+    "id": "hunkawanpanolamapark",
+    "title": "dummy title",
+    "prefecture": "Hokkaido",
+    "geolocation": [42.231879, 140.309498]
+  },
+  {
+    "id": "furusatofureaipark",
+    "title": "dummy title",
+    "prefecture": "Ibaraki",
+    "geolocation": [35.901153, 140.161973]
+  },
+  {
+    "id": "hikaritokazenookapark",
+    "title": "dummy title",
+    "prefecture": "Ibaraki",
+    "geolocation": [36.003104, 140.305402]
+  },
+  {
+    "id": "hitachiseasidepark",
+    "title": "dummy title",
+    "prefecture": "Ibaraki",
+    "geolocation": [36.399269, 140.601818]
+  },
+  {
+    "id": "seasidenaturepark",
+    "title": "dummy title",
+    "prefecture": "Fukui",
+    "geolocation": [36.249289, 136.134013]
+  },
+  {
+    "id": "fukuicountryclub",
+    "title": "dummy title",
+    "prefecture": "Fukui",
+    "geolocation": [36.125902, 136.302471]
+  },
+  {
+    "id": "kiyosatonomori",
+    "title": "dummy title",
+    "prefecture": "Yamanashi",
+    "geolocation": [35.928824, 138.436223]
+  },
+  {
+    "id": "kasaharagreenheights",
+    "title": "dummy title",
+    "prefecture": "Gifu",
+    "geolocation": [35.304156, 137.164177]
+  },
+  {
+    "id": "hiruganokogen",
+    "title": "dummy title",
+    "prefecture": "Gifu",
+    "geolocation": [36.006050, 136.907814]
+  },
+  {
+    "id": "ikedatowngeneralgymnasium",
+    "title": "dummy title",
+    "prefecture": "Gifu",
+    "geolocation": [35.434064, 136.557196]
+  },
+  {
+    "id": "yoshinogarihistoricalpark",
+    "title": "dummy title",
+    "prefecture": "Saga",
+    "geolocation": [33.325602, 130.384607]
+  },
+  {
+    "id": "michinokupark",
+    "title": "dummy title",
+    "prefecture": "Miyagi",
+    "geolocation": [38.181922, 140.671260]
+  },
+  {
+    "id": "nakijinsonsportpark",
+    "title": "dummy title",
+    "prefecture": "Okinawa",
+    "geolocation": [26.694991, 127.977237]
+  },
+  {
+    "id": "yoshinopark",
+    "title": "dummy title",
+    "prefecture": "Kagoshima",
+    "geolocation": [31.633516, 130.594111]
+  },
+  {
+    "id": "shiminshikinomori",
+    "title": "dummy title",
+    "prefecture": "Aichi",
+    "geolocation": [35.312159, 137.002935]
+  },
+  {
+    "id": "mikawarinkairyokuchi",
+    "title": "Mikawa Rinkai Ryokuchi",
+    "prefecture": "Aichi",
+    "geolocation": [34.788696, 137.323191]
+  },
+  {
+    "id": "shinshiropark",
+    "title": "dummy title",
+    "prefecture": "Aichi",
+    "geolocation": [34.932346, 137.542337]
+  },
+  {
+    "id": "kyototambapark",
+    "title": "dummy title",
+    "prefecture": "Kyoto",
+    "geolocation": [35.166536, 135.416271]
+  },
+  {
+    "id": "mizubayashisportpark",
+    "title": "dummy title",
+    "prefecture": "Akita",
+    "geolocation": [39.378272, 140.031388]
+  },
+  {
+    "id": "hamanomiyapark",
+    "title": "dummy title",
+    "prefecture": "Hyogo",
+    "geolocation": [34.735335, 134.832862]
+  },
+  {
+    "id": "nasuhighlandgolfclub",
+    "title": "dummy title",
+    "prefecture": "Tochigi",
+    "geolocation": [37.072469, 139.940032]
+  }
+]
