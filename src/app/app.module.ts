@@ -43,6 +43,8 @@ import { PrefaceComponent } from './preface/preface.component';
 import { ConfigComponent } from './config/config.component';
 import { IndexComponent } from './index/index.component';
 import { ReloadComponent } from './app-reload';
+import { VideoPlayerComponent } from './video-player/video-player.component';
+import { PreviewComponent } from './preview/preview.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,8 @@ import { ReloadComponent } from './app-reload';
     ConfigComponent,
     IndexComponent,
     ReloadComponent,
+    VideoPlayerComponent,
+    PreviewComponent,
   ],
   imports: [
     BrowserModule,

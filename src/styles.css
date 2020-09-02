@@ -15,6 +15,17 @@ body {
   background: repeat url("./assets/img/background.png");
   background-size: 30px 30px;
 }
+.app-preface > h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.app-preface > h2 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.app-preface > p {
+  margin-left: 2rem;
+}
 .app-preface-name {
   text-align: right;
 }
