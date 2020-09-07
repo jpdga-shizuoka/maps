@@ -23,6 +23,8 @@ interface EventParts {
 }
 
 interface LocalizeTable {
+  distanseFromBackteeToMarker?: (distanse: string, marker: string) => string;
+  distanseFromFrontteeToMarker?: (distanse: string, marker: string) => string;
   distanseFromMarkerToGoal?: (distanse: string, marker: string) => string;
 }
 const LOCALIZE_TABLE = {} as LocalizeTable;
@@ -58,6 +60,22 @@ export class LocalizeService {
       return event2local(value);
     } else {
       return result;
+    }
+  }
+
+  distanseFromBackteeToMarker(distanse: string, marker: string) {
+    if (this.isGlobal || !LOCALIZE_TABLE.distanseFromBackteeToMarker) {
+      return `${distanse} to the ${marker.toLowerCase()} from back tee`;
+    } else {
+      return LOCALIZE_TABLE.distanseFromBackteeToMarker(distanse, marker);
+    }
+  }
+
+  distanseFromFrontteeToMarker(distanse: string, marker: string) {
+    if (this.isGlobal || !LOCALIZE_TABLE.distanseFromFrontteeToMarker) {
+      return `${distanse} to the ${marker.toLowerCase()} from front tee`;
+    } else {
+      return LOCALIZE_TABLE.distanseFromFrontteeToMarker(distanse, marker);
     }
   }
 

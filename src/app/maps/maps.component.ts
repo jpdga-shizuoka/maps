@@ -371,19 +371,40 @@ export class MapsComponent implements OnInit, OnDestroy {
     const hole = this.holes.find(hl => hl.number === holeNumber);
     const markers = type === 'dz' ? this.dropZones : this.mandos;
     const position = markers[index].position;
-    const start = {lat: position.lat(), lng: position.lng()};
-    const end = hole.back.path[hole.back.path.length - 1];
-    const line = [start, end];
-    return {
+    const current = {lat: position.lat(), lng: position.lng()};
+    const goal = hole.back.path[hole.back.path.length - 1];
+    const fromMarker = [current, goal];
+    const meta = {
       hole: holeNumber,
       teeType: type,
       description: [''],
       data: {
-        path: line,
-        length: holeLength(line),
+        path: fromMarker,
+        length: holeLength(fromMarker),
         par: 0
       }
     };
+    if (type === 'mando') {
+      const backtee = hole.back?.path[0];
+      if (backtee) {
+        const fromTee = [backtee, current];
+        meta['fromBacktee'] = {
+          path: fromTee,
+          length: holeLength(fromTee),
+          par: 0
+        }
+      }
+      const fronttee = hole.front?.path[0];
+      if (fronttee) {
+        const fromTee = [fronttee, current];
+        meta['fromFronttee'] = {
+          path: fromTee,
+          length: holeLength(fromTee),
+          par: 0
+        }
+      }
+    }
+    return meta;
   }
 
   private getMarker(holeNumber: number, type: TeeType) {

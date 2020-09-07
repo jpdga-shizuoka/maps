@@ -34,6 +34,8 @@ export interface HoleMetaData {
   teeType: TeeType;
   description: Descriptions;
   data: HoleLine;
+  fromBacktee?: HoleLine;
+  fromFronttee?: HoleLine;
 }
 
 export interface HoleData {

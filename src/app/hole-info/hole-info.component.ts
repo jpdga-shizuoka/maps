@@ -55,8 +55,21 @@ export class HoleInfoComponent {
       case 'front':
         return this.data.description;
       case 'dz':
+        return [
+          this.localizeService.distanseFromMarkerToGoal(this.length, this.teename)
+        ];
       case 'mando':
-        return [this.localizeService.distanseFromMarkerToGoal(this.length, this.teename)];
+        const descriptions
+          = [this.localizeService.distanseFromMarkerToGoal(this.length, this.teename)];
+        if (this.data.fromBacktee) {
+          const length = this.commonService.length(this.data.fromBacktee.length);
+          descriptions.push(this.localizeService.distanseFromBackteeToMarker(length, this.teename));
+        }
+        if (this.data.fromFronttee) {
+          const length = this.commonService.length(this.data.fromFronttee.length);
+          descriptions.push(this.localizeService.distanseFromFrontteeToMarker(length, this.teename));
+        }
+        return descriptions;
       default:
         return [''];
     }
