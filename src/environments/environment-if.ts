@@ -7,4 +7,7 @@ export interface Environment {
     distanseFromFrontteeToMarker?: string[];
     distanseFromMarkerToGoal?: string[];
   };
+  googlemaps: {
+    apikey: string;
+  };
 }

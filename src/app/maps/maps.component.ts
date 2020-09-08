@@ -1,20 +1,19 @@
 import {
   Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy, Input, Output, EventEmitter
 } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { GoogleMap, MapMarker } from '@angular/google-maps';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ResizedEvent } from 'angular-resize-event';
-import { BehaviorSubject, Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, Subscription, Observable, of, NEVER } from 'rxjs';
+import { take, catchError, map, tap, startWith } from 'rxjs/operators';
 
-import {
-  TEE_SYMBOL, GOAL_SYMBOL, MANDO_SYMBOL, BACK_MARKERS, DROP_ZONE_SYMBOL, FRONT_MARKERS
-} from '../Symbols';
 import { Position, HoleMetaData, TeeType } from '../models';
 import { RemoteService, HoleData, CourseData, CourseId } from '../remote-service';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { holeLength, Path2Bounds } from '../map-utilities';
-import { isHandset, Observable, BreakpointObserver } from '../ng-utilities';
+import { isHandset, BreakpointObserver } from '../ng-utilities';
+import { environment } from '../../environments/environment';
 
 type LatLng = google.maps.LatLng;
 
@@ -36,6 +35,9 @@ interface MarkerInfo {
   title: string;
   position: google.maps.LatLng;
 }
+
+const GOOGLE_MAPS_API = `https://maps.googleapis.com/maps/api/js?key=${environment.googlemaps.apikey}`;
+let mapsApiLoaded = false;
 
 @Component({
   selector: 'app-maps',
@@ -67,24 +69,6 @@ export class MapsComponent implements OnInit, OnDestroy {
     disableDefaultUI: true,
     tilt: 0
   };
-  backLineOptions = {
-    strokeColor: 'white',
-    strokeOpacity: 1.0,
-    strokeWeight: 4,
-    icons: [
-      {icon: TEE_SYMBOL, offset: '0%'},
-      {icon: GOAL_SYMBOL, offset: '100%'}
-    ],
-  };
-  frontLineOptions = {
-    strokeColor: '#a9f5bc',
-    strokeOpacity: 1.0,
-    strokeWeight: 4,
-    icons: [
-      {icon: TEE_SYMBOL, offset: '0%'},
-      {icon: GOAL_SYMBOL, offset: '100%'}
-    ],
-  };
   safeAreaOptions = {
     strokeColor: 'green',
     strokeOpacity: 0.3,
@@ -111,14 +95,28 @@ export class MapsComponent implements OnInit, OnDestroy {
     fillColor: 'purple',
     fillOpacity: 0.3
   };
-  dropZoneOptions = {
-    draggable: false,
-    icon: DROP_ZONE_SYMBOL,
+  backLineOptions: {
+    strokeColor: string;
+    strokeOpacity: number;
+    strokeWeight: number;
+    icons: object[];
   };
-  mandoOptions = {
-    draggable: false,
-    icon: MANDO_SYMBOL,
+  frontLineOptions: {
+    strokeColor: string;
+    strokeOpacity: number;
+    strokeWeight: number;
+    icons: object[];
   };
+  dropZoneOptions: {
+    draggable: boolean;
+    icon: object;
+  };
+  mandoOptions: {
+    draggable: boolean;
+    icon: object;
+  };
+  private backMarkers: Object[] = [];
+  private frontMarkers: Object[] = [];
 
   backLines: google.maps.LatLng[][];
   frontLines: google.maps.LatLng[][];
@@ -131,6 +129,7 @@ export class MapsComponent implements OnInit, OnDestroy {
   dropZones: MarkerInfo[];
   mandos: MarkerInfo[];
   metadata?: HoleMetaData;
+  apiLoaded: Observable<boolean>;
 
   backTeeOptions(index: string) {
     return {
@@ -150,6 +149,7 @@ export class MapsComponent implements OnInit, OnDestroy {
     private readonly ngZone: NgZone,
     private readonly el: ElementRef,
     private readonly remote: RemoteService,
+    private readonly httpClient: HttpClient,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
@@ -157,11 +157,26 @@ export class MapsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const element = this.el.nativeElement.querySelector('#googlemap');
+    const element = this.el.nativeElement.querySelector('#mapwrapper');
     const rect = element.getBoundingClientRect();
     this.width = rect.width;
     this.height = rect.height;
-    this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId));
+
+    if (mapsApiLoaded) {
+      this.loadOptions();
+      this.apiLoaded = NEVER.pipe(startWith(true));
+      this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId));
+    }
+    else {
+      this.apiLoaded = this.httpClient.jsonp(GOOGLE_MAPS_API, 'callback')
+      .pipe(
+        tap(() => mapsApiLoaded = true),
+        tap(() => this.loadOptions()),
+        tap(() => this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId))),
+        map(() => true),
+        catchError(() => of(false)),
+      );
+    }
   }
 
   ngOnDestroy() {
@@ -219,6 +234,60 @@ export class MapsComponent implements OnInit, OnDestroy {
     }
     const prevHole = this.findPrev(data);
     this.issueEvent(prevHole, prevHole.front ? 'front' : 'back');
+  }
+
+  private loadOptions() {
+    this.backLineOptions = {
+      strokeColor: 'white',
+      strokeOpacity: 1.0,
+      strokeWeight: 4,
+      icons: [
+        {icon: {path: google.maps.SymbolPath.CIRCLE}, offset: '0%'},
+        {icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW}, offset: '100%'}
+      ],
+    };
+    this.frontLineOptions = {
+      strokeColor: '#a9f5bc',
+      strokeOpacity: 1.0,
+      strokeWeight: 4,
+      icons: [
+        {icon: {path: google.maps.SymbolPath.CIRCLE}, offset: '0%'},
+        {icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW}, offset: '100%'}
+      ],
+    };
+    this.dropZoneOptions = {
+      draggable: false,
+      icon: {
+        url: 'assets/maps/dropzone.svg',
+        scaledSize: new google.maps.Size(20, 20),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(10, 10)
+      },
+    };
+    this.mandoOptions = {
+      draggable: false,
+      icon: {
+        url: 'assets/maps/mandoMarker.svg',
+        scaledSize: new google.maps.Size(20, 20),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(10, 10)
+      },
+    };
+
+    for (let i = 0; i < 18; ++i) {
+      this.backMarkers.push({
+        url: `assets/maps/backtee${i+1}.svg`,
+        scaledSize: new google.maps.Size(24, 24),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(12, 12)
+      });
+      this.frontMarkers.push({
+        url: `assets/maps/fronttee${i+1}.svg`,
+        scaledSize: new google.maps.Size(24, 24),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(12, 12)
+      });
+    }
   }
 
   private loadCourse(courseId: CourseId) {
@@ -408,7 +477,7 @@ export class MapsComponent implements OnInit, OnDestroy {
   }
 
   private getMarker(holeNumber: number, type: TeeType) {
-    return (type === 'front' ? FRONT_MARKERS : BACK_MARKERS)[holeNumber - 1];
+    return (type === 'front' ? this.frontMarkers : this.backMarkers)[holeNumber - 1];
   }
 }
 

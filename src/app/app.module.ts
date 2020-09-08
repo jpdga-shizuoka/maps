@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { AngularResizedEventModule } from 'angular-resize-event';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { MatTableModule } from '@angular/material/table';
@@ -77,6 +77,7 @@ import { PreviewComponent } from './preview/preview.component';
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
