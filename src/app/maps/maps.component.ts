@@ -30,6 +30,17 @@ class Holes2Bounds extends Path2Bounds {
     };
   }
 }
+class LatLngBounds extends Path2Bounds {
+  constructor(path: Position[]) {
+    super();
+    this.addPath(path);
+  }
+  get value() {
+    const sw = new google.maps.LatLng(this.bounds.sw);
+    const ne = new google.maps.LatLng(this.bounds.ne);
+    return new google.maps.LatLngBounds(sw, ne);
+  }
+}
 
 interface MarkerInfo {
   title: string;
@@ -187,6 +198,10 @@ export class MapsComponent implements OnInit, OnDestroy {
     this.googlemap.panTo(new google.maps.LatLng(path[0]));
   }
 
+  fitBounds(path: Position[]) {
+    this.googlemap.fitBounds(new LatLngBounds(path).value);
+  }
+
   onMandoClicked(marker: MapMarker, index: number) {
     this.issueEvent(this.getMetadata(marker, index, 'mando'));
   }
@@ -300,7 +315,7 @@ export class MapsComponent implements OnInit, OnDestroy {
         this.prepareObjectsForMap(this.course.holes);
         const latestHole
           = this.holes.find(hole => hole.number === this.lastHole) || this.holes[0];
-        this.issueEvent(latestHole, latestHole.back ? 'back' : 'front');
+        this.issueEvent(latestHole, latestHole.back ? 'back' : 'front', true);
       }
     );
   }
@@ -411,7 +426,7 @@ export class MapsComponent implements OnInit, OnDestroy {
     return this.holes[index];
   }
 
-  private issueEvent(data: HoleMetaData | HoleData, type?: TeeType) {
+  private issueEvent(data: HoleMetaData | HoleData, type?: TeeType, noEmit = false) {
     let meta: HoleMetaData;
     if (isHoleData(data)) {
       const hole = data as HoleData;
@@ -425,12 +440,19 @@ export class MapsComponent implements OnInit, OnDestroy {
       meta = data as HoleMetaData;
     }
     this.metadata = meta;
-    this.panTo(meta.data.path);
     this.isHandset$.pipe(take(1)).subscribe(handset => {
-      if (!handset && (meta.teeType === 'dz' || meta.teeType === 'mando')) {
-        this.sheet.open(HoleInfoSheetComponent, {data: meta});
+      if (handset) {
+        if (noEmit) {
+          setTimeout(() => this.fitBounds(meta.data.path), 1000);
+        } else {
+          this.fitBounds(meta.data.path);
+        }
       } else {
-        this.holeClicked.emit(meta);
+        if (meta.teeType === 'dz' || meta.teeType === 'mando') {
+          this.sheet.open(HoleInfoSheetComponent, {data: meta});
+        } else {
+          this.holeClicked.emit(meta);
+        }
       }
     });
   }

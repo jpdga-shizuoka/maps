@@ -20,7 +20,7 @@
 <div *ngIf="isHandset$ | async; then thenBlock else elseBlock"></div>
 
 <ng-template #thenBlock>
-  <mat-tab-group>
+  <mat-tab-group #courseTab>
     <mat-tab>
       <ng-template mat-tab-label>
         <div class="app-icon-label">

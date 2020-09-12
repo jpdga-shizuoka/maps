@@ -36,6 +36,7 @@ export interface HoleMetaData {
   data: HoleLine;
   fromBacktee?: HoleLine;
   fromFronttee?: HoleLine;
+  longPressed?: boolean;
 }
 
 export interface HoleData {

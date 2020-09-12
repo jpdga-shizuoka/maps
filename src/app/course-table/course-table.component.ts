@@ -122,6 +122,11 @@ export class CourseTableComponent implements OnInit, OnDestroy {
     this.issueEvent(hole, 'front');
   }
 
+  onLongPress(event: MouseEvent | TouchEvent, hole: HoleData) {
+    const cellIndex = event.target['cellIndex'];
+    this.issueEvent(hole, cellIndex === 2 ? 'front' : 'back', true);
+  }
+
   notifyHole(data: HoleMetaData) {
     this.expandedHole
       = this.dataSource.data.find(h => h.number === data.hole);
@@ -129,12 +134,13 @@ export class CourseTableComponent implements OnInit, OnDestroy {
     element?.scrollIntoView();
   }
 
-  private issueEvent(hole: HoleData, type: TeeType) {
+  private issueEvent(hole: HoleData, type: TeeType, longPressed = false) {
     const metadata = {
       hole: hole.number,
       teeType: type,
       description: hole.description,
-      data: hole[type] || hole.back
+      data: hole[type] || hole.back,
+      longPressed: longPressed
     };
     this.holeClicked.emit(metadata);
   }

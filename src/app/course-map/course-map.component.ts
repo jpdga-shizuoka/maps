@@ -2,6 +2,7 @@ import { Component, ViewChild, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSelectChange } from '@angular/material/select';
+import { MatTabGroup } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { isHandset, Observable } from '../ng-utilities';
@@ -18,6 +19,7 @@ import { RemoteService } from '../remote-service';
 export class CourseMapComponent implements OnInit, OnDestroy {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
+  @ViewChild("courseTab") courseTab: MatTabGroup;
   readonly isHandset$: Observable<boolean>;
   eventId: EventId;
   courseId: CourseId;
@@ -47,7 +49,11 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   onHoleCliked(meta: HoleMetaData) {
     this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset) {
-        this.map.panTo(meta.data.path);
+        this.map.fitBounds(meta.data.path);
+      }
+      else if (meta.longPressed){
+        this.lastHole = meta.hole;
+        this.courseTab.selectedIndex = 1;
       }
     });
   }
