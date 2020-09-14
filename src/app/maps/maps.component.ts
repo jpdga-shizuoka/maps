@@ -426,7 +426,7 @@ export class MapsComponent implements OnInit, OnDestroy {
     return this.holes[index];
   }
 
-  private issueEvent(data: HoleMetaData | HoleData, type?: TeeType, noEmit = false) {
+  private issueEvent(data: HoleMetaData | HoleData, type?: TeeType, delay = false) {
     let meta: HoleMetaData;
     if (isHoleData(data)) {
       const hole = data as HoleData;
@@ -441,17 +441,21 @@ export class MapsComponent implements OnInit, OnDestroy {
     }
     this.metadata = meta;
     this.isHandset$.pipe(take(1)).subscribe(handset => {
-      if (handset) {
-        if (noEmit) {
+      if (!handset) {
+        if (meta.teeType === 'dz' || meta.teeType === 'mando') {
+          this.sheet.open(HoleInfoSheetComponent, {data: meta});
+          this.panTo(meta.data.path);
+        } else {
+          this.holeClicked.emit(meta);  // issue the event
+        }
+      }
+      if (meta.teeType !== 'dz' && meta.teeType !== 'mando') {
+        // and pan to the hole
+        if (delay) {
+          // any idea?
           setTimeout(() => this.fitBounds(meta.data.path), 1000);
         } else {
           this.fitBounds(meta.data.path);
-        }
-      } else {
-        if (meta.teeType === 'dz' || meta.teeType === 'mando') {
-          this.sheet.open(HoleInfoSheetComponent, {data: meta});
-        } else {
-          this.holeClicked.emit(meta);
         }
       }
     });
