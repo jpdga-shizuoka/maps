@@ -26,7 +26,8 @@ import { HoleMetaData, TeeType } from '../models';
 export class CourseTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<HoleData>;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
-  @Input() set courseId(courseId: CourseId) { this._courseId.next(courseId); }
+  @Input()
+  set courseId(courseId: CourseId) { this._courseId.next(courseId); }
   get courseId() { return this._courseId.value; }
   private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
   readonly displayedColumns = ['hole', 'back', 'front'];
@@ -46,7 +47,7 @@ export class CourseTableComponent implements OnInit, OnDestroy {
       if (!courseId) { return; }
       this.dataSource = new CourseDataSource(courseId, this.remote);
       this.table.dataSource = this.dataSource;
-    })
+    });
   }
 
   ngOnDestroy() {
