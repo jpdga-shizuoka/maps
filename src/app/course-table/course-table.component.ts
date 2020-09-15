@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter, Input, ElementRef
+  Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter, Input,
+  ElementRef, AfterViewInit
 } from '@angular/core';
 import { MatTable } from '@angular/material/table';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -23,17 +24,20 @@ import { HoleMetaData, TeeType } from '../models';
     ]),
   ],
 })
-export class CourseTableComponent implements OnInit, OnDestroy {
+export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatTable) table: MatTable<HoleData>;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
   @Input()
   set courseId(courseId: CourseId) { this._courseId.next(courseId); }
   get courseId() { return this._courseId.value; }
   private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
-  readonly displayedColumns = ['hole', 'back', 'front'];
-  dataSource?: CourseDataSource;
-  expandedHole: HoleData | null;
+  set dataSource(dataSource: CourseDataSource) { this._dataSource.next(dataSource); }
+  get dataSource() { return this._dataSource.value; }
+  private _dataSource = new BehaviorSubject<CourseDataSource|undefined>(undefined);
   private ssCourse: Subscription;
+  private ssDataSource: Subscription;
+  readonly displayedColumns = ['hole', 'back', 'front'];
+  expandedHole: HoleData | null;
 
   constructor(
     private readonly remote: RemoteService,
@@ -46,12 +50,19 @@ export class CourseTableComponent implements OnInit, OnDestroy {
     this.ssCourse = this._courseId.subscribe(courseId => {
       if (!courseId) { return; }
       this.dataSource = new CourseDataSource(courseId, this.remote);
-      this.table.dataSource = this.dataSource;
+    });
+  }
+
+  ngAfterViewInit() {
+    this.ssDataSource = this._dataSource.subscribe(dataSource => {
+      if (!dataSource) { return; }
+      this.table.dataSource = dataSource;
     });
   }
 
   ngOnDestroy() {
     this.ssCourse?.unsubscribe();
+    this.ssDataSource?.unsubscribe();
   }
 
   backtee(hole) {
