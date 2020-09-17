@@ -311,7 +311,7 @@ export class MapsComponent implements OnInit, OnDestroy {
       course => this.course = course,
       err => console.error(err),
       () => {
-        this.center = new Holes2Bounds(this.holes).center;
+        // this.center = new Holes2Bounds(this.holes).center;
         this.prepareObjectsForMap(this.course.holes);
         const latestHole
           = this.holes.find(hole => hole.number === this.lastHole) || this.holes[0];
