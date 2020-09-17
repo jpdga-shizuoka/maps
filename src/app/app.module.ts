@@ -46,6 +46,8 @@ import { IndexComponent } from './index/index.component';
 import { ReloadComponent } from './app-reload';
 import { VideoPlayerComponent } from './video-player/video-player.component';
 import { PreviewComponent } from './preview/preview.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -96,6 +98,7 @@ import { PreviewComponent } from './preview/preview.component';
     MatToolbarModule,
     MatSelectModule,
     MatInputModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   entryComponents: [
     HoleInfoSheetComponent
