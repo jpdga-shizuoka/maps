@@ -49,7 +49,13 @@
   },
   {
     "id": "fuminnomorihiyoshi",
-    "title": "スチールの森ひよし",
+    "title": "Fumin-no-mori Hiyoshi",
+    "prefecture": "Kyoto",
+    "geolocation": [35.137323, 135.530041]
+  },
+  {
+    "id": "stihlnomorikyoto",
+    "title": "STIHL-no-mori Kyoto",
     "prefecture": "Kyoto",
     "geolocation": [35.137323, 135.530041]
   },
