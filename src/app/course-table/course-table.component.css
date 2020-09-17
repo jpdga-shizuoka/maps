@@ -3,6 +3,7 @@
   width: 100%;
   height: calc(100vh - 64px);
   margin: 0 auto;
+  user-select: none;
 }
 .spinner-container {
   position: absolute;
