@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1600411215986,
+  "timestamp": 1600776985603,
   "index": "https://jpdga-shizuoka.github.io/maps/index.html",
   "assetGroups": [
     {
@@ -201,7 +201,7 @@
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the19thchubuopen.5.json": "6400ac7b8373d46bfb03011174711106c03b4876",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the1stpwbfcup.1-3.json": "9269879b2e8b3992247382a2ae9f2396963d462d",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the23rdkansaiopen.1-3.json": "efd4020ae7ed1dd46798561f1f03f7de3d4a3d3d",
-    "https://jpdga-shizuoka.github.io/maps/assets/models/course/the32ndjapannationalchampionship.1-3.json": "7bcf8316bf7f41412320d3e2e8681bdcb7aca5a1",
+    "https://jpdga-shizuoka.github.io/maps/assets/models/course/the32ndjapannationalchampionship.1-3.json": "d2bf778da23d5373f7f0ab160061d9577de6ccc1",
     "https://jpdga-shizuoka.github.io/maps/assets/models/events.json": "f98cfdd21d54a7f4dca72deefc2691474b507dd4",
     "https://jpdga-shizuoka.github.io/maps/assets/models/locations.json": "49bae6dd7bc48fbff20c0ad9beac48891beba979",
     "https://jpdga-shizuoka.github.io/maps/assets/video/caddiebook.mp4": "3661b60b8a6454ced6005ca3ea8a72fd75f80e6c",
