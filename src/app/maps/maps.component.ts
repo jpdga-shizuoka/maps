@@ -57,7 +57,7 @@ let mapsApiLoaded = false;
 })
 export class MapsComponent implements OnInit, OnDestroy {
   @ViewChild('googlemap') googlemap: GoogleMap;
-  @Input() lastHole = 1;
+  @Input() lastHole: number;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
   @Input()
   set courseId(courseId: CourseId) { this._courseId.next(courseId); }
