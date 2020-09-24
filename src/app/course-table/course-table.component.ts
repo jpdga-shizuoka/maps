@@ -36,7 +36,22 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private _dataSource = new BehaviorSubject<CourseDataSource|undefined>(undefined);
   private ssCourse: Subscription;
   private ssDataSource: Subscription;
-  readonly displayedColumns = ['hole', 'back', 'front'];
+  get displayedColumns() {
+    return this.isAllBackTee
+      ? ['hole', 'back'] : ['hole', 'back', 'front']
+  }
+  get isAllBackTee() {
+    if (!this.dataSource) {
+      return false;
+    }
+    let front = false;
+    this.dataSource.data.forEach(hole => {
+      if (hole.front) {
+        front = true;
+      }
+    });
+    return !front;
+  }
   expandedHole: HoleData | null;
 
   constructor(
@@ -66,13 +81,19 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   backtee(hole) {
-    return `${this.commonService.length(hole.back.length)}/Par${hole.back.par}`;
+    return this.commonService.length(hole.back.length)
+    + (hole.back.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.back.elevation)}` : '')
+    + '/Par' + hole.back.par;
   }
 
   fronttee(hole) {
-    return hole.front
-      ? `${this.commonService.length(hole.front.length)}/Par${hole.front.par}`
-      : '';
+    if (hole.front) {
+      return this.commonService.length(hole.front.length)
+      + (hole.front.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.front.elevation)}` : '')
+      + '/Par' + hole.front.par;
+    } else {
+      return '';
+    }
   }
 
   get backTotal() {
@@ -156,4 +177,8 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.holeClicked.emit(metadata);
   }
+}
+
+function sign(length: number) {
+  return length > 0 ? '+' : '';
 }

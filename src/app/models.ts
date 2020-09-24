@@ -26,6 +26,7 @@ export interface Period {
 export interface HoleLine {
   path: HolePath;
   par: number;
+  elevation?: number;
   length?: number;
 }
 
