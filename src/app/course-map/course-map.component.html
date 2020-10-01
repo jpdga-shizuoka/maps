@@ -2,7 +2,10 @@
 <mat-toolbar color="primary" class="app-titlebar">
   <span>
     <a routerLink="/">
-      <mat-icon>navigate_before</mat-icon><span>{{event?.title | localize}}</span>
+      <mat-icon>
+        <img src="assets/img/navigate_before-24px.svg" alt="navigate before">
+      </mat-icon>
+      <span>{{event?.title | localize}}</span>
     </a>
   </span>
   <span></span>
@@ -24,7 +27,9 @@
     <mat-tab>
       <ng-template mat-tab-label>
         <div class="app-icon-label">
-          <mat-icon>table_chart</mat-icon>
+          <mat-icon>
+            <img src="assets/img/table_chart-24px.svg" alt="table chart">
+          </mat-icon>
           <span>{{'Data' | localize}}</span>
         </div>
       </ng-template>
@@ -36,7 +41,9 @@
     <mat-tab>
       <ng-template mat-tab-label>
         <div class="app-icon-label">
-          <mat-icon>map</mat-icon>
+          <mat-icon>
+            <img src="assets/img/map-24px.svg" alt="layout">
+          </mat-icon>
           <span>{{'Map' | localize}}</span>
         </div>
       </ng-template>
