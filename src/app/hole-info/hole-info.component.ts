@@ -32,6 +32,14 @@ export class HoleInfoComponent {
     return this.commonService.length(this.data.data.length);
   }
 
+  get elevation() {
+    if (!this.data.data.elevation) {
+      return '';
+    }
+    return sign(this.data.data.elevation) 
+    + this.commonService.length(this.data.data.elevation);
+  }
+
   get teename() {
     return this.localizeService.transform(TEE_NAME[this.data.teeType]);
   }
@@ -93,10 +101,14 @@ export class HoleInfoComponent {
     switch (this.data?.teeType) {
       case 'back':
       case 'front':
-        return `${this.length}/Par${this.data.data.par}, ${this.teename}`;
+        if (this.data.data.elevation) {
+          return `${this.length}/${this.elevation}/Par${this.data.data.par}`;
+        } else {
+          return `${this.length}/Par${this.data.data.par}`;
+        }
       case 'dz':
       case 'mando':
-        return `#${this.data.hole} ${this.teename}`;
+        return `#${this.data.hole}`;
       default:
         return '';
     }
@@ -114,4 +126,8 @@ export class HoleInfoComponent {
       this.next.emit(this.data);
     }
   }
+}
+
+function sign(length: number) {
+  return length > 0 ? '+' : '';
 }
