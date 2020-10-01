@@ -13,7 +13,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 body {
   background: repeat url("./assets/img/background.png");
-  background-size: 30px 30px;
+  background-size: 36px 30px;
 }
 .app-preface > h1 {
   font-size: 1.2rem;
