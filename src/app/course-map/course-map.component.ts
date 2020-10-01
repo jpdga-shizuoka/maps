@@ -23,7 +23,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   readonly isHandset$: Observable<boolean>;
   eventId: EventId;
   courseId: CourseId;
-  lastHole = 1;
+  lastHole: number;
   courses: CourseItem[];
   event?: EventData;
   private ssRoute: Subscription;
@@ -72,7 +72,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   private loadEvent(params: Params) {
-    this.lastHole = 1;
+    // this.lastHole = 1;
     this.courses = [];
     this.eventId = params.eventId;
     this.remote.getEvent(this.eventId).subscribe(
