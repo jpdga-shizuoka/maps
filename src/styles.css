@@ -111,3 +111,7 @@ a[href^="http://maps.apple"] {
     font-size: 0.8rem;
   }
 }
+@media print {
+  app-root > * { display: none; }
+  app-root app-print-form { display: block; }
+}

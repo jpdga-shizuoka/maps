@@ -10,6 +10,7 @@ import { HoleMetaData, CourseId, CourseItem, EventData, EventId } from '../model
 import { MapsComponent } from '../maps/maps.component';
 import { CourseTableComponent } from '../course-table/course-table.component';
 import { RemoteService } from '../remote-service';
+import { PrintService } from '../print.service';
 
 @Component({
   selector: 'app-course-map',
@@ -27,11 +28,13 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   courses: CourseItem[];
   event?: EventData;
   private ssRoute: Subscription;
+  get isPrinting() {return this.printService.isPrinting;}
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly remote: RemoteService,
+    private readonly printService: PrintService,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
@@ -69,6 +72,11 @@ export class CourseMapComponent implements OnInit, OnDestroy {
 
   onSelectionChange(event: MatSelectChange) {
     this.router.navigate(['course', this.eventId,  event.value]);
+  }
+
+  onPrint() {
+    this.printService
+      .printDocument('caddiebook', this.eventId, this.courseId);
   }
 
   private loadEvent(params: Params) {

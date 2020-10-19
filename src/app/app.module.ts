@@ -5,6 +5,7 @@ import { AngularResizedEventModule } from 'angular-resize-event';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -23,6 +24,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -46,7 +48,8 @@ import { IndexComponent } from './index/index.component';
 import { ReloadComponent } from './app-reload';
 import { VideoPlayerComponent } from './video-player/video-player.component';
 import { PreviewComponent } from './preview/preview.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { PrintFormComponent } from './print-form/print-form.component';
+import { CaddieBookComponent } from './caddie-book/caddie-book.component';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -72,6 +75,8 @@ import { environment } from '../environments/environment';
     ReloadComponent,
     VideoPlayerComponent,
     PreviewComponent,
+    PrintFormComponent,
+    CaddieBookComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,6 +85,7 @@ import { environment } from '../environments/environment';
     AngularResizedEventModule,
     BrowserAnimationsModule,
     FormsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     HttpClientModule,
     HttpClientJsonpModule,
     MatTableModule,
@@ -98,7 +104,7 @@ import { environment } from '../environments/environment';
     MatToolbarModule,
     MatSelectModule,
     MatInputModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    MatButtonModule,
   ],
   entryComponents: [
     HoleInfoSheetComponent

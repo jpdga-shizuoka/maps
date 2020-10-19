@@ -27,6 +27,7 @@ import { HoleMetaData, TeeType } from '../models';
 export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatTable) table: MatTable<HoleData>;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
+  @Output() print = new EventEmitter();
   @Input()
   set courseId(courseId: CourseId) { this._courseId.next(courseId); }
   get courseId() { return this._courseId.value; }
@@ -158,6 +159,10 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   onLongPress(event: MouseEvent | TouchEvent, hole: HoleData) {
     const cellIndex = event.target['cellIndex'];
     this.issueEvent(hole, cellIndex === 2 ? 'front' : 'back', true);
+  }
+
+  onPrint() {
+    this.print.emit();
   }
 
   notifyHole(data: HoleMetaData) {
