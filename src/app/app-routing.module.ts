@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'print', component: PrintFormComponent,
     outlet: 'print',
     children: [
-      { path: 'caddiebook/:eventId/:courseId', component: CaddieBookComponent }
+      { path: 'caddiebook/:eventId/:courseId/:teeType', component: CaddieBookComponent }
     ]
   },
 ];

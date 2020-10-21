@@ -15,6 +15,7 @@
   "map": "マップ",
   "hole": "ホール",
   "ave/total": "平均/計",
+  "total": "計",
   "title": "大会名",
   "date": "開催日",
   "preface": "はじめに",
@@ -32,5 +33,9 @@
   "prosemifinal": "プロ準決勝",
   "profinal": "プロ決勝",
   "mposemifinal": "MPO準決勝",
-  "mpofinal": "MPO決勝"
+  "mpofinal": "MPO決勝",
+  "par": "パー",
+  "commonrules": "共通規則",
+  "rules": "規則",
+  "holeaverage": "ホール平均の長さ"
 }

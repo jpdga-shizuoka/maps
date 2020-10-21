@@ -1,0 +1,49 @@
+<table>
+  <tr>
+    <th>{{event?.period | period}}</th>
+    <th>{{event?.title | localize}}</th>
+    <th>{{tee | localize}}@{{course?.title | localize}}</th>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>{{"Common Rules" | localize}}</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li *ngFor="let rule of course?.description">{{rule}}</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <th>Hole</th>
+    <th>Par</th>
+    <th>{{"Length" | localize}}</th>
+    <th>{{"Rules" | localize}}</th>
+  </tr>
+  <tr *ngFor="let hole of course?.holes">
+    <td class="hole">{{hole.number}}</td>
+    <td class="par">{{Par(hole)}}</td>
+    <td class="length">{{Length(hole) | lengthUnit}}</td>
+    <td>
+      <ul>
+        <li *ngFor="let rule of hole.description">{{rule}}</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td class="total">{{"Total" | localize}}</td>
+    <td class="par">{{TotalPar}}</td>
+    <td class="length">{{TotalLength | lengthUnit}}</td>
+    <td>
+      <ul>
+        <li>{{"Hole Average" | localize}}: {{AverageLength | lengthUnit}}</li>
+      </ul>
+    </td>
+  </tr>
+</table>

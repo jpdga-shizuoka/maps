@@ -1,6 +1,14 @@
+@page {
+  margin: 0mm !important;
+  width: 100vw;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+}
 .app-form {
   height: 100vh;
-  width: 100vw;
   --header-height: 10mm;
   --footer-height: 10mm;
 }

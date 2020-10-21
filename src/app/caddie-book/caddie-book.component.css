@@ -1,7 +1,3 @@
-.app-caddiebook {
+.app-page {
   page-break-after: always;
-}
-
-.app-caddiebook:last-child {
-  /* page-break-after: avoid; */
 }

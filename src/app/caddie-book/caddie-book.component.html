@@ -1,3 +1,5 @@
-<section class="app-caddiebook">
-  <p>course-print works!</p>
+<section class="app-page">
+  <app-print-rules [eventId]="eventId" [courseId]="courseId" [teeType]="teeType"
+    (ready)="onRuleReady()">
+  </app-print-rules>
 </section>

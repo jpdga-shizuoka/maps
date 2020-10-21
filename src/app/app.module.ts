@@ -50,6 +50,7 @@ import { VideoPlayerComponent } from './video-player/video-player.component';
 import { PreviewComponent } from './preview/preview.component';
 import { PrintFormComponent } from './print-form/print-form.component';
 import { CaddieBookComponent } from './caddie-book/caddie-book.component';
+import { PrintRulesComponent } from './print-rules/print-rules.component';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -77,6 +78,7 @@ import { environment } from '../environments/environment';
     PreviewComponent,
     PrintFormComponent,
     CaddieBookComponent,
+    PrintRulesComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,6 +7,9 @@ import { Period } from './models';
 export class PeriodPipe implements PipeTransform {
 
   transform(period: Period): string {
+    if (!period) {
+      return '';
+    }
     try {
       const from = (new Date(period.from))
         .toLocaleDateString(undefined, {year: 'numeric', month: 'short', day: 'numeric'});

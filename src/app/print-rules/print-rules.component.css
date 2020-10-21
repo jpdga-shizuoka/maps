@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+table, th, td{
+  border: 1px solid black;
+  border-spacing: 0;
+  font-size: 10pt;
+}
+.center {
+  text-align: center;
+}
+.total,
+.hole,
+.par {
+  text-align: center;
+}
+.length {
+  text-align: right;
+}
+ul {
+  padding-left: 20pt;
+  margin: 0;
+}

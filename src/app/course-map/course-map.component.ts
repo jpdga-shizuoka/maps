@@ -76,7 +76,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
 
   onPrint() {
     this.printService
-      .printDocument('caddiebook', this.eventId, this.courseId);
+      .printDocument('caddiebook', this.eventId, this.courseId, 'back');
   }
 
   private loadEvent(params: Params) {

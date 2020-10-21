@@ -1,6 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PrintService } from '../print.service';
+import { EventId, CourseId, TeeType } from '../models';
 
 @Component({
   selector: 'app-caddie-book',
@@ -8,8 +9,9 @@ import { PrintService } from '../print.service';
   styleUrls: ['./caddie-book.component.css']
 })
 export class CaddieBookComponent implements OnInit {
-  private readonly eventId: string;
-  private readonly courseId: string;
+  readonly eventId: EventId;
+  readonly courseId: CourseId;
+  readonly teeType: TeeType;
 
   constructor(
     route: ActivatedRoute,
@@ -17,12 +19,13 @@ export class CaddieBookComponent implements OnInit {
   ) {
     this.eventId = route.snapshot.params['eventId'];
     this.courseId = route.snapshot.params['courseId'];
+    this.teeType = route.snapshot.params['teeType'] || 'back';
   }
 
   ngOnInit(): void {
   }
 
-  ngAfterViewInit(): void {
+  onRuleReady() {
     this.printService.onDataReady();
   }
 }
