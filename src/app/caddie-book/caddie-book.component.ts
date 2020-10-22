@@ -17,9 +17,9 @@ export class CaddieBookComponent implements OnInit {
     route: ActivatedRoute,
     private printService: PrintService,
   ) {
-    this.eventId = route.snapshot.params['eventId'];
-    this.courseId = route.snapshot.params['courseId'];
-    this.teeType = route.snapshot.params['teeType'] || 'back';
+    this.eventId = route.snapshot.params.eventId;
+    this.courseId = route.snapshot.params.courseId;
+    this.teeType = route.snapshot.params.teeType || 'back';
   }
 
   ngOnInit(): void {

@@ -25,7 +25,7 @@ export class PrintRulesComponent implements OnDestroy, OnInit {
   private state = {
     event: false,
     course: false
-  }
+  };
 
   constructor(
     private readonly remote: RemoteService,
