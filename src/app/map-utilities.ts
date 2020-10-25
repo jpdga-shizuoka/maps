@@ -1,4 +1,4 @@
-import {Position} from './models';
+import {Position, HoleData} from './models';
 
 export function holeLength(path: Position[]) {
   let length = 0;
@@ -42,6 +42,35 @@ export class Path2Bounds {
       this.bounds.ne.lat = Math.max(this.bounds.ne.lat, p.lat);
       this.bounds.ne.lng = Math.max(this.bounds.ne.lng, p.lng);
     });
+  }
+}
+
+export class Holes2Bounds extends Path2Bounds {
+  readonly center: Position;
+  readonly value: google.maps.LatLngBounds;
+
+  constructor(holes: HoleData[]) {
+    super();
+    holes.forEach(hole => this.addPath(hole.back?.path || hole.front.path));
+    this.center = {
+      lat: (this.bounds.sw.lat + this.bounds.ne.lat) / 2,
+      lng: (this.bounds.sw.lng + this.bounds.ne.lng) / 2
+    };
+    const sw = new google.maps.LatLng(this.bounds.sw);
+    const ne = new google.maps.LatLng(this.bounds.ne);
+    this.value = new google.maps.LatLngBounds(sw, ne);
+  }
+}
+
+export class LatLngBounds extends Path2Bounds {
+  constructor(path: Position[]) {
+    super();
+    this.addPath(path);
+  }
+  get value() {
+    const sw = new google.maps.LatLng(this.bounds.sw);
+    const ne = new google.maps.LatLng(this.bounds.ne);
+    return new google.maps.LatLngBounds(sw, ne);
   }
 }
 

@@ -63,8 +63,14 @@ tr.hole-row:not(.expanded-row):active {
 .expanded-row {
   background-color: #f8effb;
 }
-.meter-foot {
-  float: right;
+.config-print {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+.config-print > * {
+  margin-left: auto;
+  margin-right: 10px;
 }
 @media screen and (max-width: 736px) {
   .course-table-container {

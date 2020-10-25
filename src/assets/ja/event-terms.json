@@ -7,6 +7,9 @@
   "final": "決勝",
   "backtee": "バックティー",
   "fronttee": "フロントティー",
+  "back": "バック",
+  "front": "フロント",
+  "tee": "ティー",
   "dz": "ドロップゾーン",
   "dropzone": "ドロップゾーン",
   "mando": "マンダトリー",
@@ -37,5 +40,11 @@
   "par": "パー",
   "commonrules": "共通規則",
   "rules": "規則",
-  "holeaverage": "ホール平均の長さ"
+  "holeaverage": "ホール平均の長さ",
+  "layout": "レイアウト",
+  "scorecard": "スコアカード",
+  "card": "カード",
+  "output": "印刷種類",
+  "print": "印刷",
+  "cancel": "取消し"
 }

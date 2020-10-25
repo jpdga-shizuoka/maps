@@ -19,6 +19,7 @@ export class GoogleMapsApiService {
 
   //
   // load a script for Google Maps Api asynchronously
+  // @see https://github.com/angular/components/tree/master/src/google-maps
   //
   load(): Observable<boolean> {
     if (this.loaded) {

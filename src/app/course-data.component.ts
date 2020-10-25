@@ -2,18 +2,18 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { TeeType } from '../models';
-import { PrintService } from '../print.service';
+import { TeeType } from './models';
+import { PrintService } from './print.service';
 import {
   RemoteService, EventData, HoleData, EventId, CourseId, CourseData
-} from '../remote-service';
+} from './remote-service';
+
+export { PrintService, RemoteService, HoleData };
 
 @Component({
-  selector: 'app-print-rules',
-  templateUrl: './print-rules.component.html',
-  styleUrls: ['./print-rules.component.css']
+  template: ''
 })
-export class PrintRulesComponent implements OnDestroy, OnInit {
+export class CourseDataComponent implements OnDestroy, OnInit {
   private readonly eventId: EventId;
   private readonly courseId: CourseId;
   private readonly teeType: TeeType;
@@ -54,32 +54,40 @@ export class PrintRulesComponent implements OnDestroy, OnInit {
     this.ssEvent?.unsubscribe();
   }
 
-  Par(data: HoleData) {
+  par(data: HoleData) {
     return this.isFrontTee ? (data.front?.par || data.back.par) : data.back.par;
   }
-  Length(data: HoleData) {
+
+  length(data: HoleData) {
     return this.isFrontTee ? (data.front?.length || data.back.length) : data.back.length;
+  }
+
+  get holes(): HoleData[] | undefined {
+    if (!this.course) {
+      return undefined;
+    }
+    return this.course.holes;
   }
 
   get tee() {
     return this.isFrontTee ? 'Front Tee' : 'Back Tee';
   }
 
-  get TotalPar() {
+  get totalPar() {
     let par = 0;
-    this.course?.holes.forEach(hole => par += this.Par(hole));
+    this.holes?.forEach(hole => par += this.par(hole));
     return par;
   }
 
-  get TotalLength() {
+  get totalLength() {
     let length = 0;
-    this.course?.holes.forEach(hole => length += this.Length(hole));
+    this.holes?.forEach(hole => length += this.length(hole));
     return length;
   }
 
-  get AverageLength() {
-    if (this.course) {
-      return this.TotalLength / this.course.holes.length;
+  get averageLength() {
+    if (this.holes) {
+      return this.totalLength / this.holes.length;
     }
     return 0;
   }

@@ -25,6 +25,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -49,8 +51,10 @@ import { ReloadComponent } from './app-reload';
 import { VideoPlayerComponent } from './video-player/video-player.component';
 import { PreviewComponent } from './preview/preview.component';
 import { PrintFormComponent } from './print-form/print-form.component';
-import { CaddieBookComponent } from './caddie-book/caddie-book.component';
 import { PrintRulesComponent } from './print-rules/print-rules.component';
+import { PrintLayoutComponent } from './print-layout/print-layout.component';
+import { PrintDialogComponent } from './dialogs/print-dialog.component';
+import { PrintCardComponent } from './print-card/print-card.component';
 import { environment } from '../environments/environment';
 
 @NgModule({
@@ -77,8 +81,10 @@ import { environment } from '../environments/environment';
     VideoPlayerComponent,
     PreviewComponent,
     PrintFormComponent,
-    CaddieBookComponent,
     PrintRulesComponent,
+    PrintLayoutComponent,
+    PrintDialogComponent,
+    PrintCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -107,9 +113,12 @@ import { environment } from '../environments/environment';
     MatSelectModule,
     MatInputModule,
     MatButtonModule,
+    MatDialogModule,
+    MatButtonToggleModule,
   ],
   entryComponents: [
-    HoleInfoSheetComponent
+    HoleInfoSheetComponent,
+    PrintDialogComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

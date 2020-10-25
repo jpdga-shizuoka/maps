@@ -1,0 +1,25 @@
+<section class="cb-section">
+  <label class="cb-margin">{{"Output" | localize}}:</label>
+  <mat-radio-group [(ngModel)]="typePaper">
+    <mat-radio-button class="cb-margin" value="rules">{{"Rules" | localize}}</mat-radio-button>
+    <mat-radio-button class="cb-margin" value="layout">{{"Layout" | localize}}</mat-radio-button>
+    <mat-radio-button class="cb-margin" value="card">{{"Card" | localize}}</mat-radio-button>
+  </mat-radio-group>
+</section>
+
+<section class="cb-section">
+  <label class="cb-margin">{{"Tee" | localize}}:</label>
+  <mat-radio-group [(ngModel)]="teePosition">
+    <mat-radio-button class="cb-margin" value="back">{{"Back" | localize}}</mat-radio-button>
+    <mat-radio-button class="cb-margin" value="front">{{"Front" | localize}}</mat-radio-button>
+  </mat-radio-group>
+</section>
+
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onCancel()">
+    {{"Cancel" | localize}}
+  </button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="results" cdkFocusInitial>
+    {{"Print" | localize}}
+  </button>
+</div>

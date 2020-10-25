@@ -10,7 +10,7 @@ import { take, tap } from 'rxjs/operators';
 import { Position, HoleMetaData, TeeType } from '../models';
 import { RemoteService, HoleData, CourseData, CourseId } from '../remote-service';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
-import { holeLength, Path2Bounds } from '../map-utilities';
+import { holeLength, LatLngBounds } from '../map-utilities';
 import { isHandset, BreakpointObserver } from '../ng-utilities';
 import { GoogleMapsApiService } from '../googlemapsapi.service';
 import {
@@ -31,37 +31,13 @@ import {
   MapsObjects, LoadMapsObjects, Line, Area, MarkerInfo
 } from '../maps-objects';
 
-export { Position };
-
-class Holes2Bounds extends Path2Bounds {
-  readonly center: Position;
-  constructor(holes: HoleData[]) {
-    super();
-    holes.forEach(hole => this.addPath(hole.back?.path || hole.front.path));
-    this.center = {
-      lat: (this.bounds.sw.lat + this.bounds.ne.lat) / 2,
-      lng: (this.bounds.sw.lng + this.bounds.ne.lng) / 2
-    };
-  }
-}
-class LatLngBounds extends Path2Bounds {
-  constructor(path: Position[]) {
-    super();
-    this.addPath(path);
-  }
-  get value() {
-    const sw = new google.maps.LatLng(this.bounds.sw);
-    const ne = new google.maps.LatLng(this.bounds.ne);
-    return new google.maps.LatLngBounds(sw, ne);
-  }
-}
-
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit, OnDestroy, MapsOptions, MapsObjects {
+export class MapsComponent
+  implements OnInit, OnDestroy, MapsOptions, MapsObjects {
   @ViewChild('googlemap') googlemap: GoogleMap;
   @Input() lastHole: number;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
@@ -72,6 +48,7 @@ export class MapsComponent implements OnInit, OnDestroy, MapsOptions, MapsObject
   readonly isHandset$: Observable<boolean>;
   private ssCourse: Subscription;
   private ssMapsApi: Subscription;
+  private ssMaps: Subscription;
   private readonly _course: BehaviorSubject<CourseData>;
   apiLoaded = false;
   course: CourseData;
@@ -138,7 +115,7 @@ export class MapsComponent implements OnInit, OnDestroy, MapsOptions, MapsObject
     this.width = rect.width;
     this.height = rect.height;
 
-    this.googleMapsApi.load().pipe(
+    this.ssMaps = this.googleMapsApi.load().pipe(
       tap(() => this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId))),
       tap(() => LoadMapsOptions(this)),
     ).subscribe(() => this.apiLoaded = true);
@@ -147,6 +124,7 @@ export class MapsComponent implements OnInit, OnDestroy, MapsOptions, MapsObject
   ngOnDestroy() {
     this.ssMapsApi?.unsubscribe();
     this.ssCourse?.unsubscribe();
+    this.ssMaps?.unsubscribe();
   }
 
   panTo(path: Position[]) {

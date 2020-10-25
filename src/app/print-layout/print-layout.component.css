@@ -4,3 +4,7 @@
 .app-page:last-child {
   page-break-after: avoid;
 }
+#app-print-layout {
+  width: 100vw;
+  height: 100vh;
+}

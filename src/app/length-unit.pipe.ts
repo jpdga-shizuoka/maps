@@ -9,7 +9,7 @@ export class LengthUnitPipe implements PipeTransform {
   transform(value: number, unit?: LengthUnit): string {
     const lengthUnit = unit || this.commonService.lengthUnit;
     return  lengthUnit === FOOT
-      ? Math.round(value * ONE_FOOT) + 'feet'
+      ? Math.round(value * ONE_FOOT) + 'ft'
       : Math.round(value) + 'm';
   }
 
