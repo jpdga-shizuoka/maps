@@ -1,97 +1,21 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
-
-import { TeeType } from '../models';
-import { PrintService } from '../print.service';
 import {
-  RemoteService, EventData, HoleData, EventId, CourseId, CourseData
-} from '../remote-service';
+  PrintDataComponent, PrintService, RemoteService, HoleData
+} from '../print-data.component';
 
 @Component({
   selector: 'app-print-rules',
   templateUrl: './print-rules.component.html',
   styleUrls: ['./print-rules.component.css']
 })
-export class PrintRulesComponent implements OnDestroy, OnInit {
-  private readonly eventId: EventId;
-  private readonly courseId: CourseId;
-  private readonly teeType: TeeType;
-  private ssEvent: Subscription;
-  private ssCourse: Subscription;
-  event: EventData;
-  course: CourseData;
-  private state = {
-    event: false,
-    course: false
-  };
-
+export class PrintRulesComponent extends PrintDataComponent
+{
   constructor(
-    private readonly remote: RemoteService,
-    private readonly printService: PrintService,
+    remote: RemoteService,
+    printService: PrintService,
     route: ActivatedRoute,
   ) {
-    this.eventId = route.snapshot.params.eventId;
-    this.courseId = route.snapshot.params.courseId;
-    this.teeType = route.snapshot.params.teeType || 'back';
-  }
-
-  ngOnInit() {
-    this.ssEvent = this.remote.getEvent(this.eventId).subscribe(
-      event => {
-        this.event = event;
-        this.onReady('event');
-    });
-    this.ssCourse = this.remote.getCourse(this.courseId).subscribe(
-      course => {
-        this.course = course;
-        this.onReady('course');
-    });
-  }
-
-  ngOnDestroy() {
-    this.ssCourse?.unsubscribe();
-    this.ssEvent?.unsubscribe();
-  }
-
-  Par(data: HoleData) {
-    return this.isFrontTee ? (data.front?.par || data.back.par) : data.back.par;
-  }
-  Length(data: HoleData) {
-    return this.isFrontTee ? (data.front?.length || data.back.length) : data.back.length;
-  }
-
-  get tee() {
-    return this.isFrontTee ? 'Front Tee' : 'Back Tee';
-  }
-
-  get TotalPar() {
-    let par = 0;
-    this.course?.holes.forEach(hole => par += this.Par(hole));
-    return par;
-  }
-
-  get TotalLength() {
-    let length = 0;
-    this.course?.holes.forEach(hole => length += this.Length(hole));
-    return length;
-  }
-
-  get AverageLength() {
-    if (this.course) {
-      return this.TotalLength / this.course.holes.length;
-    }
-    return 0;
-  }
-
-  private get isFrontTee() {
-    return this.teeType === 'front';
-  }
-
-  private onReady(type: 'event' | 'course') {
-    this.state[type] = true;
-    if (this.state.event && this.state.course) {
-      this.printService.onDataReady();
-    }
+    super(remote, printService, route);
   }
 }

@@ -1,16 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
 import {
-  CourseDataComponent, PrintService, RemoteService, HoleData
-} from '../course-data.component';
+  PrintDataComponent, PrintService, RemoteService, HoleData
+} from '../print-data.component';
 
 @Component({
   selector: 'app-print-card',
   templateUrl: './print-card.component.html',
   styleUrls: ['./print-card.component.css']
 })
-export class PrintCardComponent extends CourseDataComponent {
+export class PrintCardComponent extends PrintDataComponent {
 
   constructor(
     remote: RemoteService,

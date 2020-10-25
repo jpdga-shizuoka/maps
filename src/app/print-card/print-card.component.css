@@ -1,5 +1,5 @@
 table, td{
-  border: 1px solid black;
+  border: 0.5px solid black;
   border-spacing: 0;
   text-align: center;
   font-size: 9pt;
@@ -14,15 +14,16 @@ table, td{
   width: 240mm;
   display: flex;
   margin: 0 0 0 5mm;
+  outline: 1px solid #e0e0e0;
 }
-.card-half {
+.score-half {
   width: 120mm;
   outline: 1px solid #e0e0e0;
 }
-.card-half > * {
+.score-half > * {
   margin-right: 5mm;
 }
-.card-half > table {
+.score-half > table {
   margin-top: 0;
   margin-left: auto;
   margin-bottom: 5mm;
@@ -39,7 +40,7 @@ td {
   height: 7mm;
 }
 td.name {
-  width: 20mm;
+  width: 25mm;
 }
 td.hole {
   width: 7mm;

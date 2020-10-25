@@ -28,8 +28,8 @@
   </tr>
   <tr *ngFor="let hole of course?.holes">
     <td class="hole">{{hole.number}}</td>
-    <td class="par">{{Par(hole)}}</td>
-    <td class="length">{{Length(hole) | lengthUnit}}</td>
+    <td class="par">{{par(hole)}}</td>
+    <td class="length">{{length(hole) | lengthUnit}}</td>
     <td>
       <ul>
         <li *ngFor="let rule of hole.description">{{rule}}</li>
@@ -38,11 +38,11 @@
   </tr>
   <tr>
     <td class="total">{{"Total" | localize}}</td>
-    <td class="par">{{TotalPar}}</td>
-    <td class="length">{{TotalLength | lengthUnit}}</td>
+    <td class="par">{{totalPar}}</td>
+    <td class="length">{{totalLength | lengthUnit}}</td>
     <td>
       <ul>
-        <li>{{"Hole Average" | localize}}: {{AverageLength | lengthUnit}}</li>
+        <li>{{"Hole Average" | localize}}: {{averageLength | lengthUnit}}</li>
       </ul>
     </td>
   </tr>

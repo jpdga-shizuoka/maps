@@ -13,7 +13,7 @@ export { PrintService, RemoteService, HoleData };
 @Component({
   template: ''
 })
-export class CourseDataComponent implements OnDestroy, OnInit {
+export class PrintDataComponent implements OnDestroy, OnInit {
   private readonly eventId: EventId;
   private readonly courseId: CourseId;
   private readonly teeType: TeeType;
