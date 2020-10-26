@@ -66,11 +66,14 @@ tr.hole-row:not(.expanded-row):active {
 .config-print {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+  margin-bottom: 1rem;
 }
 .config-print > * {
   margin-left: auto;
-  margin-right: 10px;
+  margin-right: 0.5rem;
+}
+.config-print button {
+  margin-right: 1.5rem;
 }
 @media screen and (max-width: 736px) {
   .course-table-container {
