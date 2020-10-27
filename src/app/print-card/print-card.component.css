@@ -11,6 +11,7 @@ td {
 }
 .app-page {
   page-break-after: always;
+  transform: translateY(50mm) rotate(90deg);
 }
 .app-page:last-child {
   page-break-after: avoid;
