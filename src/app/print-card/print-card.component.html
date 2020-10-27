@@ -8,17 +8,17 @@
       </div>
       <table>
         <tr>
-          <td class="name">Hole</td>
+          <td class="name">{{"Hole" | localize}}#</td>
           <td class="hole" *ngFor="let hole of outHoles">{{hole.number}}</td>
           <td>{{"Subttl" | localize}}</td>
         </tr>
         <tr>
-          <td class="name">Par</td>
+          <td class="name">{{"Par" | localize}}</td>
           <td class="hole" *ngFor="let hole of outHoles">{{par(hole)}}</td>
           <td class="sbttl">{{outPar}}</td>
         </tr>
         <tr>
-          <td class="name">{{"Length" | localize}}</td>
+          <td class="name">{{"Length" | localize}}({{lengthUnit}})</td>
           <td class="hole" *ngFor="let hole of outHoles">{{length(hole)}}</td>
           <td class="sbttl">{{outLength}}</td>
         </tr>

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   PrintDataComponent, PrintService, RemoteService, HoleData
 } from '../print-data.component';
+import { CommonService } from '../common.service';
 
 @Component({
   selector: 'app-print-card',
@@ -12,6 +13,7 @@ import {
 export class PrintCardComponent extends PrintDataComponent {
 
   constructor(
+    private readonly commonService: CommonService,
     remote: RemoteService,
     printService: PrintService,
     route: ActivatedRoute,
@@ -59,5 +61,9 @@ export class PrintCardComponent extends PrintDataComponent {
     let length = 0;
     this.inHoles?.forEach(hole => length += this.length(hole));
     return length;
+  }
+
+  get lengthUnit() {
+    return this.commonService.unit();
   }
 }
