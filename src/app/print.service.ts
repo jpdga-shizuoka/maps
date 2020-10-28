@@ -10,12 +10,9 @@ import { EventId, CourseId, TeeType } from './models';
 let self: PrintService;
 
 function afterprintHandler(event: Event) {
-  if (!null) { return; }
+  if (!self) { return; }
   self.isPrinting = false;
-  self.router.navigate(
-    [{ outlets: { print: null }}],
-    // { skipLocationChange: true }
-  );
+  self.router.navigate([{ outlets: { print: null }}]);
 }
 
 function addAfterprintHandler(target: PrintService) {
