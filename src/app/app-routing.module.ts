@@ -15,6 +15,7 @@ const routes: Routes = [
   { path: 'course/:eventId/:courseId', component: CourseMapComponent},
   { path: 'reload', component: ReloadComponent},
   { path: 'preview', component: VideoPlayerComponent},
+  { path: 'layout/:eventId/:courseId/:teeType', component: PrintLayoutComponent },
 
   //
   // for printing
@@ -24,12 +25,6 @@ const routes: Routes = [
     outlet: 'print',
     children: [
       { path: 'rules/:eventId/:courseId/:teeType', component: PrintRulesComponent }
-    ]
-  },
-  { path: 'print', component: PrintFormComponent,
-    outlet: 'print',
-    children: [
-      { path: 'layout/:eventId/:courseId/:teeType', component: PrintLayoutComponent }
     ]
   },
   { path: 'print', component: PrintFormComponent,

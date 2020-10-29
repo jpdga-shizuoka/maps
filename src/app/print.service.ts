@@ -45,7 +45,11 @@ export class PrintService implements OnDestroy {
   printDocument(
     documentName: string, eventId: EventId, courseId: CourseId, teeType: TeeType
   ) {
-    if (this.isPrinting) {
+    if (documentName === 'layout') {
+      this.router.navigate(['/', 'layout', eventId, courseId, teeType],
+      { skipLocationChange: true });
+      return;
+    } else if (this.isPrinting) {
       return;
     }
     this.isPrinting = true;

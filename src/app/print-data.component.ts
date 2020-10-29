@@ -14,9 +14,9 @@ export { PrintService, RemoteService, HoleData };
   template: ''
 })
 export class PrintDataComponent implements OnDestroy, OnInit {
-  private readonly eventId: EventId;
-  private readonly courseId: CourseId;
-  private readonly teeType: TeeType;
+  public readonly eventId: EventId;
+  public readonly courseId: CourseId;
+  public readonly teeType: TeeType;
   private ssEvent: Subscription;
   private ssCourse: Subscription;
   event: EventData;
@@ -96,10 +96,14 @@ export class PrintDataComponent implements OnDestroy, OnInit {
     return this.teeType === 'front';
   }
 
-  private onReady(type: 'event' | 'course') {
-    this.state[type] = true;
-    if (this.state.event && this.state.course) {
+  protected onReady(type: 'event' | 'course') {
+    if (this.isReady(type)) {
       this.printService.onDataReady();
     }
+  }
+
+  protected isReady(type: 'event' | 'course') {
+    this.state[type] = true;
+    return this.state.event && this.state.course;
   }
 }

@@ -22,12 +22,9 @@
                 [paths]="area"
                 [options]="hazardAreaOptions"></map-polygon>
 
-      <map-polyline *ngFor="let line of frontLines"
+      <map-polyline *ngFor="let line of lines"
                 [path]="line"
-                [options]="frontLineOptions"></map-polyline>
-      <map-polyline *ngFor="let line of backLines"
-                [path]="line"
-                [options]="backLineOptions"></map-polyline>
+                [options]="lineOptions"></map-polyline>
 
       <map-marker #mandomarker *ngFor="let mando of mandos; index as i"
                 [title]="mando.title"
@@ -38,14 +35,10 @@
                 [position]="dz.position"
                 [options]="dropZoneOptions"></map-marker>
 
-      <map-marker #teemarker *ngFor="let tee of backTees; index as i"
+      <map-marker #teemarker *ngFor="let tee of tees; index as i"
                 [title]="tee.title"
                 [position]="tee.position"
-                [options]="backTeeOptions(tee.title)"></map-marker>
-      <map-marker #teemarker *ngFor="let tee of frontTees; index as i"
-                [title]="tee.title"
-                [position]="tee.position"
-                [options]="frontTeeOptions(tee.title)"></map-marker>
+                [options]="teeOptions(tee.title)"></map-marker>
     </google-map>
   </div>
 </div>

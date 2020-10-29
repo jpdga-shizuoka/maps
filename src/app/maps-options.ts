@@ -102,7 +102,7 @@ export function LoadMapsOptions(target: MapsOptions) {
   Object.assign(target, {
     mapOptions: {
       maxZoom: 20,
-      minZoom: 17,
+      minZoom: 16,
       mapTypeId: 'satellite',
       disableDefaultUI: true,
       tilt: 0
