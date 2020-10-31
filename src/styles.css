@@ -89,6 +89,10 @@ a[href^="http://maps.apple"] {
 .app-spacer {
   flex: 1 1 auto;
 }
+/* https://stackoverflow.com/questions/41544151/google-maps-missing-row-of-tiles-on-chrome */
+.gm-style div > img {
+  position: absolute;
+}
 @media screen {
   body {
     background: repeat url("./assets/img/background.png");
@@ -108,6 +112,6 @@ a[href^="http://maps.apple"] {
   }
 }
 @media print {
-  app-root > * { display: none; }
-  app-root app-print-form { display: block; }
+  app-course-map { display: none; }
+  /* app-root app-print-form { display: block; } */
 }

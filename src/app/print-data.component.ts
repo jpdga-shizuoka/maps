@@ -28,7 +28,7 @@ export class PrintDataComponent implements OnDestroy, OnInit {
 
   constructor(
     private readonly remote: RemoteService,
-    private readonly printService: PrintService,
+    protected readonly printService: PrintService,
     route: ActivatedRoute,
   ) {
     this.eventId = route.snapshot.params.eventId;

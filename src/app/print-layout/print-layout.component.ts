@@ -6,6 +6,7 @@ import { GoogleMap, MapMarker } from '@angular/google-maps';
 
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ResizedEvent } from 'angular-resize-event';
 
 import { TeeType, HoleLine } from '../models';
 import { Holes2Bounds } from '../map-utilities';
@@ -27,6 +28,9 @@ export class PrintLayoutComponent extends PrintMapDataComponent
   apiLoaded = false;
   tees = [] as MarkerInfo[];
   lines = [] as Line[];
+  get showButton() {
+    return !this.printService.isPrintingView;
+  }
 
   constructor(
     private readonly el: ElementRef,
@@ -51,12 +55,13 @@ export class PrintLayoutComponent extends PrintMapDataComponent
     super.ngOnDestroy();
   }
 
-  onIdle() {
-    console.log('############### IDLE ############');
+  onResized(event: ResizedEvent) {
+    this.width = event.newWidth;
+    this.height = event.newHeight;
   }
 
-  onTilesloaded() {
-    console.log('############### onTilesloaded ############');
+  onPrint() {
+    this.printService.printView();
   }
 
   teeOptions(index: string) {

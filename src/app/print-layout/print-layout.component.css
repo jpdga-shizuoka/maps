@@ -8,3 +8,11 @@
   width: 100vw;
   height: 100vh;
 }
+.app-print-button {
+  position: absolute;
+  z-index: 1;
+}
+#app-print {
+  bottom: 2rem;
+  right: 2rem;
+}
