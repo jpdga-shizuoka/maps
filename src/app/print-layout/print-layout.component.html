@@ -1,4 +1,10 @@
 <div id="app-print-layout" class="map-container app-page" (resized)="onResized($event)">
+  <section class="layout-header">
+    <span>{{event?.period | period}}</span>
+    <span>{{event?.title | localize}}</span>
+    <span>{{tee | localize}}@{{course?.title | localize}}</span>
+  </section>
+
   <div *ngIf="apiLoaded">
     <google-map #layoutmap id="layoutmap"
                 height="{{height}}px"
