@@ -11,7 +11,7 @@ td {
 }
 .app-page {
   page-break-after: always;
-  transform: translateY(50mm) rotate(90deg);
+  transform: translateY(35mm) rotate(90deg);
 }
 .app-page:last-child {
   page-break-after: avoid;
@@ -19,8 +19,30 @@ td {
 .card {
   width: 240mm;
   display: flex;
-  margin: 0 0 0 5mm;
+  margin: 0 0 0 0;
   outline: 1px solid #e0e0e0;
+}
+.rules {
+  height: 70mm;
+  flex-direction: column;
+  flex-wrap: wrap;
+  font-size: 7pt;
+  margin: 0;
+}
+.rules > article {
+  width: 60mm;
+}
+.rules h1 {
+  font-size: 8pt;
+  line-height: 9pt;
+  margin: 1mm 0 0 0.5rem;
+}
+.rules ul {
+  margin: 0;
+  padding: 0 0 0 1.5rem;
+}
+.rules li {
+  line-height: 8pt;
 }
 .score-half {
   width: 120mm;

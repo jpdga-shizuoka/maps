@@ -66,4 +66,8 @@ export class PrintCardComponent extends PrintDataComponent {
   get lengthUnit() {
     return this.commonService.unit();
   }
+
+  hasRules(hole: HoleData) {
+    return hole.description.length > 0 && hole.description[0] !== '';
+  }
 }

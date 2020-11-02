@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-import { TeeType } from './models';
+import { TeeType, Descriptions } from './models';
 import { PrintService } from './print.service';
 import {
   RemoteService, EventData, HoleData, EventId, CourseId, CourseData
@@ -60,6 +60,13 @@ export class PrintDataComponent implements OnDestroy, OnInit {
 
   length(data: HoleData) {
     return this.isFrontTee ? (data.front?.length || data.back.length) : data.back.length;
+  }
+
+  get commonRules(): Descriptions | undefined {
+    if (!this.course) {
+      return undefined;
+    }
+    return this.course.description;
   }
 
   get holes(): HoleData[] | undefined {

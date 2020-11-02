@@ -13,7 +13,7 @@
   <tr>
     <td>
       <ul>
-        <li *ngFor="let rule of course?.description">{{rule}}</li>
+        <li *ngFor="let rule of commonRules">{{rule}}</li>
       </ul>
     </td>
   </tr>
@@ -26,7 +26,7 @@
     <th>{{"Length" | localize}}</th>
     <th>{{"Rules" | localize}}</th>
   </tr>
-  <tr *ngFor="let hole of course?.holes">
+  <tr *ngFor="let hole of holes">
     <td class="hole">{{hole.number}}</td>
     <td class="par">{{par(hole)}}</td>
     <td class="length">{{length(hole) | lengthUnit}}</td>

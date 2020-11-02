@@ -89,4 +89,20 @@
       </table>
     </div>
   </div>
+  <section class="card rules">
+    <article>
+      <h1>{{"Common rules" | localize}}</h1>
+      <ul>
+        <li *ngFor="let rule of commonRules">{{rule}}</li>
+      </ul>
+    </article>
+    <article *ngFor="let hole of holes">
+      <div *ngIf="hasRules(hole)">
+        <h1>#{{hole.number}}</h1>
+        <ul>
+          <li *ngFor="let rule of hole.description">{{rule}}</li>
+        </ul>
+      </div>
+    </article>
+  </section>
 </div>
