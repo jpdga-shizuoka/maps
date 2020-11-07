@@ -10,7 +10,7 @@ describe('EventTableComponent', () => {
   let component: EventTableComponent;
   let fixture: ComponentFixture<EventTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ EventTableComponent ],
       imports: [
@@ -20,7 +20,7 @@ describe('EventTableComponent', () => {
         MatTableModule,
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventTableComponent);

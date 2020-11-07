@@ -12,9 +12,7 @@ import { EventId, CourseId, TeeType } from './models';
 })
 export class PrintService implements OnDestroy {
   private static instance: PrintService;
-  private static afterprint(event: Event) {
-    PrintService.instance.isPrinting = false;
-  }
+
   private state: 'close' | 'open' = 'close';
   private document: string;
   private event: EventId;
@@ -22,6 +20,10 @@ export class PrintService implements OnDestroy {
   private tee: TeeType;
 
   isPrinting = false;
+
+  private static afterprint(event: Event) {
+    PrintService.instance.isPrinting = false;
+  }
 
   constructor(public readonly router: Router) {
     PrintService.instance = this;

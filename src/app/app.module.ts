@@ -41,7 +41,7 @@ import { MeterFootComponent } from './meter-foot/meter-foot.component';
 import { PeriodPipe } from './period.pipe';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { LocalizePipe } from './localize.pipe';
-import { LongPress } from './long-press';
+import { LongPressDirective } from './long-press.directive';
 import { GlobalLocalComponent } from './global-local/global-local.component';
 import { EventPageComponent } from './event-page/event-page.component';
 import { PrefaceComponent } from './preface/preface.component';
@@ -71,7 +71,7 @@ import { environment } from '../environments/environment';
     PeriodPipe,
     EventDetailComponent,
     LocalizePipe,
-    LongPress,
+    LongPressDirective,
     GlobalLocalComponent,
     EventPageComponent,
     PrefaceComponent,

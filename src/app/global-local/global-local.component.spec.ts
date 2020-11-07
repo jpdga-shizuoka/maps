@@ -6,12 +6,12 @@ describe('GlobalLocalComponent', () => {
   let component: GlobalLocalComponent;
   let fixture: ComponentFixture<GlobalLocalComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ GlobalLocalComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalLocalComponent);

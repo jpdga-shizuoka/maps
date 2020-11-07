@@ -23,7 +23,7 @@ import { PrintDialogComponent } from '../dialogs/print-dialog.component';
 export class CourseMapComponent implements OnInit, OnDestroy {
   @ViewChild(MapsComponent) map: MapsComponent;
   @ViewChild(CourseTableComponent) table: CourseTableComponent;
-  @ViewChild("courseTab") courseTab: MatTabGroup;
+  @ViewChild('courseTab') courseTab: MatTabGroup;
   readonly isHandset$: Observable<boolean>;
   eventId: EventId;
   courseId: CourseId;
@@ -31,7 +31,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   courses: CourseItem[];
   event?: EventData;
   private ssRoute: Subscription;
-  get isPrinting() {return this.printService.isPrinting;}
+  get isPrinting() {return this.printService.isPrinting; }
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -83,7 +83,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
     this.dialog
     .open(PrintDialogComponent)
     .afterClosed().subscribe(results => {
-      switch(results[0]) {
+      switch (results[0]) {
         case 'rules':
           return this.printService
             .printDocument('rules', this.eventId, this.courseId, results[1]);

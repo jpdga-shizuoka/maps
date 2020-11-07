@@ -39,7 +39,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private ssDataSource: Subscription;
   get displayedColumns() {
     return this.isAllBackTee
-      ? ['hole', 'back'] : ['hole', 'back', 'front']
+      ? ['hole', 'back'] : ['hole', 'back', 'front'];
   }
   get isAllBackTee() {
     if (!this.dataSource) {
@@ -98,7 +98,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   get backTotal() {
-    if (!this.dataSource) { return '';}
+    if (!this.dataSource) { return ''; }
     let length = 0;
     let par = 0;
     this.dataSource.data.forEach(hole => {
@@ -110,7 +110,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   get frontTotal() {
-    if (!this.dataSource) { return '';}
+    if (!this.dataSource) { return ''; }
     let length = 0;
     let par = 0;
     this.dataSource.data.forEach(hole => {
@@ -157,7 +157,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onLongPress(event: MouseEvent | TouchEvent, hole: HoleData) {
-    const cellIndex = event.target['cellIndex'];
+    const cellIndex = (event.target as HTMLTableCellElement).cellIndex;
     this.issueEvent(hole, cellIndex === 2 ? 'front' : 'back', true);
   }
 
@@ -178,7 +178,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
       teeType: type,
       description: hole.description,
       data: hole[type] || hole.back,
-      longPressed: longPressed
+      longPressed
     };
     this.holeClicked.emit(metadata);
   }

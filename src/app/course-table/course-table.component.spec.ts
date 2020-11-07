@@ -10,7 +10,7 @@ describe('CourseTableComponent', () => {
   let component: CourseTableComponent;
   let fixture: ComponentFixture<CourseTableComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ CourseTableComponent ],
       imports: [
@@ -20,7 +20,7 @@ describe('CourseTableComponent', () => {
         MatTableModule,
       ]
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CourseTableComponent);

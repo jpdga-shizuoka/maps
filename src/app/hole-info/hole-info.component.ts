@@ -36,7 +36,7 @@ export class HoleInfoComponent {
     if (!this.data.data.elevation) {
       return '';
     }
-    return sign(this.data.data.elevation) 
+    return sign(this.data.data.elevation)
     + this.commonService.length(this.data.data.elevation);
   }
 

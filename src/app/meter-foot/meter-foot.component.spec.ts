@@ -6,12 +6,12 @@ describe('MeterFootComponent', () => {
   let component: MeterFootComponent;
   let fixture: ComponentFixture<MeterFootComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ MeterFootComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MeterFootComponent);

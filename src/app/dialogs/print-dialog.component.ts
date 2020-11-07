@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
-  selector: 'print-dialog',
+  selector: 'app-print-dialog',
   templateUrl: 'print-dialog.html',
   styleUrls: ['./print-dialog.css'],
 })

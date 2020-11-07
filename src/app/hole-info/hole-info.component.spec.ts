@@ -6,12 +6,12 @@ describe('HoleInfoComponent', () => {
   let component: HoleInfoComponent;
   let fixture: ComponentFixture<HoleInfoComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ HoleInfoComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HoleInfoComponent);

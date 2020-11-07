@@ -6,12 +6,12 @@ describe('EventPageComponent', () => {
   let component: EventPageComponent;
   let fixture: ComponentFixture<EventPageComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ EventPageComponent ]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventPageComponent);
