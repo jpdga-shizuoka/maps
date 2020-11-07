@@ -1,0 +1,54 @@
+<section class="layout-header">
+  <span>{{event?.period | period}}</span>
+  <span>{{event?.title | localize}}</span>
+  <span>{{tee | localize}}@{{course?.title | localize}}</span>
+</section>
+<div id="map-container" (resized)="onResized($event)">
+  <div *ngIf="apiLoaded">
+    <google-map #layoutmap id="layoutmap"
+                height="{{height}}px"
+                width="{{width}}px"
+                [center]="center"
+                [zoom]="zoom"
+                [options]="mapOptions">
+
+      <map-polygon *ngFor="let area of safeAreas"
+                [paths]="area"
+                [options]="safeAreaOptions"></map-polygon>
+      <map-polygon *ngFor="let area of obAreas"
+                [paths]="area"
+                [options]="obAreaOptions"></map-polygon>
+      <map-polyline *ngFor="let line of obLines"
+                [path]="line"
+                [options]="obLineOptions"></map-polyline>
+      <map-polygon *ngFor="let area of hazardAreas"
+                [paths]="area"
+                [options]="hazardAreaOptions"></map-polygon>
+
+      <map-polyline *ngFor="let line of lines"
+                [path]="line"
+                [options]="lineOptions"></map-polyline>
+
+      <map-marker #mandomarker *ngFor="let mando of mandos; index as i"
+                [title]="mando.title"
+                [position]="mando.position"
+                [options]="mandoOptions"></map-marker>
+      <map-marker #dzmarker *ngFor="let dz of dropZones; index as i"
+                [title]="dz.title"
+                [position]="dz.position"
+                [options]="dropZoneOptions"></map-marker>
+
+      <map-marker #teemarker *ngFor="let tee of tees; index as i"
+                [title]="tee.title"
+                [position]="tee.position"
+                [options]="teeOptions(tee.title)"></map-marker>
+    </google-map>
+  </div>
+</div>
+
+<button class="app-print-button" (click)="onPrint()"
+  mat-fab color="primary" aria-label="print" *ngIf="showButton">
+  <mat-icon>
+    <img src="assets/img/print-24px.svg" alt="print">
+  </mat-icon>
+</button>

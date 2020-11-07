@@ -1,19 +1,9 @@
-
-
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-@media screen and (max-width: 736px) {
-  body: {
-    margin: 0;
-  }
+html, body {
+  height: 100%;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
 body {
-  background: repeat url("./assets/img/background.png");
-  background-size: 36px 30px;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 .app-preface > h1 {
   font-size: 1.2rem;
@@ -99,6 +89,17 @@ a[href^="http://maps.apple"] {
 .app-spacer {
   flex: 1 1 auto;
 }
+/* https://stackoverflow.com/questions/41544151/google-maps-missing-row-of-tiles-on-chrome */
+.gm-style div > img {
+  position: absolute;
+}
+@media screen {
+  body {
+    background: repeat url("./assets/img/background.png");
+    background-size: 36px 30px;
+  }
+  .app-print { display: none; }
+}
 @media screen and (max-width: 320px) {
   .config .mat-expansion-panel-body {
     padding-left: 12px;
@@ -110,4 +111,8 @@ a[href^="http://maps.apple"] {
   .app-titlebar {
     font-size: 0.8rem;
   }
+}
+@media print {
+  app-course-map { display: none; }
+  .app-screen { display: none; }
 }

@@ -1,15 +1,19 @@
-import { Component, ViewChild, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTabGroup } from '@angular/material/tabs';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+
 import { isHandset, Observable } from '../ng-utilities';
 import { HoleMetaData, CourseId, CourseItem, EventData, EventId } from '../models';
 import { MapsComponent } from '../maps/maps.component';
 import { CourseTableComponent } from '../course-table/course-table.component';
 import { RemoteService } from '../remote-service';
+import { PrintService } from '../print.service';
+import { PrintDialogComponent } from '../dialogs/print-dialog.component';
 
 @Component({
   selector: 'app-course-map',
@@ -27,11 +31,14 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   courses: CourseItem[];
   event?: EventData;
   private ssRoute: Subscription;
+  get isPrinting() {return this.printService.isPrinting;}
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly remote: RemoteService,
+    private readonly printService: PrintService,
+    public readonly dialog: MatDialog,
     breakpointObserver: BreakpointObserver,
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
@@ -43,6 +50,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.printService.closeDocument();
     this.ssRoute?.unsubscribe();
   }
 
@@ -69,6 +77,24 @@ export class CourseMapComponent implements OnInit, OnDestroy {
 
   onSelectionChange(event: MatSelectChange) {
     this.router.navigate(['course', this.eventId,  event.value]);
+  }
+
+  onPrint() {
+    this.dialog
+    .open(PrintDialogComponent)
+    .afterClosed().subscribe(results => {
+      switch(results[0]) {
+        case 'rules':
+          return this.printService
+            .printDocument('rules', this.eventId, this.courseId, results[1]);
+        case 'layout':
+          return this.printService
+            .printDocument('layout', this.eventId, this.courseId, results[1]);
+        case 'card':
+          return this.printService
+            .printDocument('card', this.eventId, this.courseId, results[1]);
+      }
+    });
   }
 
   private loadEvent(params: Params) {

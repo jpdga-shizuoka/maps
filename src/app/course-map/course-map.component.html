@@ -1,4 +1,4 @@
-<div class="app-course-map">
+<div class="app-course-map" [class.isPrinting]="isPrinting">
 <mat-toolbar color="primary" class="app-titlebar">
   <span>
     <a routerLink="/">
@@ -34,7 +34,9 @@
         </div>
       </ng-template>
       <div><!-- do not remove this block -->
-        <app-course-table [courseId]="courseId" (holeClicked)="onHoleCliked($event)">
+        <app-course-table [courseId]="courseId"
+          (print)="onPrint()"
+          (holeClicked)="onHoleCliked($event)">
         </app-course-table>
       </div>
      </mat-tab>
@@ -61,7 +63,9 @@
   <div class="combined">
     <app-maps #appmaps [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
     </app-maps>
-    <app-course-table [courseId]="courseId" (holeClicked)="onHoleCliked($event)">
+    <app-course-table [courseId]="courseId"
+      (print)="onPrint()"
+      (holeClicked)="onHoleCliked($event)">
     </app-course-table>
   </div>
 </ng-template>

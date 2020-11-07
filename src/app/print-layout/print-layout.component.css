@@ -1,0 +1,51 @@
+.layout-header {
+  display: flex;
+  border: 1mm solid black;
+  width: 190mm;
+  height: 10mm;
+  background-color: white;
+  align-items: center;
+}
+.layout-header span {
+  flex: auto 1 1;
+}
+.layout-header span:nth-child(1) {
+  margin: 0 0 0 1rem;
+}
+.layout-header span:nth-child(2) {
+  text-align: center;
+}
+.layout-header span:nth-child(3) {
+  margin: 0 1rem;
+  text-align: right;
+}
+.app-print-button {
+  position: absolute;
+  z-index: 1;
+  bottom: 2rem;
+  right: 2rem;
+}
+#map-container {
+  width: 190mm;
+  height: calc(270mm - 12mm);
+}
+@media print {
+  app-print-layout {
+    width: 190mm;
+    height: 270mm;
+  }
+}
+@media screen {
+  .app-page {
+    width: 100%;
+  }
+  .layout-header {
+    width: 100%;
+    height: 2rem;
+    border: 1px solid black;
+  }
+  #map-container {
+    width: 100%;
+    height: calc(100vh - 2rem - 2px);
+  }
+}

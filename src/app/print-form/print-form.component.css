@@ -1,0 +1,33 @@
+@page {
+  margin: 0mm !important;
+  width: 100vw;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+}
+.app-form {
+  /* height: 100vh; */
+  --header-height: 0mm;
+  --footer-height: 0mm;
+}
+.app-form-content {
+  height: calc(100% - var(--header-height) - var(--footer-height));
+}
+.app-form-header {
+  height: var(--header-height);
+}
+.app-form-footer {
+  display: flex;
+  height: var(--footer-height);
+}
+.center {
+  text-align: center;
+  flex: 1 1 auto;
+}
+@media screen {
+  :host {
+    display: none;
+  }
+}

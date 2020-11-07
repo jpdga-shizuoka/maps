@@ -1,0 +1,29 @@
+.cb-section {
+  display: flex;
+  margin: 1rem 0 1rem 0;
+}
+.cb-label {
+  margin-right: 0.5rem;
+  width: 6rem;
+  text-align: right;
+}
+.cb-group {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100% - 6rem);
+}
+.cb-item {
+  margin: auto 0.5rem 0.5rem 0;
+}
+.cb-item:last-child {
+  margin-right: 0;
+}
+.yes-no {
+  display: flex;
+}
+.yes-no > button {
+  margin-left: 1rem;
+}
+.yes-no > button:first-child {
+  margin-left: auto;
+}

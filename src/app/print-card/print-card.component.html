@@ -1,0 +1,108 @@
+<div class="app-page">
+  <div class="card">
+    <div class="score-half out">
+      <div class="title">
+        <span>{{event?.title | localize}}</span>
+        <span></span>
+        <span>{{course?.title | localize}}</span>
+      </div>
+      <table>
+        <tr>
+          <td class="name">{{"Hole" | localize}}#</td>
+          <td class="hole" *ngFor="let hole of outHoles">{{hole.number}}</td>
+          <td>{{"Subttl" | localize}}</td>
+        </tr>
+        <tr>
+          <td class="name">{{"Par" | localize}}</td>
+          <td class="hole" *ngFor="let hole of outHoles">{{par(hole)}}</td>
+          <td class="sbttl">{{outPar}}</td>
+        </tr>
+        <tr>
+          <td class="name">{{"Length" | localize}}({{lengthUnit}})</td>
+          <td class="hole" *ngFor="let hole of outHoles">{{length(hole)}}</td>
+          <td class="sbttl">{{outLength}}</td>
+        </tr>
+        <tr>
+          <td class="name"></td>
+          <td class="hole" *ngFor="let hole of outHoles"></td>
+          <td class="sbttl"></td>
+        </tr>
+        <tr>
+          <td class="name"></td>
+          <td class="hole" *ngFor="let hole of outHoles"></td>
+          <td class="sbttl"></td>
+        </tr>
+        <tr>
+          <td class="name"></td>
+          <td class="hole" *ngFor="let hole of outHoles"></td>
+          <td class="sbttl"></td>
+        </tr>
+        <tr>
+          <td class="name"></td>
+          <td class="hole" *ngFor="let hole of outHoles"></td>
+          <td class="sbttl"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="score-half in">
+      <div class="title">
+        <span>{{tee | localize}}</span>
+        <span></span>
+        <span>{{event?.period | period}}</span>
+      </div>
+      <table>
+        <tr>
+          <td class="hole" *ngFor="let hole of inHoles">{{hole.number}}</td>
+          <td class="sbttl" *ngIf="isInHoles">{{"Subttl" | localize}}</td>
+          <td class="total">{{"Total" | localize}}</td>
+        </tr>
+        <tr>
+          <td class="hole" *ngFor="let hole of inHoles">{{par(hole)}}</td>
+          <td class="sbttl" *ngIf="isInHoles">{{inPar}}</td>
+          <td class="total">{{totalPar}}</td>
+        </tr>
+        <tr>
+          <td class="hole" *ngFor="let hole of inHoles">{{length(hole)}}</td>
+          <td class="sbttl" *ngIf="isInHoles">{{inLength}}</td>
+          <td class="total">{{totalLength}}</td>
+        </tr>
+        <tr>
+          <td class="hole" *ngFor="let hole of inHoles"></td>
+          <td class="sbttl" *ngIf="isInHoles"></td>
+          <td class="total"></td>
+        </tr>
+        <tr>
+          <td class="hole" *ngFor="let hole of inHoles"></td>
+          <td class="sbttl" *ngIf="isInHoles"></td>
+          <td class="total"></td>
+        </tr>
+        <tr>
+          <td class="hole" *ngFor="let hole of inHoles"></td>
+          <td class="sbttl" *ngIf="isInHoles"></td>
+          <td class="total"></td>
+        </tr>
+        <tr>
+          <td class="hole" *ngFor="let hole of inHoles"></td>
+          <td class="sbttl" *ngIf="isInHoles"></td>
+          <td class="total"></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <section class="card rules">
+    <article>
+      <h1>{{"Common rules" | localize}}</h1>
+      <ul>
+        <li *ngFor="let rule of commonRules">{{rule}}</li>
+      </ul>
+    </article>
+    <article *ngFor="let hole of holes">
+      <div *ngIf="hasRules(hole)">
+        <h1>#{{hole.number}}</h1>
+        <ul>
+          <li *ngFor="let rule of hole.description">{{rule}}</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+</div>
