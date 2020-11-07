@@ -1,10 +1,9 @@
-<div id="app-print-layout" class="map-container app-page" (resized)="onResized($event)">
-  <section class="layout-header">
-    <span>{{event?.period | period}}</span>
-    <span>{{event?.title | localize}}</span>
-    <span>{{tee | localize}}@{{course?.title | localize}}</span>
-  </section>
-
+<section class="layout-header">
+  <span>{{event?.period | period}}</span>
+  <span>{{event?.title | localize}}</span>
+  <span>{{tee | localize}}@{{course?.title | localize}}</span>
+</section>
+<div id="map-container" (resized)="onResized($event)">
   <div *ngIf="apiLoaded">
     <google-map #layoutmap id="layoutmap"
                 height="{{height}}px"
@@ -45,12 +44,11 @@
                 [options]="teeOptions(tee.title)"></map-marker>
     </google-map>
   </div>
-
-  <button class="app-print-button" id="app-print" (click)="onPrint()"
-    mat-fab color="primary" aria-label="print" *ngIf="showButton">
-    <mat-icon>
-      <img src="assets/img/print-24px.svg" alt="print">
-    </mat-icon>
-  </button>
-
 </div>
+
+<button class="app-print-button" (click)="onPrint()"
+  mat-fab color="primary" aria-label="print" *ngIf="showButton">
+  <mat-icon>
+    <img src="assets/img/print-24px.svg" alt="print">
+  </mat-icon>
+</button>

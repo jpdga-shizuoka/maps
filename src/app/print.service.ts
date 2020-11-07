@@ -12,54 +12,41 @@ import { EventId, CourseId, TeeType } from './models';
 })
 export class PrintService implements OnDestroy {
   private static instance: PrintService;
-  private static handler = PrintService.noOperation;
-
-  private static before(event: Event) {
-    PrintService.instance.isPrintingView = true;
-  }
-  private static after(event: Event) {
-    PrintService.handler(event);
+  private static afterprint(event: Event) {
     PrintService.instance.isPrinting = false;
-    PrintService.instance.isPrintingView = false;
   }
-  private static cleanUpPrinting(event: Event) {
-    PrintService.instance.router.navigate([{ outlets: { print: null }}]);
-  }
-  private static noOperation(event: Event) {
-    // no operation
-  }
+  private state: 'close' | 'open' = 'close';
+  private document: string;
+  private event: EventId;
+  private course: CourseId;
+  private tee: TeeType;
 
   isPrinting = false;
-  isPrintingView = false;
 
   constructor(public readonly router: Router) {
     PrintService.instance = this;
-    window.addEventListener('beforeprint', PrintService.before);
-    window.addEventListener('afterprint', PrintService.after);
+    window.addEventListener('afterprint', PrintService.afterprint);
   }
 
   ngOnDestroy() {
-    window.removeEventListener('afterprint', PrintService.after);
-    window.removeEventListener('beforeprint', PrintService.before);
+    window.removeEventListener('afterprint', PrintService.afterprint);
   }
 
   printDocument(
-    documentName: string, eventId: EventId, courseId: CourseId, teeType: TeeType
+    document: string, event: EventId, course: CourseId, tee: TeeType
   ) {
-    if (this.isPrinting || this.isPrintingView) {
-      return;
-    }
-    if (documentName === 'layout') {
-      PrintService.handler = PrintService.noOperation;
-      this.router.navigate(['/', 'layout', eventId, courseId, teeType],
-      { skipLocationChange: true });
+    if (document === 'layout') {
+      this.closeDocument()
+      .then(() => this.router.navigate(['/', 'layout', event, course, tee],
+        { skipLocationChange: true }));
+    } else if (this.state === 'open' && this.isSame(document, event, course, tee)) {
+      this.onDataReady();
     } else {
-      this.isPrinting = true;
-      PrintService.handler = PrintService.cleanUpPrinting;
       this.router.navigate(['/', {
-        outlets: {print: ['print', documentName, eventId, courseId, teeType]}
+        outlets: {print: ['print', document, event, course, tee]}
       }],
-      { skipLocationChange: true });
+      { skipLocationChange: true })
+      .then(result => this.state = result ? 'open' : this.state);
     }
   }
 
@@ -68,6 +55,26 @@ export class PrintService implements OnDestroy {
   }
 
   printView() {
+    if (this.isPrinting) {
+      return;
+    }
+    this.isPrinting = true;
     setTimeout(() => window.print());
+  }
+
+  closeDocument(): Promise<'open' | 'close'> {
+    if (this.state === 'open') {
+      return this.router.navigate([{ outlets: { print: null }}])
+      .then(() => this.state = 'close');
+    } else {
+      return Promise.resolve('close');
+    }
+  }
+
+  private isSame(document: string, event: EventId, course: CourseId, tee: TeeType) {
+    return this.document === document
+      && this.event === event
+      && this.course === course
+      && this.tee === tee;
   }
 }

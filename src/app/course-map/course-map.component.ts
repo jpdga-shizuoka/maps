@@ -50,6 +50,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.printService.closeDocument();
     this.ssRoute?.unsubscribe();
   }
 

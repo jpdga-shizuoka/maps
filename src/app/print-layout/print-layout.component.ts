@@ -29,7 +29,7 @@ export class PrintLayoutComponent extends PrintMapDataComponent
   tees = [] as MarkerInfo[];
   lines = [] as Line[];
   get showButton() {
-    return !this.printService.isPrintingView;
+    return !this.printService.isPrinting;
   }
 
   constructor(
@@ -44,13 +44,14 @@ export class PrintLayoutComponent extends PrintMapDataComponent
 
   ngOnInit() {
     super.ngOnInit();
-    const element = this.el.nativeElement.querySelector('#app-print-layout');
+    const element = this.el.nativeElement.querySelector('#map-container');
     const rect = element.getBoundingClientRect();
     this.width = rect.width;
     this.height = rect.height;
   }
 
   ngOnDestroy() {
+    this.printService.closeDocument();
     this.ssMaps?.unsubscribe();
     super.ngOnDestroy();
   }

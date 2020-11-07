@@ -98,6 +98,7 @@ a[href^="http://maps.apple"] {
     background: repeat url("./assets/img/background.png");
     background-size: 36px 30px;
   }
+  .app-print { display: none; }
 }
 @media screen and (max-width: 320px) {
   .config .mat-expansion-panel-body {
@@ -113,5 +114,5 @@ a[href^="http://maps.apple"] {
 }
 @media print {
   app-course-map { display: none; }
-  /* app-root app-print-form { display: block; } */
+  .app-screen { display: none; }
 }
