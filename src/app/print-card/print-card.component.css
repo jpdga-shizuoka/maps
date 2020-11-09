@@ -13,6 +13,9 @@ td {
   page-break-after: always;
   transform: translateY(35mm) rotate(90deg);
 }
+.safari-ios {
+  transform: scale(0.99) translateY(17mm) rotate(90deg);
+}
 .app-page:last-child {
   page-break-after: avoid;
 }

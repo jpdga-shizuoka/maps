@@ -48,7 +48,13 @@ export class PrintService implements OnDestroy {
         outlets: {print: ['print', document, event, course, tee]}
       }],
       { skipLocationChange: true })
-      .then(result => this.state = result ? 'open' : this.state);
+      .then(result => {
+        this.state = result ? 'open' : this.state;
+        this.document = document;
+        this.event = event;
+        this.course = course;
+        this.tee = tee;
+      });
     }
   }
 

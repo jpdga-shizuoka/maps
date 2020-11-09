@@ -67,6 +67,13 @@ export class PrintCardComponent extends PrintDataComponent {
     return this.commonService.unit();
   }
 
+  get isSafariiOS() {
+    const ua = window.navigator.userAgent;
+    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
+    const webkit = !!ua.match(/WebKit/i);
+    return iOS && webkit && !ua.match(/CriOS/i);
+  }
+
   hasRules(hole: HoleData) {
     return hole.description.length > 0 && hole.description[0] !== '';
   }

@@ -98,6 +98,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   private loadEvent(params: Params) {
+    this.printService.closeDocument();
     // this.lastHole = 1;
     this.courses = [];
     this.eventId = params.eventId;
