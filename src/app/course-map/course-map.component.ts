@@ -5,7 +5,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatTabGroup } from '@angular/material/tabs';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { tap, take } from 'rxjs/operators';
 
 import { isHandset, Observable } from '../ng-utilities';
 import { HoleMetaData, CourseId, CourseItem, EventData, EventId } from '../models';
@@ -46,7 +46,9 @@ export class CourseMapComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ssRoute
-      = this.route.params.subscribe(params => this.loadEvent(params));
+      = this.route.params
+      .pipe(tap(() => this.printService.closeDocument()))
+      .subscribe(params => this.loadEvent(params));
   }
 
   ngOnDestroy() {
@@ -98,7 +100,6 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   private loadEvent(params: Params) {
-    this.printService.closeDocument();
     // this.lastHole = 1;
     this.courses = [];
     this.eventId = params.eventId;
