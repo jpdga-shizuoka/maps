@@ -48,5 +48,7 @@
   "commonrules": "共通規則",
   "output": "印刷種類",
   "print": "印刷",
+  "layouts": "レイアウト",
+  "courseinfo": "コース情報",
   "cancel": "取消し"
 }
