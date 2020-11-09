@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1601539273963,
+  "timestamp": 1604916824235,
   "index": "https://jpdga-shizuoka.github.io/maps/index.html",
   "assetGroups": [
     {
@@ -13,14 +13,14 @@
       "urls": [
         "https://jpdga-shizuoka.github.io/maps/favicon.ico",
         "https://jpdga-shizuoka.github.io/maps/index.html",
-        "https://jpdga-shizuoka.github.io/maps/main-es2015.222b6d583dc8049ebdb4.js",
-        "https://jpdga-shizuoka.github.io/maps/main-es5.222b6d583dc8049ebdb4.js",
+        "https://jpdga-shizuoka.github.io/maps/main-es2015.f1289a430f051efd159a.js",
+        "https://jpdga-shizuoka.github.io/maps/main-es5.f1289a430f051efd159a.js",
         "https://jpdga-shizuoka.github.io/maps/manifest.webmanifest",
         "https://jpdga-shizuoka.github.io/maps/polyfills-es2015.6022d6f28e0500e60d30.js",
         "https://jpdga-shizuoka.github.io/maps/polyfills-es5.6e1055b712d0b250b19e.js",
         "https://jpdga-shizuoka.github.io/maps/runtime-es2015.66c79b9d36e7169e27b0.js",
         "https://jpdga-shizuoka.github.io/maps/runtime-es5.66c79b9d36e7169e27b0.js",
-        "https://jpdga-shizuoka.github.io/maps/styles.d1efc6e49583ff06e653.css"
+        "https://jpdga-shizuoka.github.io/maps/styles.d778b50653ad88fbff6c.css"
       ],
       "patterns": []
     },
@@ -51,6 +51,7 @@
         "https://jpdga-shizuoka.github.io/maps/assets/img/navigate_before-24px.svg",
         "https://jpdga-shizuoka.github.io/maps/assets/img/open_in_new-24px.svg",
         "https://jpdga-shizuoka.github.io/maps/assets/img/play_circle_filled-24px.svg",
+        "https://jpdga-shizuoka.github.io/maps/assets/img/print-24px.svg",
         "https://jpdga-shizuoka.github.io/maps/assets/img/room-24px.svg",
         "https://jpdga-shizuoka.github.io/maps/assets/img/settings-24px.svg",
         "https://jpdga-shizuoka.github.io/maps/assets/img/straighten-24px.svg",
@@ -123,7 +124,7 @@
         "https://jpdga-shizuoka.github.io/maps/assets/models/events.json",
         "https://jpdga-shizuoka.github.io/maps/assets/models/locations.json",
         "https://jpdga-shizuoka.github.io/maps/assets/video/caddiebook.mp4",
-        "https://jpdga-shizuoka.github.io/maps/background.054fcbbf2443338c4536.png",
+        "https://jpdga-shizuoka.github.io/maps/background.ad2eb550ac8ae41fb6be.png",
         "https://jpdga-shizuoka.github.io/maps/open_in_new-24px.5d965d7917e76b6bba38.svg",
         "https://jpdga-shizuoka.github.io/maps/room-24px.3d0a19e53d65f2ef0789.svg"
       ],
@@ -144,23 +145,24 @@
     "https://jpdga-shizuoka.github.io/maps/assets/icons/icon-630x630.png": "f43f8e2243593609802b09c82f943c796ad639d8",
     "https://jpdga-shizuoka.github.io/maps/assets/icons/icon-72x72.png": "59f23955f6cafc799ebc21c6cc89c6e9511d57a6",
     "https://jpdga-shizuoka.github.io/maps/assets/icons/icon-96x96.png": "01c32b0f7014ac0e2ea11deab4e7dca223311f03",
-    "https://jpdga-shizuoka.github.io/maps/assets/img/background.png": "e73765d5d309e55e18a9143db2a011c7df60c72c",
+    "https://jpdga-shizuoka.github.io/maps/assets/img/background.png": "945b6b6d4ae860f5f981f6345a68c41f88e15c76",
     "https://jpdga-shizuoka.github.io/maps/assets/img/caddiebookjapan.png": "19d04597fc7112de4e77a74eeceadcc5824b9cab",
     "https://jpdga-shizuoka.github.io/maps/assets/img/format_list_bulleted-24px.svg": "a9a3045f85b25ff347ff0806b4e9f1ed19279eff",
     "https://jpdga-shizuoka.github.io/maps/assets/img/map-24px.svg": "d3914fde9a0d285a91381df88a99bcc2daaf8d0e",
     "https://jpdga-shizuoka.github.io/maps/assets/img/navigate_before-24px.svg": "64cd501710e58e664e682439c035211709c05600",
     "https://jpdga-shizuoka.github.io/maps/assets/img/open_in_new-24px.svg": "4659a31d0dec34789d2ed76afe728bac5d91db94",
     "https://jpdga-shizuoka.github.io/maps/assets/img/play_circle_filled-24px.svg": "85839d9ee31aef0c859cd88123d00f88fff144a3",
+    "https://jpdga-shizuoka.github.io/maps/assets/img/print-24px.svg": "cef59df00387fa8fabcd9ffaec69b32c6b550711",
     "https://jpdga-shizuoka.github.io/maps/assets/img/room-24px.svg": "cc7479fa1ce2f99ad02f84535f7b72dc52e10066",
     "https://jpdga-shizuoka.github.io/maps/assets/img/settings-24px.svg": "e6cae62366abbde04433b402097470e5b7d43e7f",
     "https://jpdga-shizuoka.github.io/maps/assets/img/straighten-24px.svg": "c263452c13904852eb2a6efddb47a930b9863f19",
     "https://jpdga-shizuoka.github.io/maps/assets/img/table_chart-24px.svg": "68beba621c137c70730f1c9d6d8112731f52f11c",
-    "https://jpdga-shizuoka.github.io/maps/assets/ja/event-terms.json": "9990829ee772b2d65d9182d2997818fafefbf0d5",
+    "https://jpdga-shizuoka.github.io/maps/assets/ja/event-terms.json": "58f610513204677c60fef86ab01723d573cab8e7",
     "https://jpdga-shizuoka.github.io/maps/assets/ja/event-title.json": "7d3a00cb8c670b899b8b9b53bfe28ca286297db7",
     "https://jpdga-shizuoka.github.io/maps/assets/ja/location-title.json": "ebbd0c00be5f68c86204167c963adee119a1c1be",
     "https://jpdga-shizuoka.github.io/maps/assets/ja/preface.html": "71ecc76a4f57248e5a1d7e9a34ceb961e17acea2",
     "https://jpdga-shizuoka.github.io/maps/assets/ja/prefecture.json": "df649d9a7dc6fccd0fb89136dad5ab7406529605",
-    "https://jpdga-shizuoka.github.io/maps/assets/local/event-terms.json": "9990829ee772b2d65d9182d2997818fafefbf0d5",
+    "https://jpdga-shizuoka.github.io/maps/assets/local/event-terms.json": "58f610513204677c60fef86ab01723d573cab8e7",
     "https://jpdga-shizuoka.github.io/maps/assets/local/event-title.json": "7d3a00cb8c670b899b8b9b53bfe28ca286297db7",
     "https://jpdga-shizuoka.github.io/maps/assets/local/location-title.json": "ebbd0c00be5f68c86204167c963adee119a1c1be",
     "https://jpdga-shizuoka.github.io/maps/assets/local/preface.html": "71ecc76a4f57248e5a1d7e9a34ceb961e17acea2",
@@ -223,11 +225,11 @@
     "https://jpdga-shizuoka.github.io/maps/assets/models/events.json": "d740253dc3e5ea3928f1b6100900e33f9bcd2d5a",
     "https://jpdga-shizuoka.github.io/maps/assets/models/locations.json": "49bae6dd7bc48fbff20c0ad9beac48891beba979",
     "https://jpdga-shizuoka.github.io/maps/assets/video/caddiebook.mp4": "3661b60b8a6454ced6005ca3ea8a72fd75f80e6c",
-    "https://jpdga-shizuoka.github.io/maps/background.054fcbbf2443338c4536.png": "e73765d5d309e55e18a9143db2a011c7df60c72c",
+    "https://jpdga-shizuoka.github.io/maps/background.ad2eb550ac8ae41fb6be.png": "945b6b6d4ae860f5f981f6345a68c41f88e15c76",
     "https://jpdga-shizuoka.github.io/maps/favicon.ico": "9a041f62e4ea854f7a9fd1764f5c6644781a77f5",
-    "https://jpdga-shizuoka.github.io/maps/index.html": "b7be11a3841ad09c93e851757706c69ccae02935",
-    "https://jpdga-shizuoka.github.io/maps/main-es2015.222b6d583dc8049ebdb4.js": "66f56ab5a6425fb9116b345846cdce6721f8ccbb",
-    "https://jpdga-shizuoka.github.io/maps/main-es5.222b6d583dc8049ebdb4.js": "e02f04d7b53bb88910fba8dbcae10f334cf584d8",
+    "https://jpdga-shizuoka.github.io/maps/index.html": "4b769fb8466e04ce2405740eefbd878f8b1454a1",
+    "https://jpdga-shizuoka.github.io/maps/main-es2015.f1289a430f051efd159a.js": "102d526eecbb1290dd431ba4b3af54a9111b960e",
+    "https://jpdga-shizuoka.github.io/maps/main-es5.f1289a430f051efd159a.js": "c20391c5d0a129d73f367f1f4ec7d6c4773bb2b0",
     "https://jpdga-shizuoka.github.io/maps/manifest.webmanifest": "0e6544105de9aacd9507d7140606ef6bb48fbb59",
     "https://jpdga-shizuoka.github.io/maps/open_in_new-24px.5d965d7917e76b6bba38.svg": "4659a31d0dec34789d2ed76afe728bac5d91db94",
     "https://jpdga-shizuoka.github.io/maps/polyfills-es2015.6022d6f28e0500e60d30.js": "cad3129c71535baaab25ac06d8429734959b0b3f",
@@ -235,7 +237,7 @@
     "https://jpdga-shizuoka.github.io/maps/room-24px.3d0a19e53d65f2ef0789.svg": "cc7479fa1ce2f99ad02f84535f7b72dc52e10066",
     "https://jpdga-shizuoka.github.io/maps/runtime-es2015.66c79b9d36e7169e27b0.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
     "https://jpdga-shizuoka.github.io/maps/runtime-es5.66c79b9d36e7169e27b0.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "https://jpdga-shizuoka.github.io/maps/styles.d1efc6e49583ff06e653.css": "ab3c2e499de52aaffd176e580434f326e69d2127"
+    "https://jpdga-shizuoka.github.io/maps/styles.d778b50653ad88fbff6c.css": "d7da55364a1a0fe691ca6b021e71dc2f094f6d83"
   },
   "navigationUrls": [
     {
