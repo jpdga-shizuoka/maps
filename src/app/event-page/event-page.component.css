@@ -3,7 +3,12 @@
   margin: auto;
   padding: 2px 4px 4px 4px;
 }
-
 .event-page > div {
   margin-bottom: 5px;
+}
+mat-icon {
+  color: white;
+}
+mat-toolbar span:nth-child(3) {
+  height: 24px;
 }
