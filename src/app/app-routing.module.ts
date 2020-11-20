@@ -12,6 +12,7 @@ import { PrintCardComponent } from './print-card/print-card.component';
 
 const routes: Routes = [
   { path: '', component: EventPageComponent},
+  { path: 'event/:eventId', component: EventPageComponent},
   { path: 'course/:eventId/:courseId', component: CourseMapComponent},
   { path: 'reload', component: ReloadComponent},
   { path: 'preview', component: VideoPlayerComponent},

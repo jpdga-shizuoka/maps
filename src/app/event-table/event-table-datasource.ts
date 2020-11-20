@@ -1,5 +1,6 @@
 import { MatTableDataSource } from '@angular/material/table';
-import { RemoteService, EventData } from '../remote-service';
+import { BehaviorSubject } from 'rxjs';
+import { RemoteService, EventData, EventId } from '../remote-service';
 export { EventData };
 
 /**
@@ -8,7 +9,6 @@ export { EventData };
  * (including sorting, pagination, and filtering).
  */
 export class EventTableDataSource extends MatTableDataSource<EventData> {
-  loading = true;
 
   constructor(private readonly remote: RemoteService) {
     super();
@@ -19,13 +19,15 @@ export class EventTableDataSource extends MatTableDataSource<EventData> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect() {
-    this.loading = true;
+  connect(): BehaviorSubject<EventData[]> {
     this.remote.getEvents().subscribe(
       events => this.data = events,
       err => console.log(err),
-      () => this.loading = false
     );
     return super.connect();
+  }
+
+  find(id: EventId): EventData | undefined {
+    return this.data.find(event => event.id === id);
   }
 }

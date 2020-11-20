@@ -29,7 +29,7 @@
     <tr mat-row *matRowDef="let row; columns: ['eventDetail']" class="event-detail-row"></tr>
   </table>
 
-  <mat-paginator #paginator
+  <mat-paginator #paginator *ngIf="showPaginator"
       [length]="dataSource?.data.length"
       [pageIndex]="0"
       [pageSize]="5"

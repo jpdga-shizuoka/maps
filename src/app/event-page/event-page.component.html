@@ -1,5 +1,15 @@
 <mat-toolbar color="primary" class="app-titlebar">
-  <span>{{title}}</span>
+  <span class="event-title">
+    <div *ngIf="event; else noEvent">
+      <a [routerLink]="['/']">
+        <mat-icon>
+          <img src="assets/img/navigate_before-24px.svg" alt="goto top">
+        </mat-icon>
+        <span>{{event.title | localize}}</span>
+      </a>
+    </div>
+    <ng-template #noEvent>{{title}}</ng-template>
+  </span>
   <span></span>
   <span>
     <a href="https://github.com/jpdga-shizuoka/maps" title="GitHub" aria-label="repository of caddie book japan">
@@ -19,7 +29,7 @@
     </app-preface>
   </div>
   <div>
-    <app-event-table>
+    <app-event-table event-id="{{eventId}}">
     </app-event-table>
   </div>
   <div>
