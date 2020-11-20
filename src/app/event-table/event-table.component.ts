@@ -54,6 +54,6 @@ export class EventTableComponent implements AfterViewInit, OnInit, OnDestroy {
   }
 
   get showPaginator() {
-    return this.eventId === undefined;
+    return !this.eventId;
   }
 }
