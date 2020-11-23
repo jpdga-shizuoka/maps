@@ -75,6 +75,6 @@ export class PrintCardComponent extends PrintDataComponent {
   }
 
   hasRules(hole: HoleData) {
-    return hole.description.length > 0 && hole.description[0] !== '';
+    return hole.description?.length > 0 && hole.description[0] !== '';
   }
 }
