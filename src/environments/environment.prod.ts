@@ -11,6 +11,6 @@ export const environment: Environment = {
     distanseFromMarkerToGoal: ['a', 'b', 'return b + "からゴールまで" + a'],
   },
   googlemaps: {
-    apikey: 'AIzaSyDfyR-mHrebjYkaU5LCF1HxDO_XWN4IjzA',
+    apikey: 'AIzaSyCE_XZLrsraRxTchbVvA6D-epV22D16Zng',
   }
 };
