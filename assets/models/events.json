@@ -1,5 +1,18 @@
 [
   {
+    "id": "the34thkyushuopen",
+    "title": "The 34th Kyushu Open",
+    "location": "uminonakamichiseasidepark",
+    "period": {
+      "from": "2020-11-28",
+      "to": "2020-11-29"
+    },
+    "courses": [
+      "the34thkyushuopen.front",
+      "the34thkyushuopen.back"
+    ]
+  },
+  {
     "id": "the32ndjapannationalchampionship",
     "title": "The 32nd Japan National Championship",
     "location": "maikodiscgolfpark",
