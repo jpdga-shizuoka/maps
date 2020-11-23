@@ -84,7 +84,7 @@ export function LoadMapsOptions(target: MapsOptions) {
   const backMarkers: Marker[] = [];
   const frontMarkers: Marker[] = [];
 
-  for (let i = 0; i < 18; ++i) {
+  for (let i = 0; i < 27; ++i) {
     backMarkers.push({
       url: `assets/maps/backtee${i + 1}.svg`,
       scaledSize: new google.maps.Size(24, 24),
