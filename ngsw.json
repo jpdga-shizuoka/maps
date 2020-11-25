@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1606146927755,
+  "timestamp": 1606303362176,
   "index": "https://jpdga-shizuoka.github.io/maps/index.html",
   "assetGroups": [
     {
@@ -171,12 +171,12 @@
     "https://jpdga-shizuoka.github.io/maps/assets/ja/event-terms.json": "58f610513204677c60fef86ab01723d573cab8e7",
     "https://jpdga-shizuoka.github.io/maps/assets/ja/event-title.json": "7d3a00cb8c670b899b8b9b53bfe28ca286297db7",
     "https://jpdga-shizuoka.github.io/maps/assets/ja/location-title.json": "ebbd0c00be5f68c86204167c963adee119a1c1be",
-    "https://jpdga-shizuoka.github.io/maps/assets/ja/preface.html": "f0afd032a74d8cae588b2237b25b66b720a9a5d1",
+    "https://jpdga-shizuoka.github.io/maps/assets/ja/preface.html": "462c5a06deaa50e6a2f129b642b32b77fee5cc5a",
     "https://jpdga-shizuoka.github.io/maps/assets/ja/prefecture.json": "df649d9a7dc6fccd0fb89136dad5ab7406529605",
     "https://jpdga-shizuoka.github.io/maps/assets/local/event-terms.json": "58f610513204677c60fef86ab01723d573cab8e7",
     "https://jpdga-shizuoka.github.io/maps/assets/local/event-title.json": "7d3a00cb8c670b899b8b9b53bfe28ca286297db7",
     "https://jpdga-shizuoka.github.io/maps/assets/local/location-title.json": "ebbd0c00be5f68c86204167c963adee119a1c1be",
-    "https://jpdga-shizuoka.github.io/maps/assets/local/preface.html": "f0afd032a74d8cae588b2237b25b66b720a9a5d1",
+    "https://jpdga-shizuoka.github.io/maps/assets/local/preface.html": "462c5a06deaa50e6a2f129b642b32b77fee5cc5a",
     "https://jpdga-shizuoka.github.io/maps/assets/local/prefecture.json": "df649d9a7dc6fccd0fb89136dad5ab7406529605",
     "https://jpdga-shizuoka.github.io/maps/assets/maps/backtee1.svg": "6e177e5150ab5ded125c1af36802a85f2409e097",
     "https://jpdga-shizuoka.github.io/maps/assets/maps/backtee10.svg": "6dd9fb218ce16eeef364d67ace72ae3b3a9bc58d",
