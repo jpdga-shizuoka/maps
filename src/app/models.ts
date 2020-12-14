@@ -7,6 +7,7 @@ export interface Position {
 type Polyline = Position[];
 type Polygon = Position[];
 
+export type Category = 'pro' | 'ama';
 export type TeeType = 'front' | 'back' | 'dz' | 'mando';
 export type HoleNumber = number;
 export type HolePath = Polyline;
@@ -61,6 +62,7 @@ export interface CourseItem {
 //  GET course/$courseId      return CourseData
 //    eg. course/chubu_open_2019.1
 export interface CourseData extends CourseItem {
+  category?: Category;
   description?: Descriptions; // eg. OB共通ルール
   holes: HoleData[];          // ホール情報
 }
