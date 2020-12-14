@@ -82,9 +82,13 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   backtee(hole) {
-    return this.commonService.length(hole.back.length)
-    + (hole.back.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.back.elevation)}` : '')
-    + '/Par' + hole.back.par;
+    if (hole.back) {
+      return this.commonService.length(hole.back.length)
+      + (hole.back.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.back.elevation)}` : '')
+      + '/Par' + hole.back.par;
+    } else {
+      return '';
+    }
   }
 
   fronttee(hole) {
@@ -102,8 +106,8 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     let length = 0;
     let par = 0;
     this.dataSource.data.forEach(hole => {
-      length += hole.back.length;
-      par += hole.back.par;
+      length += hole.back?.length || hole.front?.length;
+      par += hole.back?.par || hole.front?.par;
     });
     length /= this.dataSource.data.length;
     return `${this.commonService.length(length)}/Par${par}`;
@@ -114,13 +118,8 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     let length = 0;
     let par = 0;
     this.dataSource.data.forEach(hole => {
-      if (hole.front) {
-        length += hole.front.length;
-        par += hole.front.par;
-      } else {
-        length += hole.back.length;
-        par += hole.back.par;
-      }
+      length += hole.front?.length || hole.back?.length;
+      par += hole.front?.par || hole.back?.par;
     });
     length /= this.dataSource.data.length;
     return `${this.commonService.length(length)}/Par${par}`;
