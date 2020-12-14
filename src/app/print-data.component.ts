@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -13,10 +13,11 @@ export { PrintService, RemoteService, HoleData };
 @Component({
   template: ''
 })
-export class PrintDataComponent implements OnDestroy, OnInit {
-  public readonly eventId: EventId;
-  public readonly courseId: CourseId;
-  public readonly teeType: TeeType;
+export class PrintDataComponent implements OnDestroy {
+  public eventId: EventId;
+  public courseId: CourseId;
+  public teeType: TeeType;
+  private ssParams: Subscription;
   private ssEvent: Subscription;
   private ssCourse: Subscription;
   event: EventData;
@@ -31,27 +32,36 @@ export class PrintDataComponent implements OnDestroy, OnInit {
     protected readonly printService: PrintService,
     route: ActivatedRoute,
   ) {
-    this.eventId = route.snapshot.params.eventId;
-    this.courseId = route.snapshot.params.courseId;
-    this.teeType = route.snapshot.params.teeType || 'back';
-  }
-
-  ngOnInit() {
-    this.ssEvent = this.remote.getEvent(this.eventId).subscribe(
-      event => {
-        this.event = event;
-        this.onReady('event');
-    });
-    this.ssCourse = this.remote.getCourse(this.courseId).subscribe(
-      course => {
-        this.course = course;
-        this.onReady('course');
+    this.ssParams = route.params.subscribe(params => {
+      this.state = { event: false, course: false};
+      this.eventId = route.snapshot.params.eventId;
+      this.courseId = route.snapshot.params.courseId;
+      this.teeType = route.snapshot.params.teeType;
+      this.ssEvent = this.remote.getEvent(this.eventId).subscribe(
+        event => {
+          this.event = event;
+          this.onReady('event');
+      });
+      this.ssCourse = this.remote.getCourse(this.courseId).subscribe(
+        course => {
+          switch (course.category) {
+            case 'pro':
+              this.teeType = 'back';
+              break;
+            case 'ama':
+              this.teeType = 'front';
+              break;
+          }
+          this.course = course;
+          this.onReady('course');
+      });
     });
   }
 
   ngOnDestroy() {
     this.ssCourse?.unsubscribe();
     this.ssEvent?.unsubscribe();
+    this.ssParams?.unsubscribe();
   }
 
   par(data: HoleData) {
