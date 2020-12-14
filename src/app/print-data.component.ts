@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -13,7 +13,7 @@ export { PrintService, RemoteService, HoleData };
 @Component({
   template: ''
 })
-export class PrintDataComponent implements OnDestroy {
+export class PrintDataComponent implements OnInit, OnDestroy {
   public eventId: EventId;
   public courseId: CourseId;
   public teeType: TeeType;
@@ -57,6 +57,8 @@ export class PrintDataComponent implements OnDestroy {
       });
     });
   }
+
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.ssCourse?.unsubscribe();
