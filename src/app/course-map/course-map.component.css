@@ -24,6 +24,9 @@
 .app-titlebar .mat-icon {
   font-size: 30px;
 }
+.mat-form-field {
+  margin-top: 6pt;
+}
 @media screen and (max-width: 736px) {
   app-course-table {
     width: 100%;
