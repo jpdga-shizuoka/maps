@@ -259,7 +259,8 @@ export class MapsComponent
     const markers = type === 'dz' ? this.dropZones : this.mandos;
     const position = markers[index].position;
     const current = {lat: position.lat(), lng: position.lng()};
-    const goal = hole.back.path[hole.back.path.length - 1];
+    const tee = hole.back || hole.front;
+    const goal = tee.path[tee.path.length - 1];
     const fromMarker = [current, goal];
     const meta: HoleMetaData = {
       hole: holeNumber,
