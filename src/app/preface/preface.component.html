@@ -3,8 +3,6 @@
     <mat-expansion-panel-header>
       {{'Preface' | localize}}
     </mat-expansion-panel-header>
-    <ng-template matExpansionPanelContent>
-      <div class="app-preface" [innerHTML]="content$ | async"></div>
-    </ng-template>
+    <div class="app-preface" [innerHTML]="content$ | async"></div>
   </mat-expansion-panel>
 </mat-accordion>
