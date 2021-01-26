@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-video-player',
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.css']
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent {
+  @ViewChild('videoplayer') videoplayer;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  stop() {
+    this.videoplayer.nativeElement.pause();
   }
-
 }
