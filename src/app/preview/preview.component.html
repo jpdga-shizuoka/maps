@@ -8,9 +8,11 @@
         <span>{{'Preview' | localize}}</span>
       </div>
     </mat-expansion-panel-header>
-    <div class="app-video-player">
-      <app-video-player>
-      </app-video-player>
-    </div>
+    <ng-template matExpansionPanelContent>
+      <div class="app-video-player">
+        <app-video-player>
+        </app-video-player>
+      </div>
+    </ng-template>
   </mat-expansion-panel>
 </mat-accordion>
