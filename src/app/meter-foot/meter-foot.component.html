@@ -1,0 +1,14 @@
+<div class="config-item">
+  <div class="config-item-title app-icon-label">
+    <mat-icon>
+      <img src="assets/img/straighten-24px.svg" alt="length">
+    </mat-icon>
+    <span>{{'Length' | localize}}:</span>
+  </div>
+  <div class="config-item-content">
+    <mat-radio-group [value]="lengthUnit" (change)="onUnitChanged($event)">
+      <mat-radio-button value="meter">{{'Meter' | localize}}</mat-radio-button>
+      <mat-radio-button value="foot">{{'Foot' | localize}}</mat-radio-button>
+    </mat-radio-group>
+  </div>
+</div>

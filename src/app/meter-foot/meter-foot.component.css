@@ -1,0 +1,13 @@
+.meter-foot {
+  display: flex;
+  margin: 10px 0;
+}
+.meter-foot-title {
+  margin: auto 10px auto 0;
+}
+.meter-foot-content {
+  margin: auto 10px auto 0;
+}
+.meter-foot-content mat-radio-button:not(:last-child) {
+  margin-right: 15px;
+}

@@ -1,0 +1,72 @@
+<div class="app-course-map" [class.isPrinting]="isPrinting">
+<mat-toolbar color="primary" class="app-titlebar">
+  <span>
+    <a routerLink="/">
+      <mat-icon>
+        <img src="assets/img/navigate_before-24px.svg" alt="navigate before">
+      </mat-icon>
+      <span>{{event?.title | localize}}</span>
+    </a>
+  </span>
+  <span></span>
+  <span>
+    <mat-form-field>
+      <mat-select [value]="courseId" (selectionChange)="onSelectionChange($event)">
+        <mat-option *ngFor="let course of courses" [value]="course.id">
+          {{course.title | localize}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+</mat-toolbar>
+
+<div *ngIf="isHandset$ | async; then thenBlock else elseBlock"></div>
+
+<ng-template #thenBlock>
+  <mat-tab-group #courseTab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div class="app-icon-label">
+          <mat-icon>
+            <img src="assets/img/table_chart-24px.svg" alt="table chart">
+          </mat-icon>
+          <span>{{'Course Info.' | localize}}</span>
+        </div>
+      </ng-template>
+      <div><!-- do not remove this block -->
+        <app-course-table [courseId]="courseId"
+          (print)="onPrint()"
+          (holeClicked)="onHoleCliked($event)">
+        </app-course-table>
+      </div>
+     </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div class="app-icon-label">
+          <mat-icon>
+            <img src="assets/img/map-24px.svg" alt="layout">
+          </mat-icon>
+          <span>{{'Layouts' | localize}}</span>
+        </div>
+      </ng-template>
+      <ng-template matTabContent><!-- workaround for issue of resizing & ripple animation -->
+      <div class="app-maps">
+        <app-maps #appmaps [lastHole]="lastHole" [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
+        </app-maps>
+      </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #elseBlock>
+  <div class="combined">
+    <app-maps #appmaps [courseId]="courseId" (holeClicked)="onHoleMapCliked($event)">
+    </app-maps>
+    <app-course-table [courseId]="courseId"
+      (print)="onPrint()"
+      (holeClicked)="onHoleCliked($event)">
+    </app-course-table>
+  </div>
+</ng-template>
+</div>

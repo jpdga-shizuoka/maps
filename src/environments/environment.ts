@@ -2,8 +2,21 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false
+import { Environment } from './environment-if';
+export { Environment };
+
+export const environment: Environment = {
+  production: false,
+  projectPathName: '',
+  title: 'Caddie Book Japan',
+  localize: {
+    distanseFromBackteeToMarker: ['a', 'b', 'return "バックティーから" + b + "まで"  + a'],
+    distanseFromFrontteeToMarker: ['a', 'b', 'return "フロントティーから" + b + "まで"  + a'],
+    distanseFromMarkerToGoal: ['a', 'b', 'return b + "からゴールまで" + a'],
+  },
+  googlemaps: {
+    apikey: 'YOUR API KEY',
+  }
 };
 
 /*

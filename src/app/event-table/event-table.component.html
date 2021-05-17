@@ -1,0 +1,38 @@
+<div class="app-event-table mat-elevation-z2">
+  <table mat-table class="full-width-table" matSort
+    multiTemplateDataRows aria-label="Elements">
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef>{{'Date' | localize}}</th>
+      <td mat-cell *matCellDef="let row">{{row.period | period}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>{{'Title' | localize}}</th>
+      <td mat-cell *matCellDef="let row">{{row.title | localize}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="eventDetail">
+      <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+        <div class="event-detail" [@detailExpand]="row == expandedEvent ? 'expanded' : 'collapsed'">
+          <app-event-detail [eventId]="row.id">
+          </app-event-detail>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="event-row"
+        [class.event-expanded-row]="expandedEvent === row"
+        (click)="expandedEvent = expandedEvent === row ? undefined : row"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['eventDetail']" class="event-detail-row"></tr>
+  </table>
+
+  <mat-paginator #paginator *ngIf="showPaginator"
+      [length]="dataSource?.data.length"
+      [pageIndex]="0"
+      [pageSize]="5"
+      [pageSizeOptions]="[5, 10, 20, 40]">
+  </mat-paginator>
+</div>

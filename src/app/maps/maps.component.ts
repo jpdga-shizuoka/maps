@@ -1,173 +1,158 @@
-import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import {
-  GoogleMap, MapInfoWindow, MapMarker, MapPolyline,
-} from '@angular/google-maps';
+  Component, OnInit, ViewChild, ElementRef, NgZone, OnDestroy, Input, Output, EventEmitter
+} from '@angular/core';
+import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ResizedEvent } from 'angular-resize-event';
+import { BehaviorSubject, Subscription, Observable } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
 
+import { Position, HoleMetaData, TeeType } from '../models';
+import { RemoteService, HoleData, CourseData, CourseId } from '../remote-service';
+import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
+import { holeLength, LatLngBounds } from '../map-utilities';
+import { isHandset, BreakpointObserver } from '../ng-utilities';
+import { GoogleMapsApiService } from '../googlemapsapi.service';
 import {
-  TeeSymbol, GoalSymbol, MandoSymbol, BackMarkers, DropZoneSymbol, FrontMarkers
-} from '../Symbols';
-import { CourseService, HoleInfo } from '../course.service';
-import {HoleNumber, Position} from '../models';
-
-type LatLng = google.maps.LatLng;
-type TeeType = 'front' | 'back';
+  MapsOptions,
+  LoadMapsOptions,
+  MapOptions,
+  SafeAreaOptions,
+  ObLineOptions,
+  ObAreaOptions,
+  HazardAreaOptions,
+  BackLineOptions,
+  FrontLineOptions,
+  DropZoneOptions,
+  MandoOptions,
+  Marker,
+} from '../maps-options';
+import {
+  MapsObjects, LoadMapsObjects, Line, Area, MarkerInfo
+} from '../maps-objects';
 
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent implements OnInit {
-  @ViewChild(MapInfoWindow, {static: false}) infoWindow: MapInfoWindow;
+export class MapsComponent
+  implements OnInit, OnDestroy, MapsOptions, MapsObjects {
+  @ViewChild('googlemap') googlemap: GoogleMap;
+  @Input() lastHole: number;
+  @Output() holeClicked = new EventEmitter<HoleMetaData>();
+  @Input()
+  set courseId(courseId: CourseId) { this._courseId.next(courseId); }
+  get courseId() { return this._courseId.value; }
+  private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
+  readonly isHandset$: Observable<boolean>;
+  private ssCourse: Subscription;
+  private ssMapsApi: Subscription;
+  private ssMaps: Subscription;
+  private readonly _course: BehaviorSubject<CourseData>;
+  apiLoaded = false;
+  course: CourseData;
+  get holes() {return this.course?.holes; }
 
+  center: Position;
+  zoom = 17;
   width: number;
   height: number;
-  center = {lat: 34.787550, lng: 137.323436};
-  zoom = 18;
-  mapOptions = {
-    maxZoom: 20,
-    minZoom: 17,
-    mapTypeId: 'satellite',
-    disableDefaultUI: true,
-    tilt: 0
-  };
-  backLineOptions = {
-    strokeColor: 'white',
-    strokeOpacity: 1.0,
-    strokeWeight: 4,
-    icons: [
-      {icon: TeeSymbol, offset: '0%'},
-      {icon: GoalSymbol, offset: '100%'}
-    ],
-  };
-  frontLineOptions = {
-    strokeColor: '#a9f5bc',
-    strokeOpacity: 1.0,
-    strokeWeight: 4,
-    icons: [
-      {icon: TeeSymbol, offset: '0%'},
-      {icon: GoalSymbol, offset: '100%'}
-    ],
-  };
-  obLineOptions = {
-    strokeColor: 'red',
-    strokeOpacity: 0.5,
-    strokeWeight: 6,
-  };
-  obAreaOptions = {
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.3,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.3
-  };
-  dropZoneOptions = {
-    draggable: false,
-    icon: DropZoneSymbol,
-  };
-  mandoOptions = {
-    draggable: false,
-    icon: MandoSymbol,
-  };
 
-  holes: HoleInfo[];
-  backLines: google.maps.LatLng[][] = [];
-  frontLines: google.maps.LatLng[][] = [];
-  obAreas: google.maps.LatLng[][] = [];
-  obLines: google.maps.LatLng[][] = [];
-  backTees: google.maps.LatLng[] = [];
-  frontTees: google.maps.LatLng[] = [];
-  dropZones: google.maps.LatLng[] = [];
-  mandos: google.maps.LatLng[] = [];
-  //
-  //  for info window
-  //
-  hole: HoleInfo;
-  length: number;
-  private teetype: TeeType;
-  get holeName() {
-    return this.hole?.holeNumber;
-  }
-  get par() {
-    return this.teetype === 'front'
-      ? this.hole?.front.par
-      : this.hole?.back.par;
-  }
-  get description() {
-    return this.hole?.description;
-  }
-  get teeType() {
-    return this.teetype === 'front' ? 'フロント•ティー' : 'バック•ティー';
-  }
+  mapOptions: MapOptions;
+  safeAreaOptions: SafeAreaOptions;
+  obLineOptions: ObLineOptions;
+  obAreaOptions: ObAreaOptions;
+  hazardAreaOptions: HazardAreaOptions;
+  backLineOptions: BackLineOptions;
+  frontLineOptions: FrontLineOptions;
+  dropZoneOptions: DropZoneOptions;
+  mandoOptions: MandoOptions;
+  backMarkers: Marker[];
+  frontMarkers: Marker[];
 
-  private getHoleNumberFromIndex(index: number, type: TeeType) {
-    let hole: HoleInfo;
-    let position = 0;
+  backLines: Line[];
+  frontLines: Line[];
+  safeAreas: Area[];
+  obAreas: Area[];
+  obLines: Area[];
+  hazardAreas: Area[];
+  backTees: MarkerInfo[];
+  frontTees: MarkerInfo[];
+  dropZones: MarkerInfo[];
+  mandos: MarkerInfo[];
 
-    for (let i = 0; i < this.holes.length; i++) {
-      hole = this.holes[i];
-      if (hole[type]) {
-        position++;
-      }
-      if (index < position) {
-        break;
-      }
-    }
-    return hole.holeNumber;
-  }
+  metadata?: HoleMetaData;
 
-  private getMarker(index: number, type: TeeType) {
-    const holeNumber = this.getHoleNumberFromIndex(index, type);
-    return (type === 'front' ? FrontMarkers : BackMarkers)[holeNumber - 1];
-  }
-
-  backTeeOptions(index: number) {
+  backTeeOptions(index: string) {
     return {
       draggable: false,
-      icon: this.getMarker(index, 'back'),
+      icon: this.getMarker(Number(index), 'back'),
     };
   }
-  frontTeeOptions(index: number) {
+  frontTeeOptions(index: string) {
     return {
       draggable: false,
-      icon: this.getMarker(index, 'front'),
+      icon: this.getMarker(Number(index), 'front'),
     };
   }
 
   constructor(
-    private ngZone: NgZone,
-    private el: ElementRef,
-    private courseService: CourseService,
-  ) { }
+    private readonly sheet: MatBottomSheet,
+    private readonly ngZone: NgZone,
+    private readonly el: ElementRef,
+    private readonly remote: RemoteService,
+    private readonly googleMapsApi: GoogleMapsApiService,
+    breakpointObserver: BreakpointObserver,
+  ) {
+    this.isHandset$ = isHandset(breakpointObserver);
+    this._course = new BehaviorSubject<CourseData|undefined>(undefined);
+  }
 
   ngOnInit(): void {
-    const rect = this.el.nativeElement.getBoundingClientRect();
+    const element = this.el.nativeElement.querySelector('#mapwrapper');
+    const rect = element.getBoundingClientRect();
     this.width = rect.width;
     this.height = rect.height;
 
-    this.loadCourse();
+    this.ssMaps = this.googleMapsApi.load().pipe(
+      tap(() => this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId))),
+      tap(() => LoadMapsOptions(this)),
+    ).subscribe(() => this.apiLoaded = true);
   }
 
-  private getHoleFromIndex(index: number, type: TeeType) {
-    const holeNumber = this.getHoleNumberFromIndex(index, type);
-    return this.holes.find(hole => hole.holeNumber === holeNumber);
+  ngOnDestroy() {
+    this.ssMapsApi?.unsubscribe();
+    this.ssCourse?.unsubscribe();
+    this.ssMaps?.unsubscribe();
   }
 
-  private openHoleDescription(teemarker: MapMarker, index: number, type: TeeType) {
-    const hole = this.getHoleFromIndex(index, type);
-    this.hole = hole;
-    this.teetype = type;
-    this.length = holeLength(type === 'front' ? hole.front?.path : hole.back?.path);
-    this.infoWindow.open(teemarker);
+  panTo(path: Position[]) {
+    this.googlemap.panTo(new google.maps.LatLng(path[0]));
   }
 
-  onBackTeeClicked(teemarker: MapMarker, index: number) {
-    this.openHoleDescription(teemarker, index, 'back');
+  fitBounds(path: Position[]) {
+    this.googlemap.fitBounds(new LatLngBounds(path).value);
   }
 
-  onFrontTeeClicked(teemarker: MapMarker, index: number) {
-    this.openHoleDescription(teemarker, index, 'front');
+  onMandoClicked(marker: MapMarker, index: number) {
+    this.issueEvent(this.getMetadata(marker, index, 'mando'));
+  }
+
+  onDropzoneClicked(marker: MapMarker, index: number) {
+    this.issueEvent(this.getMetadata(marker, index, 'dz'));
+  }
+
+  onBackTeeClicked(marker: MapMarker) {
+    const holeNumber = Number(marker.getTitle());
+    const hole = this.holes.find(hl => hl.number === holeNumber);
+    this.issueEvent(hole, 'back');
+  }
+
+  onFrontTeeClicked(marker: MapMarker) {
+    const holeNumber = Number(marker.getTitle());
+    const hole = this.holes.find(hl => hl.number === holeNumber);
+    this.issueEvent(hole, 'front');
   }
 
   onResized(event: ResizedEvent) {
@@ -175,79 +160,146 @@ export class MapsComponent implements OnInit {
     this.height = event.newHeight;
   }
 
-  private loadCourse() {
-    if (this.holes) {
-      return;
+  onNext(data: HoleMetaData) {
+    if (data.teeType === 'back') {
+      const currentHole = this.findHole(data);
+      if (currentHole.front) {
+        this.issueEvent(currentHole, 'front');
+        return;
+      }
     }
-    this.courseService.getCourse().subscribe(holes => {
-      this.holes = holes;
-      holes.forEach(hole => {
+    const nextHole = this.findNext(data);
+    this.issueEvent(nextHole, nextHole.back ? 'back' : 'front');
+  }
 
-        if (hole.back) {
-          const path: LatLng[] = [];
-          hole.back.path.forEach(point => path.push(new google.maps.LatLng(point)));
-          this.backLines.push(path);
+  onPrev(data: HoleMetaData) {
+    if (data.teeType === 'front') {
+      const currentHole = this.findHole(data);
+      if (currentHole.back) {
+        this.issueEvent(currentHole, 'back');
+        return;
+      }
+    }
+    const prevHole = this.findPrev(data);
+    this.issueEvent(prevHole, prevHole.front ? 'front' : 'back');
+  }
+
+  private loadCourse(courseId: CourseId) {
+    if (!courseId) { return; }
+    this.remote.getCourse(courseId).subscribe(
+      course => this.course = course,
+      err => console.error(err),
+      () => {
+        // this.center = new Holes2Bounds(this.holes).center;
+        LoadMapsObjects(this, this.course.holes);
+        const latestHole
+          = this.holes.find(hole => hole.number === this.lastHole) || this.holes[0];
+        this.issueEvent(latestHole, latestHole.back ? 'back' : 'front', true);
+      }
+    );
+  }
+
+  private findHole(currentHole: HoleMetaData): HoleData {
+    const index = this.holes.findIndex(hole => hole.number === currentHole.hole);
+    return this.holes[index];
+  }
+
+  private findNext(currentHole: HoleMetaData): HoleData {
+    let index = this.holes.findIndex(hole => hole.number === currentHole.hole);
+    index++;
+    index = index >= this.holes.length ? 0 : index;
+    return this.holes[index];
+  }
+
+  private findPrev(currentHole: HoleMetaData): HoleData {
+    let index = this.holes.findIndex(hole => hole.number === currentHole.hole);
+    index--;
+    index = index < 0 ? this.holes.length - 1 : index;
+    return this.holes[index];
+  }
+
+  private issueEvent(data: HoleMetaData | HoleData, type?: TeeType, delay = false) {
+    let meta: HoleMetaData;
+    if (isHoleData(data)) {
+      const hole = data as HoleData;
+      meta = {
+        hole: hole.number,
+        teeType: type,
+        description: hole.description,
+        data: hole[type]
+      };
+    } else {
+      meta = data as HoleMetaData;
+    }
+    this.metadata = meta;
+    this.isHandset$.pipe(take(1)).subscribe(handset => {
+      if (!handset) {
+        if (meta.teeType === 'dz' || meta.teeType === 'mando') {
+          this.sheet.open(HoleInfoSheetComponent, {data: meta});
+          this.panTo(meta.data.path);
+        } else {
+          this.holeClicked.emit(meta);  // issue the event
         }
-        if (hole.front) {
-          const path: LatLng[] = [];
-          hole.front.path.forEach(point => path.push(new google.maps.LatLng(point)));
-          this.frontLines.push(path);
+      }
+      if (meta.teeType !== 'dz' && meta.teeType !== 'mando') {
+        // and pan to the hole
+        if (delay) {
+          // any idea?
+          setTimeout(() => this.fitBounds(meta.data.path), 1000);
+        } else {
+          this.fitBounds(meta.data.path);
         }
+      }
+    });
+  }
 
-        const obArea: LatLng[] = [];
-        hole.obAreas?.forEach(area => {
-          area.forEach(point => obArea.push(new google.maps.LatLng(point)));
-          this.obAreas.push(obArea);
-        });
+  private getMetadata(marker: MapMarker, index: number, type: TeeType) {
+    const holeNumber = Number(marker.getTitle());
+    const hole = this.holes.find(hl => hl.number === holeNumber);
+    const markers = type === 'dz' ? this.dropZones : this.mandos;
+    const position = markers[index].position;
+    const current = {lat: position.lat(), lng: position.lng()};
+    const tee = hole.back || hole.front;
+    const goal = tee.path[tee.path.length - 1];
+    const fromMarker = [current, goal];
+    const meta: HoleMetaData = {
+      hole: holeNumber,
+      teeType: type,
+      description: [''],
+      data: {
+        path: fromMarker,
+        length: holeLength(fromMarker),
+        par: 0
+      }
+    };
+    if (type === 'mando') {
+      const backtee = hole.back?.path[0];
+      if (backtee) {
+        const fromTee = [backtee, current];
+        meta.fromBacktee = {
+          path: fromTee,
+          length: holeLength(fromTee),
+          par: 0
+        };
+      }
+      const fronttee = hole.front?.path[0];
+      if (fronttee) {
+        const fromTee = [fronttee, current];
+        meta.fromFronttee = {
+          path: fromTee,
+          length: holeLength(fromTee),
+          par: 0
+        };
+      }
+    }
+    return meta;
+  }
 
-        const obLine: LatLng[] = [];
-        hole.obLines?.forEach(line => {
-          line.forEach(point => obLine.push(new google.maps.LatLng(point)));
-          this.obLines.push(obLine);
-        });
-
-        hole.mandos?.forEach(mando => this.mandos.push(new google.maps.LatLng(mando)));
-        hole.dropzones?.forEach(zone => this.dropZones.push(new google.maps.LatLng(zone)));
-
-        if (hole.back) {
-          const tee = hole.back.path[0];
-          this.backTees.push(new google.maps.LatLng(tee));
-        }
-        if (hole.front) {
-          const tee = hole.front.path[0];
-          this.frontTees.push(new google.maps.LatLng(tee));
-        }
-      });
-    }).unsubscribe();
+  private getMarker(holeNumber: number, type: TeeType) {
+    return (type === 'front' ? this.frontMarkers : this.backMarkers)[holeNumber - 1];
   }
 }
 
-function holeLength(path: Position[]) {
-  let length = 0;
-  let top = path[0];
-  path.slice(1).forEach(next => {
-    length += distance(top, next);
-    top = next;
-  });
-  return length;
-}
-
-function distance(p1: Position, p2: Position) {
-  const earthRadius = 6378136;
-
-  const dLat = d2r(p2.lat - p1.lat);
-  const dLng = d2r(p2.lng - p1.lng);
-
-  const lat1 = d2r(p1.lat);
-  const lat2 = d2r(p2.lat);
-
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-          + Math.sin(dLng / 2) * Math.sin(dLng / 2) * Math.cos(lat1) * Math.cos(lat2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  return Math.round(earthRadius * c);
-}
-
-function d2r(degrees) {
-  return degrees * Math.PI / 180;
+function isHoleData(object: any): object is HoleData {
+  return 'number' in object;
 }

@@ -1,9 +1,118 @@
-
-
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-@media screen and (max-width: 768px) {
-  body: {
-    margin: 0;
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.app-preface > h1 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.app-preface > h2 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.app-preface > p {
+  margin-left: 2rem;
+}
+.app-preface-name {
+  text-align: right;
+}
+.app-icon-label {
+  display: inline-flex;
+  align-items: center;
+}
+.app-icon-label > .mat-icon {
+  margin-right: 10px;
+}
+.app-titlebar {
+  font-size: 1rem;
+}
+.app-titlebar > span {
+  flex: 1 1 auto;
+}
+.app-titlebar > span:first-child {
+  flex: 0 1 auto;
+}
+.app-titlebar > span:last-child {
+  flex: 0 1 auto;
+}
+.footer {
+  text-align: center;
+}
+.app-titlebar .mat-form-field {
+  text-align: right;
+}
+.app-titlebar .mat-form-field-underline {
+  display: none;
+}
+.app-course-map {
+  background-color: white;
+}
+a {
+  text-decoration: none;
+}
+a[target="_blank"] {
+  display: inline-block;
+  background: url("assets/img/open_in_new-24px.svg") no-repeat right center;
+  background-size: 1.2rem 1.2rem;
+  padding-right: 1.3rem;
+}
+a[href^="https://maps.google"],
+a[href^="http://maps.apple"] {
+  display: inline-block;
+  background: url("assets/img/room-24px.svg") no-repeat right center;
+  background-size: 1.2rem 1.2rem;
+  padding-right: 1.3rem;
+}
+.mat-row.detail-row ul {
+  margin-right: 10px;
+}
+.app-snackbar span {
+  margin: auto;
+  text-align: center;
+}
+.config-item {
+  display: flex;
+  margin: 10px 0;
+}
+.config-item-title {
+  margin: auto 10px auto 0;
+}
+.config-item-content {
+  margin: auto 10px auto 0;
+}
+.config-item-content mat-radio-button:not(:last-child) {
+  margin-right: 15px;
+}
+.app-spacer {
+  flex: 1 1 auto;
+}
+/* https://stackoverflow.com/questions/41544151/google-maps-missing-row-of-tiles-on-chrome */
+.gm-style div > img {
+  position: absolute;
+}
+@media screen {
+  body {
+    background: repeat url("./assets/img/background.png");
+    background-size: 36px 30px;
   }
+  .app-print { display: none; }
+}
+@media screen and (max-width: 320px) {
+  .config .mat-expansion-panel-body {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .mat-row.detail-row ul {
+    margin-right: 6px;
+  }
+  .app-titlebar {
+    font-size: 0.8rem;
+  }
+}
+@media print {
+  app-course-map { display: none; }
+  .app-screen { display: none; }
 }

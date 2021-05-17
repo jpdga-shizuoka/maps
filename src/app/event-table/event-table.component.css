@@ -1,0 +1,36 @@
+.full-width-table {
+  width: 100%;
+}
+tr.event-detail-row {
+  height: 0;
+}
+tr.event-row:not(.event-expanded-row):hover {
+  background: whitesmoke;
+}
+tr.event-row:not(.event-expanded-row):active {
+  background: #efefef;
+}
+.event-row td {
+  border-bottom-width: 0;
+}
+.event-detail {
+  overflow: hidden;
+  display: flex;
+}
+.event-description {
+  padding: 16px;
+}
+@media screen and (max-width: 320px) {
+  .app-event-table table th,
+  .app-event-table table td {
+    font-size: 12px;
+  }
+  .app-event-table table th:first-child,
+  .app-event-table table td:first-child {
+    padding-left: 8px;
+  }
+  .app-event-table table th:last-child,
+  .app-event-table table td:last-child {
+    padding-right: 8px;
+  }
+}

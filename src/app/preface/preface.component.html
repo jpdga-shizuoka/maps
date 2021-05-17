@@ -1,0 +1,8 @@
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      {{'Preface' | localize}}
+    </mat-expansion-panel-header>
+    <div class="app-preface" [innerHTML]="content$ | async"></div>
+  </mat-expansion-panel>
+</mat-accordion>

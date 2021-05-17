@@ -1,0 +1,42 @@
+{
+  "id": "",
+  "title": "",
+  "description": [""],
+  "holes": [
+    {
+      "number": 1,
+      "description": [""],
+      "back": {
+        "path": [
+          [],
+          []
+        ],
+        "par": 3
+      },
+      "front": {
+        "path": [
+          [],
+          []
+        ],
+        "par": 3
+      },
+      "dropzones": [],
+      "mandos": [],
+      "obAreas": [
+        []
+      ],
+      "obAreas": [
+        []
+      ],
+      "safeAreas": [
+        []
+      ],
+      "hazardAreas": [
+        []
+      ],
+      "obLines": [
+        []
+      ]
+    }
+  ]
+}

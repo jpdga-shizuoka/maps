@@ -1,0 +1,18 @@
+<mat-accordion class="preview">
+  <mat-expansion-panel (closed)="onClosed()">
+    <mat-expansion-panel-header>
+      <div class="app-icon-label">
+        <mat-icon>
+          <img src="assets/img/play_circle_filled-24px.svg" alt="video">
+        </mat-icon>
+        <span>{{'Preview' | localize}}</span>
+      </div>
+    </mat-expansion-panel-header>
+    <ng-template matExpansionPanelContent>
+      <div class="app-video-player">
+        <app-video-player>
+        </app-video-player>
+      </div>
+    </ng-template>
+  </mat-expansion-panel>
+</mat-accordion>

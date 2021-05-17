@@ -1,0 +1,13 @@
+<p>
+  <a href="{{geolink}}" target="_blank" rel="noopener">
+    {{location?.title | localize}}, {{location?.prefecture | localize}}
+  </a>
+</p>
+
+<mat-chip-list aria-label="Course selection">
+  <mat-chip class="mat-chip-list-stacked" *ngFor="let course of courses">
+    <a routerLink="/course/{{eventId}}/{{course?.id}}">
+      {{course?.title | localize}}
+    </a>
+  </mat-chip>
+</mat-chip-list>

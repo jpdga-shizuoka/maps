@@ -1,0 +1,37 @@
+.app-course-map {
+  user-select: none;
+}
+.combined {
+  display: flex;
+  width: 100%;
+}
+.combined app-maps {
+  width: calc(100% - 320px);
+}
+.combined app-course-table {
+  width: 320px;
+}
+.app-maps {
+  height: calc(100% - 64px);
+}
+.app-titlebar > span {
+  display: flex;
+}
+.app-titlebar a {
+  display: flex;
+  color: white;
+}
+.app-titlebar .mat-icon {
+  font-size: 30px;
+}
+.mat-form-field {
+  margin-top: 6pt;
+}
+@media screen and (max-width: 736px) {
+  app-course-table {
+    width: 100%;
+  }
+  .app-maps {
+    height: calc(100vh - 48px - 64px);
+  }
+}

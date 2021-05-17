@@ -1,0 +1,87 @@
+.course-table-container {
+  overflow-y: auto;
+  width: 100%;
+  height: calc(100vh - 64px);
+  margin: 0 auto;
+  user-select: none;
+}
+.spinner-container {
+  position: absolute;
+  top: calc(100% / 2 - 50px);
+  left: calc(100% / 2 - 50px);
+}
+.height-zero {
+  visibility: hidden;
+}
+.course-table-container table {
+  width: 100%;
+}
+mat-expansion-panel ul {
+  margin-block-start: 0;
+}
+th.mat-header-cell,
+td.mat-footer-cell,
+td.mat-cell:not(.mat-column-expandedDetail) {
+  text-align: center;
+}
+tr.mat-footer-row {
+  font-weight: bold;
+}
+th.mat-header-cell {
+  font-size: 0.95rem;
+}
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+  padding-left: 0;
+}
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+  padding-right: 0;
+}
+
+tr.detail-row {
+  height: 0;
+}
+tr.hole-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+tr.hole-row:not(.expanded-row):active {
+  background: #efefef;
+}
+.hole-row td {
+  border-bottom-width: 0;
+}
+.hole-detail {
+  overflow: hidden;
+  display: flex;
+  background-color: #f8effb;
+}
+.hole-description {
+}
+.expanded-row {
+  background-color: #f8effb;
+}
+.config-print {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+.config-print > * {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+.config-print button {
+  margin-right: 1.5rem;
+}
+@media screen and (max-width: 736px) {
+  .course-table-container {
+    height: 100%;
+    margin-bottom: 3px;
+  }
+  .spinner-container {
+    top: calc(100vh / 2 - 50px);
+    left: calc(100vw / 2 - 50px);
+  }
+}

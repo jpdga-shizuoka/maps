@@ -1,45 +1,60 @@
-<div class="maps" (resized)="onResized($event)">
-  <google-map
-              height="{{height}}px"
-              width="{{width}}px"
-              [center]="center"
-              [zoom]="zoom"
-              [options]="mapOptions">
+<div class="map-container">
+  <div class="maps" (resized)="onResized($event)" id="mapwrapper">
+    <div *ngIf="apiLoaded">
+      <google-map #googlemap id="googlemap"
+                  height="{{height}}px"
+                  width="{{width}}px"
+                  [center]="center"
+                  [zoom]="zoom"
+                  [options]="mapOptions">
 
-    <map-polygon *ngFor="let area of obAreas"
-              [paths]="area"
-              [options]="obAreaOptions"></map-polygon>
-    <map-polyline *ngFor="let line of obLines"
-              [path]="line"
-              [options]="obLineOptions"></map-polyline>
+        <map-polygon *ngFor="let area of safeAreas"
+                  [paths]="area"
+                  [options]="safeAreaOptions"></map-polygon>
+        <map-polygon *ngFor="let area of obAreas"
+                  [paths]="area"
+                  [options]="obAreaOptions"></map-polygon>
+        <map-polyline *ngFor="let line of obLines"
+                  [path]="line"
+                  [options]="obLineOptions"></map-polyline>
+        <map-polygon *ngFor="let area of hazardAreas"
+                  [paths]="area"
+                  [options]="hazardAreaOptions"></map-polygon>
 
-    <map-polyline *ngFor="let line of frontLines"
-              [path]="line"
-              [options]="frontLineOptions"></map-polyline>
-    <map-polyline *ngFor="let line of backLines"
-              [path]="line"
-              [options]="backLineOptions"></map-polyline>
+        <map-polyline *ngFor="let line of frontLines"
+                  [path]="line"
+                  [options]="frontLineOptions"></map-polyline>
+        <map-polyline *ngFor="let line of backLines"
+                  [path]="line"
+                  [options]="backLineOptions"></map-polyline>
 
-    <map-marker *ngFor="let mando of mandos"
-              [position]="mando"
-              [options]="mandoOptions"></map-marker>
-    <map-marker *ngFor="let zone of dropZones"
-              [position]="zone"
-              [options]="dropZoneOptions"></map-marker>
+        <map-marker #mandomarker *ngFor="let mando of mandos; index as i"
+                  [title]="mando.title"
+                  [position]="mando.position"
+                  [options]="mandoOptions"
+                  (mapClick)="onMandoClicked(mandomarker, i)"></map-marker>
+        <map-marker #dzmarker *ngFor="let dz of dropZones; index as i"
+                  [title]="dz.title"
+                  [position]="dz.position"
+                  [options]="dropZoneOptions"
+                  (mapClick)="onDropzoneClicked(dzmarker, i)"></map-marker>
 
-    <map-marker #teemarker *ngFor="let tee of backTees; index as i"
-              [position]="tee"
-              [options]="backTeeOptions(i)"
-              (mapClick)="onBackTeeClicked(teemarker, i)"></map-marker>
-    <map-marker #teemarker *ngFor="let tee of frontTees; index as i"
-              [position]="tee"
-              [options]="frontTeeOptions(i)"
-              (mapClick)="onFrontTeeClicked(teemarker, i)"></map-marker>
-
-    <map-info-window #infowindow>
-      <h2># {{holeName}}</h2>
-      <h3>{{teeType}}: {{length}}m / Par{{par}}</h3>
-      <p>{{description}}</p>
-    </map-info-window>
-  </google-map>
+        <map-marker #teemarker *ngFor="let tee of backTees; index as i"
+                  [title]="tee.title"
+                  [position]="tee.position"
+                  [options]="backTeeOptions(tee.title)"
+                  (mapClick)="onBackTeeClicked(teemarker)"></map-marker>
+        <map-marker #teemarker *ngFor="let tee of frontTees; index as i"
+                  [title]="tee.title"
+                  [position]="tee.position"
+                  [options]="frontTeeOptions(tee.title)"
+                  (mapClick)="onFrontTeeClicked(teemarker)"></map-marker>
+      </google-map>
+    </div>
+  </div>
+  <div *ngIf="isHandset$ | async">
+    <app-hole-info (next)="onNext($event)" (prev)="onPrev($event)"
+      [data]="metadata" [class.hole-info-hide]="!metadata">
+    </app-hole-info>
+  </div>
 </div>

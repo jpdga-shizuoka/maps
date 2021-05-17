@@ -1,0 +1,6 @@
+.app-page {
+  page-break-after: always;
+}
+.app-page:last-child {
+  page-break-after: avoid;
+}
