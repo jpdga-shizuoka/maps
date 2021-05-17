@@ -59,7 +59,7 @@
             appLongPress (longPressed)="onLongPress($event, hole)"
             id="rowid{{hole.number}}"
             [class.expanded-row]="isExpanded(hole)"
-            (click)="expandedHole = isExpanded(hole) ? null : hole">
+            (click)="expandedHole = isExpanded(hole) ? undefined : hole">
         </tr>
         <tr mat-row *matRowDef="let hole; columns: ['expandedDetail']" class="detail-row"
             appLongPress (longPressed)="onLongPress($event, hole)">

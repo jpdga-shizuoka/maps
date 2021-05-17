@@ -53,7 +53,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     return !front;
   }
-  expandedHole: HoleData | null;
+  expandedHole?: HoleData;
 
   constructor(
     private readonly remote: RemoteService,

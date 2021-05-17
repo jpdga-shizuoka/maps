@@ -29,7 +29,7 @@ export class EventTableComponent implements AfterViewInit, OnInit, OnDestroy {
   private ssEvent: Subscription;
   private ssSourse: Subscription;
   dataSource: EventTableDataSource;
-  expandedEvent: EventData | null;
+  expandedEvent?: EventData;
   readonly displayedColumns = ['date', 'name'];
 
   constructor(private readonly remote: RemoteService) { }
@@ -39,7 +39,7 @@ export class EventTableComponent implements AfterViewInit, OnInit, OnDestroy {
     this.ssEvent = this._eventid.subscribe(id => {
       this.dataSource.filter = id;
       this.ssSourse = this.dataSource.connect()
-        .subscribe(data => this.expandedEvent = this.dataSource.find(id) || null);
+        .subscribe(data => this.expandedEvent = this.dataSource.find(id));
     });
   }
 

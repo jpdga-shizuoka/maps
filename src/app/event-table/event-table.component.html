@@ -25,7 +25,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="event-row"
         [class.event-expanded-row]="expandedEvent === row"
-        (click)="expandedEvent = expandedEvent === row ? null : row"></tr>
+        (click)="expandedEvent = expandedEvent === row ? undefined : row"></tr>
     <tr mat-row *matRowDef="let row; columns: ['eventDetail']" class="event-detail-row"></tr>
   </table>
 
