@@ -1,6 +1,6 @@
-import {Position, HoleData} from './models';
+import { Position, HoleData } from './models';
 
-export function holeLength(path: Position[]) {
+export function holeLength(path: Position[]): number {
   let length = 0;
   let top = path[0];
   path.slice(1).forEach(next => {
@@ -32,10 +32,11 @@ function d2r(degrees) {
 
 export class Path2Bounds {
   readonly bounds = {
-    sw: {lat: 90, lng: 180},
-    ne: {lat: -90, lng: -180}
+    sw: { lat: 90, lng: 180 },
+    ne: { lat: -90, lng: -180 }
   };
-  addPath(path: Position[]) {
+
+  addPath(path: Position[]): void {
     path.forEach(p => {
       this.bounds.sw.lat = Math.min(this.bounds.sw.lat, p.lat);
       this.bounds.sw.lng = Math.min(this.bounds.sw.lng, p.lng);
@@ -67,7 +68,8 @@ export class LatLngBounds extends Path2Bounds {
     super();
     this.addPath(path);
   }
-  get value() {
+
+  get value(): google.maps.LatLngBounds {
     const sw = new google.maps.LatLng(this.bounds.sw);
     const ne = new google.maps.LatLng(this.bounds.ne);
     return new google.maps.LatLngBounds(sw, ne);

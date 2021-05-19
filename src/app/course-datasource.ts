@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { DataSource } from '@angular/cdk/collections';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map, tap, finalize } from 'rxjs/operators';
 
 import { RemoteService, HoleData, CourseId, CourseData } from './remote-service';
+import { Descriptions } from './models';
 
 export { HoleData, CourseId };
 
@@ -20,22 +20,21 @@ const EMPTY_COURSE_DATA = {
  * (including sorting, pagination, and filtering).
  */
 export class CourseDataSource extends DataSource<HoleData> {
-
   private readonly _loading: BehaviorSubject<boolean>;
-  get loading() { return this._loading.value; }
+  get loading(): boolean { return this._loading.value; }
   set loading(state: boolean) { this._loading.next(state); }
 
   private readonly _course: BehaviorSubject<CourseData>;
-  get course() { return this._course.value; }
+  get course(): CourseData { return this._course.value; }
   set course(course: CourseData) { this._course.next(course); }
 
-  get title() { return this.course.title; }
-  get descriptions() { return this.course.description; }
-  get data() { return this.course.holes; }
+  get title(): string { return this.course.title; }
+  get descriptions(): Descriptions { return this.course.description; }
+  get data(): HoleData[] { return this.course.holes; }
 
   constructor(
     private readonly courseId: CourseId,
-    private readonly remote: RemoteService,
+    private readonly remote: RemoteService
   ) {
     super();
     this._loading = new BehaviorSubject<boolean>(true);
@@ -52,9 +51,9 @@ export class CourseDataSource extends DataSource<HoleData> {
     return this.remote
       .getCourse(this.courseId)
       .pipe(
-        tap(course => this.course = course),
+        tap(course => { this.course = course; }),
         map(course => course.holes),
-        finalize(() => this.loading = false)
+        finalize(() => { this.loading = false; })
       );
   }
 
@@ -62,6 +61,7 @@ export class CourseDataSource extends DataSource<HoleData> {
    *  Called when the table is being destroyed. Use this function, to clean up
    * any open connections or free any held resources that were set up during connect.
    */
-  disconnect() {
+  disconnect(): void {
+    // nop
   }
 }

@@ -13,14 +13,14 @@ export class LongPressDirective {
 
   @HostListener('touchstart', ['$event'])
   @HostListener('mousedown', ['$event'])
-  onMouseDown(event) {
-    this.timeout = setTimeout(() => this.longPressed.emit(event), 2000);
+  onMouseDown(event: UIEvent): void {
+    this.timeout = window.setTimeout(() => this.longPressed.emit(event), 2000);
   }
 
   @HostListener('touchend')
   @HostListener('mouseup')
   @HostListener('mouseleave')
-  endPress() {
+  endPress(): void {
     clearTimeout(this.timeout);
   }
 }

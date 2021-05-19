@@ -10,11 +10,11 @@ export type Language = 'global' | 'local';
 export const GLOBAL = 'global' as Language;
 export const LOCAL = 'local' as Language;
 
-const REMOVE_PATERN = /[ \-\.\,]/g;
+const REMOVE_PATERN = /[ \-.,]/g;
 const DICTIONARIES = [
   LOCATION_TITLE,
   PREFECTURE,
-  EVENT_TERMS,
+  EVENT_TERMS
 ];
 
 interface EventParts {
@@ -33,10 +33,9 @@ const LOCALIZE_TABLE = {} as LocalizeTable;
   providedIn: 'root'
 })
 export class LocalizeService {
-
   language = LOCAL;
 
-  get isGlobal() {
+  get isGlobal(): boolean {
     return this.language === GLOBAL;
   }
 
@@ -50,7 +49,7 @@ export class LocalizeService {
     }
     let result = value;
     for (const dict of DICTIONARIES) {
-      const local = dict[name2key(value)];
+      const local = dict[name2key(value)] as string;
       if (local) {
         result = local;
         break;
@@ -63,7 +62,7 @@ export class LocalizeService {
     }
   }
 
-  distanseFromBackteeToMarker(distanse: string, marker: string) {
+  distanseFromBackteeToMarker(distanse: string, marker: string): string {
     if (this.isGlobal || !LOCALIZE_TABLE.distanseFromBackteeToMarker) {
       return `${distanse} to the ${marker.toLowerCase()} from back tee`;
     } else {
@@ -71,7 +70,7 @@ export class LocalizeService {
     }
   }
 
-  distanseFromFrontteeToMarker(distanse: string, marker: string) {
+  distanseFromFrontteeToMarker(distanse: string, marker: string): string {
     if (this.isGlobal || !LOCALIZE_TABLE.distanseFromFrontteeToMarker) {
       return `${distanse} to the ${marker.toLowerCase()} from front tee`;
     } else {
@@ -79,7 +78,7 @@ export class LocalizeService {
     }
   }
 
-  distanseFromMarkerToGoal(distanse: string, marker: string) {
+  distanseFromMarkerToGoal(distanse: string, marker: string): string {
     if (this.isGlobal || !LOCALIZE_TABLE.distanseFromMarkerToGoal) {
       return `${distanse} to goal from the ${marker.toLowerCase()}`;
     } else {
@@ -89,9 +88,9 @@ export class LocalizeService {
 }
 
 function prepareLocals() {
-  Object.keys(environment?.localize)
-    .forEach(name => LOCALIZE_TABLE[name]
-      = new Function(...environment.localize[name]));
+  Object.keys(environment?.localize).forEach(name => {
+    LOCALIZE_TABLE[name] = new Function(...environment.localize[name]);
+  });
 }
 
 function event2local(eventName: string): string {
@@ -100,7 +99,7 @@ function event2local(eventName: string): string {
     const title = EVENT_TITLE[name2key(eventName)];
     return title ? title : eventName;
   }
-  const aliase = EVENT_TITLE[parts.key];
+  const aliase = EVENT_TITLE[parts.key] as string;
   if (!aliase) {
     return eventName;
   }
@@ -125,9 +124,9 @@ function event2key(name?: string): EventParts | undefined {
   const eventName = /the (\d+)(st|nd|rd|th|) (.+)/;
   const altEventName = /the (.+)/;
 
-  let results = n.match(eventName);
+  let results = eventName.exec(n);
   if (results == null) {
-    results = n.match(altEventName);
+    results = altEventName.exec(n);
     if (results == null) {
       return undefined;
     }

@@ -22,7 +22,7 @@ export interface MapsObjects {
   mandos: MarkerInfo[];
 }
 
-export function LoadMapsObjects(target: MapsObjects, holes: HoleData[]) {
+export function LoadMapsObjects(target: MapsObjects, holes: HoleData[]): void {
   const backLines: Line[] = [];
   const frontLines: Line[] = [];
   const safeAreas: Area[] = [];
@@ -35,7 +35,6 @@ export function LoadMapsObjects(target: MapsObjects, holes: HoleData[]) {
   const frontTees: MarkerInfo[] = [];
 
   holes.forEach(hole => {
-
     if (hole.back) {
       const path: LatLng[] = [];
       hole.back.path.forEach(point => path.push(new google.maps.LatLng(point)));
@@ -107,6 +106,6 @@ export function LoadMapsObjects(target: MapsObjects, holes: HoleData[]) {
     mandos,
     dropZones,
     backTees,
-    frontTees,
+    frontTees
   });
 }

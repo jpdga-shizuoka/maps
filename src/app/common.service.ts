@@ -9,12 +9,11 @@ export const ONE_FOOT = 3.28084;
   providedIn: 'root'
 })
 export class CommonService {
-
   lengthUnit = METER;
 
   length(value: number, unit?: LengthUnit): string {
     const lengthUnit = unit || this.lengthUnit;
-    return  lengthUnit === FOOT
+    return lengthUnit === FOOT
       ? Math.round(value * ONE_FOOT) + 'ft'
       : Math.round(value) + 'm';
   }

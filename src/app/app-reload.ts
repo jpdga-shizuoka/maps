@@ -5,7 +5,7 @@
 import { Component } from '@angular/core';
 @Component({
   selector: 'app-reload',
-  template: '',
+  template: ''
 })
 export class ReloadComponent {
 }

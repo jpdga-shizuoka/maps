@@ -5,7 +5,6 @@ import { LocalizeService } from './localize.service';
   name: 'localize'
 })
 export class LocalizePipe implements PipeTransform {
-
   constructor(private readonly localizeService: LocalizeService) { }
 
   transform(value?: string): string {
