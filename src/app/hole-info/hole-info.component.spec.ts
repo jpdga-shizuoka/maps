@@ -5,11 +5,9 @@ describe('HoleInfoComponent', () => {
   let component: HoleInfoComponent;
   let fixture: ComponentFixture<HoleInfoComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [HoleInfoComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [HoleInfoComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HoleInfoComponent);
@@ -17,7 +15,5 @@ describe('HoleInfoComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });

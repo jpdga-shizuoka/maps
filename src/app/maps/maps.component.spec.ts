@@ -5,11 +5,9 @@ describe('MapsComponent', () => {
   let component: MapsComponent;
   let fixture: ComponentFixture<MapsComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [MapsComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [MapsComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MapsComponent);
@@ -17,7 +15,5 @@ describe('MapsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });

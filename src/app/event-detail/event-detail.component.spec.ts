@@ -5,11 +5,9 @@ describe('EventDetailComponent', () => {
   let component: EventDetailComponent;
   let fixture: ComponentFixture<EventDetailComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [EventDetailComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [EventDetailComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventDetailComponent);
@@ -17,7 +15,5 @@ describe('EventDetailComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });

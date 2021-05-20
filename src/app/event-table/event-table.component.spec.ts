@@ -10,17 +10,15 @@ describe('EventTableComponent', () => {
   let component: EventTableComponent;
   let fixture: ComponentFixture<EventTableComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [EventTableComponent],
-      imports: [
-        NoopAnimationsModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule
-      ]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [EventTableComponent],
+    imports: [
+      NoopAnimationsModule,
+      MatPaginatorModule,
+      MatSortModule,
+      MatTableModule
+    ]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventTableComponent);
@@ -28,7 +26,5 @@ describe('EventTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should compile', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should compile', () => expect(component).toBeTruthy());
 });

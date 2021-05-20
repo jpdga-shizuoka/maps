@@ -5,11 +5,9 @@ describe('MeterFootComponent', () => {
   let component: MeterFootComponent;
   let fixture: ComponentFixture<MeterFootComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [MeterFootComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [MeterFootComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MeterFootComponent);
@@ -17,7 +15,5 @@ describe('MeterFootComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });

@@ -5,11 +5,9 @@ describe('PrefaceComponent', () => {
   let component: PrefaceComponent;
   let fixture: ComponentFixture<PrefaceComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [PrefaceComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [PrefaceComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PrefaceComponent);
@@ -17,7 +15,5 @@ describe('PrefaceComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });

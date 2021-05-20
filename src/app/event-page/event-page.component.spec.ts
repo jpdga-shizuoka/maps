@@ -5,11 +5,9 @@ describe('EventPageComponent', () => {
   let component: EventPageComponent;
   let fixture: ComponentFixture<EventPageComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [EventPageComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [EventPageComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EventPageComponent);
@@ -17,7 +15,5 @@ describe('EventPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });

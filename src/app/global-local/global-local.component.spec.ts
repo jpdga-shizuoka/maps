@@ -5,11 +5,9 @@ describe('GlobalLocalComponent', () => {
   let component: GlobalLocalComponent;
   let fixture: ComponentFixture<GlobalLocalComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [GlobalLocalComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [GlobalLocalComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalLocalComponent);
@@ -17,7 +15,5 @@ describe('GlobalLocalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });

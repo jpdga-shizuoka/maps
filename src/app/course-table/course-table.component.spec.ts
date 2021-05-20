@@ -10,17 +10,15 @@ describe('CourseTableComponent', () => {
   let component: CourseTableComponent;
   let fixture: ComponentFixture<CourseTableComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [CourseTableComponent],
-      imports: [
-        NoopAnimationsModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule
-      ]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [CourseTableComponent],
+    imports: [
+      NoopAnimationsModule,
+      MatPaginatorModule,
+      MatSortModule,
+      MatTableModule
+    ]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CourseTableComponent);
@@ -28,7 +26,5 @@ describe('CourseTableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should compile', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should compile', () => expect(component).toBeTruthy());
 });

@@ -5,11 +5,9 @@ describe('IndexComponent', () => {
   let component: IndexComponent;
   let fixture: ComponentFixture<IndexComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [IndexComponent]
-    }).compileComponents();
-  });
+  beforeEach(() => TestBed.configureTestingModule({
+    declarations: [IndexComponent]
+  }).compileComponents());
 
   beforeEach(() => {
     fixture = TestBed.createComponent(IndexComponent);
@@ -17,7 +15,5 @@ describe('IndexComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it('should create', () => expect(component).toBeTruthy());
 });
