@@ -1,16 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { GlobalLocalComponent } from './global-local.component';
 
 describe('GlobalLocalComponent', () => {
   let component: GlobalLocalComponent;
   let fixture: ComponentFixture<GlobalLocalComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ GlobalLocalComponent ]
-    })
-    .compileComponents();
+      declarations: [GlobalLocalComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

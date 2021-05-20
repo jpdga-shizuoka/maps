@@ -1,16 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HoleInfoComponent } from './hole-info.component';
 
 describe('HoleInfoComponent', () => {
   let component: HoleInfoComponent;
   let fixture: ComponentFixture<HoleInfoComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ HoleInfoComponent ]
-    })
-    .compileComponents();
+      declarations: [HoleInfoComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

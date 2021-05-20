@@ -12,6 +12,10 @@ export type Marker = {
   origin: object;
   anchor: object;
 };
+export type MarkerType = {
+  draggable: boolean;
+  icon: Marker;
+};
 export type MapOptions = {
   maxZoom: number;
   minZoom: number;
@@ -79,8 +83,7 @@ export interface MapsOptions {
   frontMarkers: Marker[];
 }
 
-export function LoadMapsOptions(target: MapsOptions) {
-
+export function LoadMapsOptions(target: MapsOptions): void {
   const backMarkers: Marker[] = [];
   const frontMarkers: Marker[] = [];
 
@@ -117,7 +120,7 @@ export function LoadMapsOptions(target: MapsOptions) {
     obLineOptions: {
       strokeColor: 'red',
       strokeOpacity: 0.5,
-      strokeWeight: 6,
+      strokeWeight: 6
     },
     obAreaOptions: {
       strokeColor: 'red',
@@ -138,18 +141,18 @@ export function LoadMapsOptions(target: MapsOptions) {
       strokeOpacity: 1.0,
       strokeWeight: 4,
       icons: [
-        {icon: {path: google.maps.SymbolPath.CIRCLE}, offset: '0%'},
-        {icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW}, offset: '100%'}
-      ],
+        { icon: { path: google.maps.SymbolPath.CIRCLE }, offset: '0%' },
+        { icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW }, offset: '100%' }
+      ]
     },
     frontLineOptions: {
       strokeColor: '#a9f5bc',
       strokeOpacity: 1.0,
       strokeWeight: 4,
       icons: [
-        {icon: {path: google.maps.SymbolPath.CIRCLE}, offset: '0%'},
-        {icon: {path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW}, offset: '100%'}
-      ],
+        { icon: { path: google.maps.SymbolPath.CIRCLE }, offset: '0%' },
+        { icon: { path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW }, offset: '100%' }
+      ]
     },
     dropZoneOptions: {
       draggable: false,
@@ -158,7 +161,7 @@ export function LoadMapsOptions(target: MapsOptions) {
         scaledSize: new google.maps.Size(20, 20),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(10, 10)
-      },
+      }
     },
     mandoOptions: {
       draggable: false,
@@ -167,9 +170,9 @@ export function LoadMapsOptions(target: MapsOptions) {
         scaledSize: new google.maps.Size(20, 20),
         origin: new google.maps.Point(0, 0),
         anchor: new google.maps.Point(10, 10)
-      },
+      }
     },
     backMarkers,
-    frontMarkers,
+    frontMarkers
   });
 }

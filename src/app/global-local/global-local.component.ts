@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatRadioChange } from '@angular/material/radio';
 
-import { LocalizeService } from '../localize.service';
+import { LocalizeService, Language } from '../localize.service';
 
 @Component({
   selector: 'app-global-local',
@@ -11,28 +12,27 @@ import { LocalizeService } from '../localize.service';
   styleUrls: ['./global-local.component.css']
 })
 export class GlobalLocalComponent {
-
   constructor(
     private readonly localize: LocalizeService,
     private readonly location: Location,
     private readonly router: Router,
-    private readonly snackbar: MatSnackBar,
+    private readonly snackbar: MatSnackBar
   ) { }
 
-  get language() {
+  get language(): Language {
     return this.localize.language;
   }
 
-  set language(value) {
+  set language(value: Language) {
     this.localize.language = value;
   }
 
-  get message() {
+  get message(): string {
     return this.localize.transform('UI language changed.');
   }
 
-  onChanged(event) {
-    this.language = event.value;
+  onChanged(event: MatRadioChange): void {
+    this.language = event.value as Language;
     this.requestReloadCurrentPage();
     this.snackbar.open(this.message, '', {
       panelClass: 'app-snackbar',
@@ -46,6 +46,6 @@ export class GlobalLocalComponent {
     // https://medium.com/@rakshitshah/refresh-angular-component-without-navigation-148a87c2de3f
     const currentPath = this.location.path().replace(/^\//, '');
     this.router.navigate(['reload'], { skipLocationChange: true })
-    .then(() => this.router.navigate([currentPath], { skipLocationChange: true }));
+      .then(() => this.router.navigate([currentPath], { skipLocationChange: true }));
   }
 }

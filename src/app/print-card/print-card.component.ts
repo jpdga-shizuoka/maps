@@ -11,12 +11,11 @@ import { CommonService } from '../common.service';
   styleUrls: ['./print-card.component.css']
 })
 export class PrintCardComponent extends PrintDataComponent {
-
   constructor(
     private readonly commonService: CommonService,
     remote: RemoteService,
     printService: PrintService,
-    route: ActivatedRoute,
+    route: ActivatedRoute
   ) {
     super(remote, printService, route);
   }
@@ -35,46 +34,46 @@ export class PrintCardComponent extends PrintDataComponent {
     return this.holes.slice(9);
   }
 
-  get isInHoles() {
+  get isInHoles(): boolean {
     return this.inHoles != null;
   }
 
-  get outPar() {
+  get outPar(): number {
     let par = 0;
-    this.outHoles?.forEach(hole => par += this.par(hole));
+    this.outHoles?.forEach(hole => { par += this.par(hole); });
     return par;
   }
 
-  get inPar() {
+  get inPar(): number {
     let par = 0;
-    this.inHoles?.forEach(hole => par += this.par(hole));
+    this.inHoles?.forEach(hole => { par += this.par(hole); });
     return par;
   }
 
-  get outLength() {
+  get outLength(): number {
     let length = 0;
-    this.outHoles?.forEach(hole => length += this.length(hole));
+    this.outHoles?.forEach(hole => { length += this.length(hole); });
     return length;
   }
 
-  get inLength() {
+  get inLength(): number {
     let length = 0;
-    this.inHoles?.forEach(hole => length += this.length(hole));
+    this.inHoles?.forEach(hole => { length += this.length(hole); });
     return length;
   }
 
-  get lengthUnit() {
+  get lengthUnit(): string {
     return this.commonService.unit();
   }
 
-  get isSafariiOS() {
+  get isSafariiOS(): boolean {
     const ua = window.navigator.userAgent;
-    const iOS = !!ua.match(/iPad/i) || !!ua.match(/iPhone/i);
-    const webkit = !!ua.match(/WebKit/i);
-    return iOS && webkit && !ua.match(/CriOS/i);
+    const iOS = !!/iPad/i.exec(ua) || !!/iPhone/i.exec(ua);
+    const webkit = !!/WebKit/i.exec(ua);
+    return iOS && webkit && !/CriOS/i.exec(ua);
   }
 
-  hasRules(hole: HoleData) {
+  hasRules(hole: HoleData): boolean {
     return hole.description?.length > 0 && hole.description[0] !== '';
   }
 }

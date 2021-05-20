@@ -1,16 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EventDetailComponent } from './event-detail.component';
 
 describe('EventDetailComponent', () => {
   let component: EventDetailComponent;
   let fixture: ComponentFixture<EventDetailComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventDetailComponent ]
-    })
-    .compileComponents();
+      declarations: [EventDetailComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

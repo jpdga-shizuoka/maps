@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -10,14 +10,14 @@ describe('EventTableComponent', () => {
   let component: EventTableComponent;
   let fixture: ComponentFixture<EventTableComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ EventTableComponent ],
+      declarations: [EventTableComponent],
       imports: [
         NoopAnimationsModule,
         MatPaginatorModule,
         MatSortModule,
-        MatTableModule,
+        MatTableModule
       ]
     }).compileComponents();
   });

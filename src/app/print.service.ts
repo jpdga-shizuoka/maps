@@ -21,7 +21,7 @@ export class PrintService implements OnDestroy {
 
   isPrinting = false;
 
-  private static afterprint(event: Event) {
+  private static afterprint() {
     PrintService.instance.isPrinting = false;
   }
 
@@ -30,39 +30,35 @@ export class PrintService implements OnDestroy {
     window.addEventListener('afterprint', PrintService.afterprint);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     window.removeEventListener('afterprint', PrintService.afterprint);
   }
 
-  printDocument(
-    document: string, event: EventId, course: CourseId, tee: TeeType
-  ) {
+  async printDocument(document: string, event: EventId, course: CourseId, tee: TeeType): Promise<void> {
     if (document === 'layout') {
-      this.closeDocument()
-      .then(() => this.router.navigate(['/', 'layout', event, course, tee],
-        { skipLocationChange: true }));
+      await this.closeDocument();
+      await this.router.navigate(['/', 'layout', event, course, tee], { skipLocationChange: true });
     } else if (this.state === 'open' && this.isSame(document, event, course, tee)) {
       this.onDataReady();
     } else {
-      this.router.navigate(['/', {
-        outlets: {print: ['print', document, event, course, tee]}
-      }],
-      { skipLocationChange: true })
-      .then(result => {
-        this.state = result ? 'open' : this.state;
-        this.document = document;
-        this.event = event;
-        this.course = course;
-        this.tee = tee;
-      });
+      const result = await this.router.navigate(['/', {
+        outlets: {
+          print: ['print', document, event, course, tee]
+        }
+      }], { skipLocationChange: true });
+      this.state = result ? 'open' : this.state;
+      this.document = document;
+      this.event = event;
+      this.course = course;
+      this.tee = tee;
     }
   }
 
-  onDataReady() {
+  onDataReady(): void {
     setTimeout(() => window.print());
   }
 
-  printView() {
+  printView(): void {
     if (this.isPrinting) {
       return;
     }
@@ -72,8 +68,11 @@ export class PrintService implements OnDestroy {
 
   closeDocument(): Promise<'open' | 'close'> {
     if (this.state === 'open') {
-      return this.router.navigate([{ outlets: { print: null }}])
-      .then(() => this.state = 'close');
+      return this.router.navigate([{ outlets: { print: null } }])
+        .then(() => {
+          this.state = 'close';
+          return this.state;
+        });
     } else {
       return Promise.resolve('close');
     }

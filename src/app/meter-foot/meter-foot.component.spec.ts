@@ -1,16 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MeterFootComponent } from './meter-foot.component';
 
 describe('MeterFootComponent', () => {
   let component: MeterFootComponent;
   let fixture: ComponentFixture<MeterFootComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ MeterFootComponent ]
-    })
-    .compileComponents();
+      declarations: [MeterFootComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

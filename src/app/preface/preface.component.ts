@@ -9,7 +9,6 @@ import { RemoteService } from '../remote-service';
   styleUrls: ['./preface.component.css']
 })
 export class PrefaceComponent implements OnInit {
-
   readonly content$: BehaviorSubject<string>;
 
   constructor(private readonly remote: RemoteService) {

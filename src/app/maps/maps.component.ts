@@ -26,6 +26,7 @@ import {
   DropZoneOptions,
   MandoOptions,
   Marker,
+  MarkerType
 } from '../maps-options';
 import {
   MapsObjects, LoadMapsObjects, Line, Area, MarkerInfo
@@ -36,14 +37,12 @@ import {
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.css']
 })
-export class MapsComponent
-  implements OnInit, OnDestroy, MapsOptions, MapsObjects {
+export class MapsComponent implements OnInit, OnDestroy, MapsOptions, MapsObjects {
   @ViewChild('googlemap') googlemap: GoogleMap;
   @Input() lastHole: number;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
-  @Input()
-  set courseId(courseId: CourseId) { this._courseId.next(courseId); }
-  get courseId() { return this._courseId.value; }
+  @Input() set courseId(courseId: CourseId) { this._courseId.next(courseId); }
+  get courseId(): CourseId { return this._courseId.value; }
   private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
   readonly isHandset$: Observable<boolean>;
   private ssCourse: Subscription;
@@ -52,7 +51,7 @@ export class MapsComponent
   private readonly _course: BehaviorSubject<CourseData>;
   apiLoaded = false;
   course: CourseData;
-  get holes() {return this.course?.holes; }
+  get holes(): HoleData[] { return this.course?.holes; }
 
   center: Position;
   zoom = 17;
@@ -84,26 +83,27 @@ export class MapsComponent
 
   metadata?: HoleMetaData;
 
-  backTeeOptions(index: string) {
+  backTeeOptions(index: string): MarkerType {
     return {
       draggable: false,
-      icon: this.getMarker(Number(index), 'back'),
+      icon: this.getMarker(Number(index), 'back')
     };
   }
-  frontTeeOptions(index: string) {
+
+  frontTeeOptions(index: string): MarkerType {
     return {
       draggable: false,
-      icon: this.getMarker(Number(index), 'front'),
+      icon: this.getMarker(Number(index), 'front')
     };
   }
 
   constructor(
     private readonly sheet: MatBottomSheet,
     private readonly ngZone: NgZone,
-    private readonly el: ElementRef,
+    private readonly el: ElementRef<Element>,
     private readonly remote: RemoteService,
     private readonly googleMapsApi: GoogleMapsApiService,
-    breakpointObserver: BreakpointObserver,
+    breakpointObserver: BreakpointObserver
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
     this._course = new BehaviorSubject<CourseData|undefined>(undefined);
@@ -116,51 +116,53 @@ export class MapsComponent
     this.height = rect.height;
 
     this.ssMaps = this.googleMapsApi.load().pipe(
-      tap(() => this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId))),
-      tap(() => LoadMapsOptions(this)),
-    ).subscribe(() => this.apiLoaded = true);
+      tap(() => {
+        this.ssCourse = this._courseId.subscribe(courseId => this.loadCourse(courseId));
+      }),
+      tap(() => LoadMapsOptions(this))
+    ).subscribe(() => { this.apiLoaded = true; });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ssMapsApi?.unsubscribe();
     this.ssCourse?.unsubscribe();
     this.ssMaps?.unsubscribe();
   }
 
-  panTo(path: Position[]) {
+  panTo(path: Position[]): void {
     this.googlemap.panTo(new google.maps.LatLng(path[0]));
   }
 
-  fitBounds(path: Position[]) {
+  fitBounds(path: Position[]): void {
     this.googlemap.fitBounds(new LatLngBounds(path).value);
   }
 
-  onMandoClicked(marker: MapMarker, index: number) {
+  onMandoClicked(marker: MapMarker, index: number): void {
     this.issueEvent(this.getMetadata(marker, index, 'mando'));
   }
 
-  onDropzoneClicked(marker: MapMarker, index: number) {
+  onDropzoneClicked(marker: MapMarker, index: number): void {
     this.issueEvent(this.getMetadata(marker, index, 'dz'));
   }
 
-  onBackTeeClicked(marker: MapMarker) {
+  onBackTeeClicked(marker: MapMarker): void {
     const holeNumber = Number(marker.getTitle());
     const hole = this.holes.find(hl => hl.number === holeNumber);
     this.issueEvent(hole, 'back');
   }
 
-  onFrontTeeClicked(marker: MapMarker) {
+  onFrontTeeClicked(marker: MapMarker): void {
     const holeNumber = Number(marker.getTitle());
     const hole = this.holes.find(hl => hl.number === holeNumber);
     this.issueEvent(hole, 'front');
   }
 
-  onResized(event: ResizedEvent) {
+  onResized(event: ResizedEvent): void {
     this.width = event.newWidth;
     this.height = event.newHeight;
   }
 
-  onNext(data: HoleMetaData) {
+  onNext(data: HoleMetaData): void {
     if (data.teeType === 'back') {
       const currentHole = this.findHole(data);
       if (currentHole.front) {
@@ -172,7 +174,7 @@ export class MapsComponent
     this.issueEvent(nextHole, nextHole.back ? 'back' : 'front');
   }
 
-  onPrev(data: HoleMetaData) {
+  onPrev(data: HoleMetaData): void {
     if (data.teeType === 'front') {
       const currentHole = this.findHole(data);
       if (currentHole.back) {
@@ -187,7 +189,7 @@ export class MapsComponent
   private loadCourse(courseId: CourseId) {
     if (!courseId) { return; }
     this.remote.getCourse(courseId).subscribe(
-      course => this.course = course,
+      course => { this.course = course; },
       err => console.error(err),
       () => {
         // this.center = new Holes2Bounds(this.holes).center;
@@ -221,7 +223,7 @@ export class MapsComponent
   private issueEvent(data: HoleMetaData | HoleData, type?: TeeType, delay = false) {
     let meta: HoleMetaData;
     if (isHoleData(data)) {
-      const hole = data as HoleData;
+      const hole = data;
       meta = {
         hole: hole.number,
         teeType: type,
@@ -229,16 +231,16 @@ export class MapsComponent
         data: hole[type]
       };
     } else {
-      meta = data as HoleMetaData;
+      meta = data;
     }
     this.metadata = meta;
     this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset) {
         if (meta.teeType === 'dz' || meta.teeType === 'mando') {
-          this.sheet.open(HoleInfoSheetComponent, {data: meta});
+          this.sheet.open(HoleInfoSheetComponent, { data: meta });
           this.panTo(meta.data.path);
         } else {
-          this.holeClicked.emit(meta);  // issue the event
+          this.holeClicked.emit(meta); // issue the event
         }
       }
       if (meta.teeType !== 'dz' && meta.teeType !== 'mando') {
@@ -258,7 +260,7 @@ export class MapsComponent
     const hole = this.holes.find(hl => hl.number === holeNumber);
     const markers = type === 'dz' ? this.dropZones : this.mandos;
     const position = markers[index].position;
-    const current = {lat: position.lat(), lng: position.lng()};
+    const current = { lat: position.lat(), lng: position.lng() };
     const tee = hole.back || hole.front;
     const goal = tee.path[tee.path.length - 1];
     const fromMarker = [current, goal];
@@ -300,6 +302,6 @@ export class MapsComponent
   }
 }
 
-function isHoleData(object: any): object is HoleData {
+function isHoleData(object: HoleMetaData | HoleData): object is HoleData {
   return 'number' in object;
 }

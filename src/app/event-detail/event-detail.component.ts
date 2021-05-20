@@ -24,15 +24,15 @@ export class EventDetailComponent implements OnInit {
   @Input() eventId: EventId;
 
   private readonly _event: BehaviorSubject<EventData>;
-  get event() { return this._event.value; }
+  get event(): EventData { return this._event.value; }
   set event(event: EventData) { this._event.next(event); }
 
   private readonly _location: BehaviorSubject<LocationData>;
-  get location() { return this._location.value; }
+  get location(): LocationData { return this._location.value; }
   set location(location: LocationData) { this._location.next(location); }
 
-  private readonly _courses = new  BehaviorSubject<CourseItem[]>([]);
-  get courses() { return this._courses.value; }
+  private readonly _courses = new BehaviorSubject<CourseItem[]>([]);
+  get courses(): CourseItem[] { return this._courses.value; }
   set courses(courses: CourseItem[]) { this._courses.next(courses); }
 
   constructor(private readonly remote: RemoteService) {
@@ -42,21 +42,22 @@ export class EventDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.remote.getEvent(this.eventId).subscribe(
-      event => this.event = event,
+      event => { this.event = event; },
       err => console.error(err),
       () => {
         this.getLocation(this.event.location);
         this.getCourses(this.event.courses);
-    });
+      }
+    );
   }
 
-  get geolink() {
+  get geolink(): string {
     return position2geolink(this.location?.geolocation);
   }
 
   private getLocation(id: LocationId) {
     this.remote.getLocation(id)
-      .subscribe(location => this.location = location);
+      .subscribe(location => { this.location = location; });
   }
 
   private getCourses(ids: CourseId[]) {

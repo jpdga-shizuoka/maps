@@ -3,14 +3,13 @@ import {
   ElementRef, AfterViewInit
 } from '@angular/core';
 import { MatTable } from '@angular/material/table';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
 import { CommonService } from '../common.service';
 import { RemoteService, HoleData, CourseId } from '../remote-service';
 import { CourseDataSource } from '../course-datasource';
-import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
-import { HoleMetaData, TeeType } from '../models';
+import { HoleMetaData, TeeType, Descriptions, HoleLine } from '../models';
 
 @Component({
   selector: 'app-course-table',
@@ -18,11 +17,11 @@ import { HoleMetaData, TeeType } from '../models';
   styleUrls: ['./course-table.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatTable) table: MatTable<HoleData>;
@@ -30,18 +29,17 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() print = new EventEmitter();
   @Input()
   set courseId(courseId: CourseId) { this._courseId.next(courseId); }
-  get courseId() { return this._courseId.value; }
+  get courseId(): CourseId { return this._courseId.value; }
   private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
   set dataSource(dataSource: CourseDataSource) { this._dataSource.next(dataSource); }
-  get dataSource() { return this._dataSource.value; }
+  get dataSource(): CourseDataSource { return this._dataSource.value; }
   private _dataSource = new BehaviorSubject<CourseDataSource|undefined>(undefined);
   private ssCourse: Subscription;
   private ssDataSource: Subscription;
-  get displayedColumns() {
-    return this.isAllBackTee
-      ? ['hole', 'back'] : ['hole', 'back', 'front'];
+  get displayedColumns(): string[] {
+    return this.isAllBackTee ? ['hole', 'back'] : ['hole', 'back', 'front'];
   }
-  get isAllBackTee() {
+  get isAllBackTee(): boolean {
     if (!this.dataSource) {
       return false;
     }
@@ -58,30 +56,30 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private readonly remote: RemoteService,
     private readonly commonService: CommonService,
-    private readonly el: ElementRef,
+    private readonly el: ElementRef<Element>
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.ssCourse = this._courseId.subscribe(courseId => {
       if (!courseId) { return; }
       this.dataSource = new CourseDataSource(courseId, this.remote);
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.ssDataSource = this._dataSource.subscribe(dataSource => {
       if (!dataSource) { return; }
       this.table.dataSource = dataSource;
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ssCourse?.unsubscribe();
     this.ssDataSource?.unsubscribe();
   }
 
-  backtee(hole) {
+  backtee(hole: HoleData): string {
     if (hole.back) {
       return this.commonService.length(hole.back.length)
       + (hole.back.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.back.elevation)}` : '')
@@ -91,7 +89,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  fronttee(hole) {
+  fronttee(hole: HoleData): string {
     if (hole.front) {
       return this.commonService.length(hole.front.length)
       + (hole.front.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.front.elevation)}` : '')
@@ -101,7 +99,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  get backTotal() {
+  get backTotal(): string {
     if (!this.dataSource) { return ''; }
     let length = 0;
     let par = 0;
@@ -113,7 +111,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     return `${this.commonService.length(length)}/Par${par}`;
   }
 
-  get frontTotal() {
+  get frontTotal(): string {
     if (!this.dataSource) { return ''; }
     let length = 0;
     let par = 0;
@@ -125,46 +123,46 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     return `${this.commonService.length(length)}/Par${par}`;
   }
 
-  get isLoading() {
+  get isLoading(): boolean {
     return this.dataSource?.loading;
   }
 
-  get descriptions() {
+  get descriptions(): Descriptions {
     return this.dataSource?.descriptions;
   }
 
-  isExpanded(hole: HoleData) {
+  isExpanded(hole: HoleData): boolean {
     return this.expandedHole === hole;
   }
 
-  hasDescriptions(hole: HoleData) {
+  hasDescriptions(hole: HoleData): boolean {
     return hole.description && hole.description[0].length > 0;
   }
 
-  onBackClick(hole: HoleData) {
+  onBackClick(hole: HoleData): void {
     if (this.expandedHole === hole) {
       return;
     }
     this.issueEvent(hole, 'back');
   }
 
-  onFrontClick(hole: HoleData) {
+  onFrontClick(hole: HoleData): void {
     if (this.expandedHole === hole) {
       return;
     }
     this.issueEvent(hole, 'front');
   }
 
-  onLongPress(event: MouseEvent | TouchEvent, hole: HoleData) {
+  onLongPress(event: MouseEvent | TouchEvent, hole: HoleData): void {
     const cellIndex = (event.target as HTMLTableCellElement).cellIndex;
     this.issueEvent(hole, cellIndex === 2 ? 'front' : 'back', true);
   }
 
-  onPrint() {
+  onPrint(): void {
     this.print.emit();
   }
 
-  notifyHole(data: HoleMetaData) {
+  notifyHole(data: HoleMetaData): void {
     this.expandedHole
       = this.dataSource.data.find(h => h.number === data.hole);
     const element = this.el.nativeElement.querySelector(`#rowid${data.hole}`);
@@ -176,7 +174,7 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
       hole: hole.number,
       teeType: type,
       description: hole.description,
-      data: hole[type] || hole.back,
+      data: hole[type] as HoleLine || hole.back,
       longPressed
     };
     this.holeClicked.emit(metadata);

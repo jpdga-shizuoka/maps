@@ -12,10 +12,10 @@ export const environment: Environment = {
   localize: {
     distanseFromBackteeToMarker: ['a', 'b', 'return "バックティーから" + b + "まで"  + a'],
     distanseFromFrontteeToMarker: ['a', 'b', 'return "フロントティーから" + b + "まで"  + a'],
-    distanseFromMarkerToGoal: ['a', 'b', 'return b + "からゴールまで" + a'],
+    distanseFromMarkerToGoal: ['a', 'b', 'return b + "からゴールまで" + a']
   },
   googlemaps: {
-    apikey: 'YOUR API KEY',
+    apikey: 'YOUR API KEY'
   }
 };
 

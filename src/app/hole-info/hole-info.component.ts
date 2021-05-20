@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
 
 import { CommonService } from '../common.service';
 import { LocalizeService } from '../localize.service';
-import { HoleMetaData } from '../models';
+import { HoleMetaData, Descriptions } from '../models';
 
 const TEE_NAME = {
   back: 'Back Tee',
@@ -23,16 +23,16 @@ export class HoleInfoComponent {
   @Output() prev = new EventEmitter<HoleMetaData>();
 
   constructor(
-    private readonly el: ElementRef,
+    private readonly el: ElementRef<Element>,
     private readonly commonService: CommonService,
-    private readonly localizeService: LocalizeService,
+    private readonly localizeService: LocalizeService
   ) { }
 
-  get length() {
+  get length(): string {
     return this.commonService.length(this.data.data.length);
   }
 
-  get elevation() {
+  get elevation(): string {
     if (!this.data.data.elevation) {
       return '';
     }
@@ -40,11 +40,11 @@ export class HoleInfoComponent {
     + this.commonService.length(this.data.data.elevation);
   }
 
-  get teename() {
+  get teename(): string {
     return this.localizeService.transform(TEE_NAME[this.data.teeType]);
   }
 
-  get hasDescriptions() {
+  get hasDescriptions(): boolean {
     switch (this.data?.teeType) {
       case 'back':
       case 'front':
@@ -57,7 +57,7 @@ export class HoleInfoComponent {
     }
   }
 
-  get descriptions() {
+  get descriptions(): Descriptions {
     switch (this.data?.teeType) {
       case 'back':
       case 'front':
@@ -66,7 +66,7 @@ export class HoleInfoComponent {
         return [
           this.localizeService.distanseFromMarkerToGoal(this.length, this.teename)
         ];
-      case 'mando':
+      case 'mando': {
         const descriptions
           = [this.localizeService.distanseFromMarkerToGoal(this.length, this.teename)];
         if (this.data.fromBacktee) {
@@ -78,12 +78,13 @@ export class HoleInfoComponent {
           descriptions.push(this.localizeService.distanseFromFrontteeToMarker(length, this.teename));
         }
         return descriptions;
+      }
       default:
         return [''];
     }
   }
 
-  get teeMark() {
+  get teeMark(): string {
     switch (this.data?.teeType) {
       case 'back':
       case 'front':
@@ -97,7 +98,7 @@ export class HoleInfoComponent {
     }
   }
 
-  get title() {
+  get title(): string {
     switch (this.data?.teeType) {
       case 'back':
       case 'front':
@@ -114,7 +115,7 @@ export class HoleInfoComponent {
     }
   }
 
-  onClick(event) {
+  onClick(event: MouseEvent): void {
     event.preventDefault();
     if (this.disabled) {
       return;

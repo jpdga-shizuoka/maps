@@ -15,12 +15,12 @@ export class EventPageComponent {
 
   constructor(
     route: ActivatedRoute,
-    remote: RemoteService,
+    remote: RemoteService
   ) {
     route.params.subscribe(params => {
       this.eventId = params.eventId as EventId;
       if (this.eventId) {
-        remote.getEvent(this.eventId).subscribe(event => this.event = event);
+        remote.getEvent(this.eventId).subscribe(event => { this.event = event; });
       } else {
         this.event = undefined;
       }

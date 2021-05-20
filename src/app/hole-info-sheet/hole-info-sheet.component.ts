@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import {MAT_BOTTOM_SHEET_DATA} from '@angular/material/bottom-sheet';
-
+import { MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { HoleMetaData } from '../models';
 
 @Component({
@@ -9,9 +8,7 @@ import { HoleMetaData } from '../models';
   styleUrls: ['./hole-info-sheet.component.css']
 })
 export class HoleInfoSheetComponent {
-
   constructor(
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: HoleMetaData,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: HoleMetaData
   ) { }
-
 }

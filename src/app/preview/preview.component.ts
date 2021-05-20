@@ -8,7 +8,7 @@ import { VideoPlayerComponent } from '../video-player/video-player.component';
 export class PreviewComponent {
   @ViewChild(VideoPlayerComponent) videoPlayerComponent: VideoPlayerComponent;
 
-  onClosed() {
+  onClosed(): void {
     this.videoPlayerComponent.stop();
   }
 }

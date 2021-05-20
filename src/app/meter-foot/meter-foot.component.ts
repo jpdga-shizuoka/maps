@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { CommonService } from '../common.service';
+import { MatRadioChange } from '@angular/material/radio';
+import { CommonService, LengthUnit } from '../common.service';
 
 @Component({
   selector: 'app-meter-foot',
@@ -7,17 +8,17 @@ import { CommonService } from '../common.service';
   styleUrls: ['./meter-foot.component.css']
 })
 export class MeterFootComponent {
-
   constructor(private readonly commonService: CommonService) { }
 
-  get lengthUnit() {
+  get lengthUnit(): LengthUnit {
     return this.commonService.lengthUnit;
   }
-  set lengthUnit(value) {
+
+  set lengthUnit(value: LengthUnit) {
     this.commonService.lengthUnit = value;
   }
 
-  onUnitChanged(event) {
-    this.lengthUnit = event.value;
+  onUnitChanged(event: MatRadioChange): void {
+    this.lengthUnit = event.value as LengthUnit;
   }
 }

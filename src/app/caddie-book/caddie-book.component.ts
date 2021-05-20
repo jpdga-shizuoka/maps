@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PrintService } from '../print.service';
 import { EventId, CourseId, TeeType } from '../models';
@@ -8,24 +8,21 @@ import { EventId, CourseId, TeeType } from '../models';
   templateUrl: './caddie-book.component.html',
   styleUrls: ['./caddie-book.component.css']
 })
-export class CaddieBookComponent implements OnInit {
+export class CaddieBookComponent {
   readonly eventId: EventId;
   readonly courseId: CourseId;
   readonly teeType: TeeType;
 
   constructor(
     route: ActivatedRoute,
-    private printService: PrintService,
+    private printService: PrintService
   ) {
-    this.eventId = route.snapshot.params.eventId;
-    this.courseId = route.snapshot.params.courseId;
-    this.teeType = route.snapshot.params.teeType || 'back';
+    this.eventId = route.snapshot.params.eventId as EventId;
+    this.courseId = route.snapshot.params.courseId as CourseId;
+    this.teeType = route.snapshot.params.teeType as TeeType || 'back';
   }
 
-  ngOnInit(): void {
-  }
-
-  onRuleReady() {
+  onRuleReady(): void {
     this.printService.onDataReady();
   }
 }

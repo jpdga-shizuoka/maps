@@ -31,7 +31,7 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   courses: CourseItem[];
   event?: EventData;
   private ssRoute: Subscription;
-  get isPrinting() {return this.printService.isPrinting; }
+  get isPrinting(): boolean { return this.printService.isPrinting; }
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -39,36 +39,34 @@ export class CourseMapComponent implements OnInit, OnDestroy {
     private readonly remote: RemoteService,
     private readonly printService: PrintService,
     public readonly dialog: MatDialog,
-    breakpointObserver: BreakpointObserver,
+    breakpointObserver: BreakpointObserver
   ) {
     this.isHandset$ = isHandset(breakpointObserver);
   }
 
-  ngOnInit() {
-    this.ssRoute
-      = this.route.params
+  ngOnInit(): void {
+    this.ssRoute = this.route.params
       .pipe(tap(() => this.printService.closeDocument()))
       .subscribe(params => this.loadEvent(params));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.printService.closeDocument();
     this.ssRoute?.unsubscribe();
   }
 
-  onHoleCliked(meta: HoleMetaData) {
+  onHoleCliked(meta: HoleMetaData): void {
     this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset) {
         this.map.fitBounds(meta.data.path);
-      }
-      else if (meta.longPressed){
+      } else if (meta.longPressed) {
         this.lastHole = meta.hole;
         this.courseTab.selectedIndex = 1;
       }
     });
   }
 
-  onHoleMapCliked(meta: HoleMetaData) {
+  onHoleMapCliked(meta: HoleMetaData): void {
     this.lastHole = meta.hole;
     this.isHandset$.pipe(take(1)).subscribe(handset => {
       if (!handset) {
@@ -77,36 +75,36 @@ export class CourseMapComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSelectionChange(event: MatSelectChange) {
-    this.router.navigate(['course', this.eventId,  event.value]);
+  onSelectionChange(event: MatSelectChange): void {
+    this.router.navigate(['course', this.eventId, event.value]);
   }
 
-  onPrint() {
+  onPrint(): void {
     this.dialog
-    .open(PrintDialogComponent)
-    .afterClosed().subscribe(results => {
-      switch (results[0]) {
-        case 'rules':
-          return this.printService
-            .printDocument('rules', this.eventId, this.courseId, results[1]);
-        case 'layout':
-          return this.printService
-            .printDocument('layout', this.eventId, this.courseId, results[1]);
-        case 'card':
-          return this.printService
-            .printDocument('card', this.eventId, this.courseId, results[1]);
-      }
-    });
+      .open(PrintDialogComponent)
+      .afterClosed().subscribe(results => {
+        switch (results[0]) {
+          case 'rules':
+            return this.printService
+              .printDocument('rules', this.eventId, this.courseId, results[1]);
+          case 'layout':
+            return this.printService
+              .printDocument('layout', this.eventId, this.courseId, results[1]);
+          case 'card':
+            return this.printService
+              .printDocument('card', this.eventId, this.courseId, results[1]);
+        }
+      });
   }
 
   private loadEvent(params: Params) {
     // this.lastHole = 1;
     this.courses = [];
-    this.eventId = params.eventId;
+    this.eventId = params.eventId as EventId;
     this.remote.getEvent(this.eventId).subscribe(
-      event => this.event = event,
+      event => { this.event = event; },
       err => console.log(err),
-      () => this.loadCourses(params.courseId)
+      () => { this.loadCourses(params.courseId); }
     );
   }
 

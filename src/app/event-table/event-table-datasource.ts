@@ -9,7 +9,6 @@ export { EventData };
  * (including sorting, pagination, and filtering).
  */
 export class EventTableDataSource extends MatTableDataSource<EventData> {
-
   constructor(private readonly remote: RemoteService) {
     super();
   }
@@ -21,8 +20,8 @@ export class EventTableDataSource extends MatTableDataSource<EventData> {
    */
   connect(): BehaviorSubject<EventData[]> {
     this.remote.getEvents().subscribe(
-      events => this.data = events,
-      err => console.log(err),
+      events => { this.data = events; },
+      err => { console.log(err); }
     );
     return super.connect();
   }

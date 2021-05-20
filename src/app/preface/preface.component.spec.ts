@@ -1,16 +1,14 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PrefaceComponent } from './preface.component';
 
 describe('PrefaceComponent', () => {
   let component: PrefaceComponent;
   let fixture: ComponentFixture<PrefaceComponent>;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ PrefaceComponent ]
-    })
-    .compileComponents();
+      declarations: [PrefaceComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

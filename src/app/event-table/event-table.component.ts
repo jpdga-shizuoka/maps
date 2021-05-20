@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { BehaviorSubject, Subscription } from 'rxjs';
@@ -13,11 +13,11 @@ import { RemoteService, EventId } from '../remote-service';
   styleUrls: ['./event-table.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    ])
+  ]
 })
 export class EventTableComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -34,26 +34,26 @@ export class EventTableComponent implements AfterViewInit, OnInit, OnDestroy {
 
   constructor(private readonly remote: RemoteService) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.dataSource = new EventTableDataSource(this.remote);
     this.ssEvent = this._eventid.subscribe(id => {
       this.dataSource.filter = id;
       this.ssSourse = this.dataSource.connect()
-        .subscribe(data => this.expandedEvent = this.dataSource.find(id));
+        .subscribe(() => { this.expandedEvent = this.dataSource.find(id); });
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.ssSourse?.unsubscribe();
     this.ssEvent?.unsubscribe();
   }
 
-  get showPaginator() {
+  get showPaginator(): boolean {
     return !this.eventId;
   }
 }
