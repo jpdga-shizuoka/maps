@@ -27,8 +27,8 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(MatTable) table: MatTable<HoleData>;
   @Output() holeClicked = new EventEmitter<HoleMetaData>();
   @Output() print = new EventEmitter();
-  @Input()
-  set courseId(courseId: CourseId) { this._courseId.next(courseId); }
+  @Input() set courseId(courseId: CourseId) { this._courseId.next(courseId); }
+
   get courseId(): CourseId { return this._courseId.value; }
   private _courseId = new BehaviorSubject<CourseId|undefined>(undefined);
   set dataSource(dataSource: CourseDataSource) { this._dataSource.next(dataSource); }
@@ -36,9 +36,11 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
   private _dataSource = new BehaviorSubject<CourseDataSource|undefined>(undefined);
   private ssCourse: Subscription;
   private ssDataSource: Subscription;
+  expandedHole?: HoleData;
   get displayedColumns(): string[] {
     return this.isAllBackTee ? ['hole', 'back'] : ['hole', 'back', 'front'];
   }
+
   get isAllBackTee(): boolean {
     if (!this.dataSource) {
       return false;
@@ -51,7 +53,6 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     return !front;
   }
-  expandedHole?: HoleData;
 
   constructor(
     private readonly remote: RemoteService,
@@ -81,9 +82,9 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   backtee(hole: HoleData): string {
     if (hole.back) {
-      return this.commonService.length(hole.back.length)
-      + (hole.back.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.back.elevation)}` : '')
-      + '/Par' + hole.back.par;
+      const length = `${this.commonService.length(hole.back.length)}`;
+      const elevation = hole.back.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.back.elevation)}` : '';
+      return `${length}${elevation}/Par${hole.back.par}`;
     } else {
       return '';
     }
@@ -91,9 +92,9 @@ export class CourseTableComponent implements OnInit, OnDestroy, AfterViewInit {
 
   fronttee(hole: HoleData): string {
     if (hole.front) {
-      return this.commonService.length(hole.front.length)
-      + (hole.front.elevation ? `/${sign(hole.back.elevation)}${this.commonService.length(hole.front.elevation)}` : '')
-      + '/Par' + hole.front.par;
+      const length = `${this.commonService.length(hole.front.length)}`;
+      const elevation = hole.front.elevation ? `/${sign(hole.front.elevation)}${this.commonService.length(hole.front.elevation)}` : '';
+      return `${length}${elevation}/Par${hole.front.par}`;
     } else {
       return '';
     }

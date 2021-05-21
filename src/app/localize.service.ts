@@ -10,11 +10,18 @@ export type Language = 'global' | 'local';
 export const GLOBAL = 'global' as Language;
 export const LOCAL = 'local' as Language;
 
+type Dictionary = {
+  [key: string]: string;
+};
+const Prefecture = PREFECTURE as Dictionary;
+const LocationTitle = LOCATION_TITLE as Dictionary;
+const EventTitle = EVENT_TITLE as Dictionary;
+const EventTerms = EVENT_TERMS as Dictionary;
 const REMOVE_PATERN = /[ \-.,]/g;
 const DICTIONARIES = [
-  LOCATION_TITLE,
-  PREFECTURE,
-  EVENT_TERMS
+  LocationTitle,
+  Prefecture,
+  EventTerms
 ];
 
 interface EventParts {
@@ -49,7 +56,7 @@ export class LocalizeService {
     }
     let result = value;
     for (const dict of DICTIONARIES) {
-      const local = dict[name2key(value)] as string;
+      const local = dict[name2key(value)];
       if (local) {
         result = local;
         break;
@@ -96,10 +103,10 @@ function prepareLocals() {
 function event2local(eventName: string): string {
   const parts = event2key(eventName);
   if (!parts) {
-    const title = EVENT_TITLE[name2key(eventName)];
-    return title ? title : eventName;
+    const title = EventTitle[name2key(eventName)];
+    return !title ? eventName : EventTitle[title];
   }
-  const aliase = EVENT_TITLE[parts.key] as string;
+  const aliase = EventTitle[parts.key];
   if (!aliase) {
     return eventName;
   }

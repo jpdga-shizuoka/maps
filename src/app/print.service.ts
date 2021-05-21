@@ -27,30 +27,32 @@ export class PrintService implements OnDestroy {
 
   constructor(public readonly router: Router) {
     PrintService.instance = this;
-    window.addEventListener('afterprint', PrintService.afterprint);
+    window.addEventListener('afterprint', () => { PrintService.afterprint(); });
   }
 
   ngOnDestroy(): void {
-    window.removeEventListener('afterprint', PrintService.afterprint);
+    window.removeEventListener('afterprint', () => { PrintService.afterprint(); });
   }
 
-  async printDocument(document: string, event: EventId, course: CourseId, tee: TeeType): Promise<void> {
+  printDocument(document: string, event: EventId, course: CourseId, tee: TeeType): void {
     if (document === 'layout') {
-      await this.closeDocument();
-      await this.router.navigate(['/', 'layout', event, course, tee], { skipLocationChange: true });
+      this.closeDocument()
+        .then(() => this.router.navigate(['/', 'layout', event, course, tee], { skipLocationChange: true }))
+        .catch(e => { console.error(e); });
     } else if (this.state === 'open' && this.isSame(document, event, course, tee)) {
       this.onDataReady();
     } else {
-      const result = await this.router.navigate(['/', {
+      this.router.navigate(['/', {
         outlets: {
           print: ['print', document, event, course, tee]
         }
-      }], { skipLocationChange: true });
-      this.state = result ? 'open' : this.state;
-      this.document = document;
-      this.event = event;
-      this.course = course;
-      this.tee = tee;
+      }], { skipLocationChange: true }).then(result => {
+        this.state = result ? 'open' : this.state;
+        this.document = document;
+        this.event = event;
+        this.course = course;
+        this.tee = tee;
+      }).catch(e => { console.error(e); });
     }
   }
 

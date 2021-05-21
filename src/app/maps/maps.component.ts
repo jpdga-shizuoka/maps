@@ -7,7 +7,7 @@ import { ResizedEvent } from 'angular-resize-event';
 import { BehaviorSubject, Subscription, Observable } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 
-import { Position, HoleMetaData, TeeType } from '../models';
+import { Position, HoleMetaData, TeeType, HoleLine } from '../models';
 import { RemoteService, HoleData, CourseData, CourseId } from '../remote-service';
 import { HoleInfoSheetComponent } from '../hole-info-sheet/hole-info-sheet.component';
 import { holeLength, LatLngBounds } from '../map-utilities';
@@ -228,7 +228,7 @@ export class MapsComponent implements OnInit, OnDestroy, MapsOptions, MapsObject
         hole: hole.number,
         teeType: type,
         description: hole.description,
-        data: hole[type]
+        data: hole[type] as HoleLine
       };
     } else {
       meta = data;

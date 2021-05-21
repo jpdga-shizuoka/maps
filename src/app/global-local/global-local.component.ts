@@ -33,19 +33,20 @@ export class GlobalLocalComponent {
 
   onChanged(event: MatRadioChange): void {
     this.language = event.value as Language;
-    this.requestReloadCurrentPage();
-    this.snackbar.open(this.message, '', {
-      panelClass: 'app-snackbar',
-      duration: 2500
-    });
+    this.requestReloadCurrentPage().then(() => {
+      this.snackbar.open(this.message, '', {
+        panelClass: 'app-snackbar',
+        duration: 2500
+      });
+    }).catch(e => { console.log(e); });
   }
 
-  private requestReloadCurrentPage() {
+  private async requestReloadCurrentPage(): Promise<void> {
     // @see https://stackoverflow.com/questions/47813927/how-to-refresh-a-component-in-angular
     // @note The following technique is working, but it affects routerLinkActive;
     // https://medium.com/@rakshitshah/refresh-angular-component-without-navigation-148a87c2de3f
     const currentPath = this.location.path().replace(/^\//, '');
-    this.router.navigate(['reload'], { skipLocationChange: true })
-      .then(() => this.router.navigate([currentPath], { skipLocationChange: true }));
+    await this.router.navigate(['reload'], { skipLocationChange: true });
+    await this.router.navigate([currentPath], { skipLocationChange: true });
   }
 }

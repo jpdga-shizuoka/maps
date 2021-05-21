@@ -19,11 +19,11 @@ export type Descriptions = string | string[];
 export type CourseId = string;
 export type EventId = string;
 export type LocationId = string;
-export type ISO_Date_String = string;
+export type ISODateString = string;
 
 export interface Period {
-  from: ISO_Date_String;
-  to: ISO_Date_String;
+  from: ISODateString;
+  to: ISODateString;
 }
 
 export interface HoleLine {

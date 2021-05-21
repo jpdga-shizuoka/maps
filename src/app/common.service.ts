@@ -14,8 +14,8 @@ export class CommonService {
   length(value: number, unit?: LengthUnit): string {
     const lengthUnit = unit || this.lengthUnit;
     return lengthUnit === FOOT
-      ? Math.round(value * ONE_FOOT) + 'ft'
-      : Math.round(value) + 'm';
+      ? `${Math.round(value * ONE_FOOT)}ft`
+      : `${Math.round(value)}m`;
   }
 
   unit(unit?: LengthUnit): string {

@@ -48,10 +48,11 @@ export class PrintLayoutComponent extends PrintMapDataComponent implements OnIni
     this.height = rect.height;
   }
 
-  async ngOnDestroy(): Promise<void> {
-    await this.printService.closeDocument();
-    this.ssMaps?.unsubscribe();
-    super.ngOnDestroy();
+  ngOnDestroy(): void {
+    this.printService.closeDocument().then(() => {
+      this.ssMaps?.unsubscribe();
+      super.ngOnDestroy();
+    }).catch(e => { console.error(e); });
   }
 
   onResized(event: ResizedEvent): void {

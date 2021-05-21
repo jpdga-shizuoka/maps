@@ -22,8 +22,8 @@ import { RemoteService, EventId } from '../remote-service';
 export class EventTableComponent implements AfterViewInit, OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatTable) table: MatTable<EventData>;
-  @Input('event-id')
-  set eventId(id: EventId) { this._eventid.next(id); }
+  @Input() set eventId(id: EventId) { this._eventid.next(id); }
+
   get eventId(): EventId { return this._eventid.value; }
   private _eventid = new BehaviorSubject<EventId|undefined>(undefined);
   private ssEvent: Subscription;

@@ -13,7 +13,7 @@ import { MapsComponent } from '../maps/maps.component';
 import { CourseTableComponent } from '../course-table/course-table.component';
 import { RemoteService } from '../remote-service';
 import { PrintService } from '../print.service';
-import { PrintDialogComponent } from '../dialogs/print-dialog.component';
+import { PrintDialogComponent, PrintDialogResults } from '../dialogs/print-dialog.component';
 
 @Component({
   selector: 'app-course-map',
@@ -51,8 +51,9 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.printService.closeDocument();
-    this.ssRoute?.unsubscribe();
+    this.printService.closeDocument()
+      .then(() => this.ssRoute?.unsubscribe())
+      .catch(e => { console.error(e); });
   }
 
   onHoleCliked(meta: HoleMetaData): void {
@@ -76,23 +77,25 @@ export class CourseMapComponent implements OnInit, OnDestroy {
   }
 
   onSelectionChange(event: MatSelectChange): void {
-    this.router.navigate(['course', this.eventId, event.value]);
+    this.router.navigate(['course', this.eventId, event.value])
+      .catch(e => { console.error(e); });
   }
 
   onPrint(): void {
     this.dialog
-      .open(PrintDialogComponent)
-      .afterClosed().subscribe(results => {
+      .open<PrintDialogComponent, undefined, PrintDialogResults>(PrintDialogComponent)
+      .afterClosed()
+      .subscribe(results => {
         switch (results[0]) {
           case 'rules':
-            return this.printService
-              .printDocument('rules', this.eventId, this.courseId, results[1]);
+            this.printService.printDocument('rules', this.eventId, this.courseId, results[1]);
+            break;
           case 'layout':
-            return this.printService
-              .printDocument('layout', this.eventId, this.courseId, results[1]);
+            this.printService.printDocument('layout', this.eventId, this.courseId, results[1]);
+            break;
           case 'card':
-            return this.printService
-              .printDocument('card', this.eventId, this.courseId, results[1]);
+            this.printService.printDocument('card', this.eventId, this.courseId, results[1]);
+            break;
         }
       });
   }

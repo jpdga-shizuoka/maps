@@ -35,6 +35,7 @@
         ],
         "no-useless-constructor": "off",
         "no-use-before-define": "off",
+        "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
         "accessor-pairs": [
           "error",
           {

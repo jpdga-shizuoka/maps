@@ -1,16 +1,16 @@
-export type DefaultSymbol = object;
+export type DefaultSymbol = Record<string, unknown>;
 export type Icon = DefaultSymbol | {
   offset?: string;
   url?: string;
-  scaledSize?: object;
-  origin?: object;
-  anchor?: object;
+  scaledSize?: google.maps.Size;
+  origin?: google.maps.Point;
+  anchor?: google.maps.Point;
 };
 export type Marker = {
   url: string;
-  scaledSize: object;
-  origin: object;
-  anchor: object;
+  scaledSize: google.maps.Size;
+  origin: google.maps.Point;
+  anchor: google.maps.Point;
 };
 export type MarkerType = {
   draggable: boolean;
