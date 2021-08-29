@@ -5,3 +5,6 @@ mat-chip-list {
 a {
   text-decoration: none;
 }
+p > a:not(:last-child) {
+  margin-right: 0.5rem;
+}
