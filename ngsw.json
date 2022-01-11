@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1641806897716,
+  "timestamp": 1641911255111,
   "index": "https://jpdga-shizuoka.github.io/maps/index.html",
   "assetGroups": [
     {
@@ -12,6 +12,7 @@
       },
       "urls": [
         "https://jpdga-shizuoka.github.io/maps/favicon.ico",
+        "https://jpdga-shizuoka.github.io/maps/index.html",
         "https://jpdga-shizuoka.github.io/maps/main-es2015.bf919bc94382f4c50a89.js",
         "https://jpdga-shizuoka.github.io/maps/main-es5.bf919bc94382f4c50a89.js",
         "https://jpdga-shizuoka.github.io/maps/manifest.webmanifest",
@@ -142,7 +143,6 @@
         "https://jpdga-shizuoka.github.io/maps/assets/models/locations.json",
         "https://jpdga-shizuoka.github.io/maps/assets/video/caddiebook.mp4",
         "https://jpdga-shizuoka.github.io/maps/background.ad2eb550ac8ae41fb6be.png",
-        "https://jpdga-shizuoka.github.io/maps/index.html",
         "https://jpdga-shizuoka.github.io/maps/open_in_new-24px.5d965d7917e76b6bba38.svg",
         "https://jpdga-shizuoka.github.io/maps/room-24px.3d0a19e53d65f2ef0789.svg"
       ],
