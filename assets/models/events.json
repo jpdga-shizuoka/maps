@@ -1,5 +1,17 @@
 [
   {
+    "id": "the17thkiyosatonomoriopen",
+    "title": "The 17th Kiyosato-no-mori Open",
+    "location": "kiyosatonomori",
+    "period": {
+      "from": "2022-05-21",
+      "to": "2022-05-22"
+    },
+    "courses": [
+      "the17thkiyosatonomoriopen.1-3"
+    ]
+  },
+  {
     "id": "the33rdjapannationalchampionship",
     "title": "The 33rd Japan National Championships",
     "location": "mikawarinkairyokuchi",
@@ -13,7 +25,6 @@
       "the33rdjapannationalchampionship.4.fpo"
     ]
   },
-
   {
     "id": "the20thchubuopen",
     "title": "The 20th Chubu Open",

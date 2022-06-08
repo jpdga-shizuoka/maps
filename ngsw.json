@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1641911255111,
+  "timestamp": 1654681595044,
   "index": "https://jpdga-shizuoka.github.io/maps/index.html",
   "assetGroups": [
     {
@@ -121,6 +121,7 @@
         "https://jpdga-shizuoka.github.io/maps/assets/maps/tee0.svg",
         "https://jpdga-shizuoka.github.io/maps/assets/maps/tee00.svg",
         "https://jpdga-shizuoka.github.io/maps/assets/models/course/template.json",
+        "https://jpdga-shizuoka.github.io/maps/assets/models/course/the17thkiyosatonomoriopen.1-3.json",
         "https://jpdga-shizuoka.github.io/maps/assets/models/course/the19thchubuopen.1-3.json",
         "https://jpdga-shizuoka.github.io/maps/assets/models/course/the19thchubuopen.4.json",
         "https://jpdga-shizuoka.github.io/maps/assets/models/course/the19thchubuopen.5.json",
@@ -240,6 +241,7 @@
     "https://jpdga-shizuoka.github.io/maps/assets/maps/tee0.svg": "50d2af6c5b2e01c8dbd7f5ad6a932328deb96207",
     "https://jpdga-shizuoka.github.io/maps/assets/maps/tee00.svg": "4ce9b0bb172744c83e89b0001ddce30225f89a75",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/template.json": "68c1255d796ab74d534997a29165962235f7735a",
+    "https://jpdga-shizuoka.github.io/maps/assets/models/course/the17thkiyosatonomoriopen.1-3.json": "a467da369b01cef06389ab53a49468398f9be4d1",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the19thchubuopen.1-3.json": "549576eb9eb9309e1c2abd3a311a01d98cf89ac3",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the19thchubuopen.4.json": "8e3969fb042729cda86783b8aa612f7271d287be",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the19thchubuopen.5.json": "6400ac7b8373d46bfb03011174711106c03b4876",
@@ -258,8 +260,8 @@
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the33rdjapannationalchampionship.4.mpo.json": "8ae0081dc4c397aa714aa3f39486a4c111b61bba",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the34thkyushuopen.back.json": "a90cd1d692725cddbc541f1ca23ee49d7e5b8f4a",
     "https://jpdga-shizuoka.github.io/maps/assets/models/course/the34thkyushuopen.front.json": "fb4d2e5a14c1ee9ae3c22cab32e38bb5a9980c85",
-    "https://jpdga-shizuoka.github.io/maps/assets/models/events.json": "c4f19b44b4059bd10b029178ffff4e67b59d204c",
-    "https://jpdga-shizuoka.github.io/maps/assets/models/locations.json": "f00f68c36fbcfe49a4a5dbb0504060cd305e6075",
+    "https://jpdga-shizuoka.github.io/maps/assets/models/events.json": "6f16d470fd430142bac5626ba1e846b6cd7c65a9",
+    "https://jpdga-shizuoka.github.io/maps/assets/models/locations.json": "19461d77bbd6ef556e85497db203fb2b0e23f7f7",
     "https://jpdga-shizuoka.github.io/maps/assets/video/caddiebook.mp4": "3661b60b8a6454ced6005ca3ea8a72fd75f80e6c",
     "https://jpdga-shizuoka.github.io/maps/background.ad2eb550ac8ae41fb6be.png": "945b6b6d4ae860f5f981f6345a68c41f88e15c76",
     "https://jpdga-shizuoka.github.io/maps/favicon.ico": "2fa8ba7791fdd7880c9c25844a8ce4004efb995c",
